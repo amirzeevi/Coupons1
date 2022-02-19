@@ -19,7 +19,7 @@ public class AdminFacade extends ClientFacade {
     }
 
 
-    public void addCompany(Company company) throws CouponSystemException {;
+    public void addCompany(Company company) throws CouponSystemException {
 
         if (this.companiesDAO.isCompanyExists(company)) {
             throw new CouponSystemException(ErrMsg.COMPANY_SAME_EMAIL_NAME.getMsg());
