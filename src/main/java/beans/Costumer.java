@@ -15,7 +15,7 @@ public class Costumer {
     private final List<Coupon> coupons;
 
     /**
-     * Constructs the costumers attributes. id is generated automatically in database
+     * Constructs the costumers attributes. id is generated automatically in database.
      */
     public Costumer(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
