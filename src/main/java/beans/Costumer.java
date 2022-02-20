@@ -3,6 +3,9 @@ package beans;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Costumer bean to specify any costumer that should log in
+ */
 public class Costumer {
     private int id;
     private String firstName;
@@ -11,6 +14,9 @@ public class Costumer {
     private String password;
     private final List<Coupon> coupons;
 
+    /**
+     * Constructs the costumers attributes. id is generated automatically in database
+     */
     public Costumer(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
