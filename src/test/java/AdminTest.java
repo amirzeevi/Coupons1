@@ -1,20 +1,19 @@
 import beans.ClientType;
 import beans.Company;
 import beans.Costumer;
-import exceptions.CouponSystemException;
 import facade.AdminFacade;
 import facade.LoginManager;
-import junit.framework.TestCase;
+import org.junit.Test;
 
-import java.sql.SQLException;
 
-public class AdminTest extends TestCase {
+public class AdminTest {
     AdminFacade adminFacade = new AdminFacade();
 
     public AdminTest() {
     }
 
-    public void testLogin() {
+    @Test
+    public void Login() {
         try {
             LoginManager.getInstance().login("admin@admin", "admin", ClientType.ADMINISTRATOR);
         } catch (Exception e) {
@@ -23,7 +22,8 @@ public class AdminTest extends TestCase {
         }
     }
 
-    public void testAddCompany() {
+    @Test
+    public void AddCompany() {
         try {
             Company companyToAdd = new Company("Add3Company", "my.2email@com", "1234");
             adminFacade.addCompany(companyToAdd);
@@ -33,7 +33,9 @@ public class AdminTest extends TestCase {
         }
     }
 
-    public void testUpdateCompany() {
+
+    @Test
+    public void UpdateCompany() {
         try {
             Company companyExists = adminFacade.getAllCompanies().get(0);
             companyExists.setPassword("1234");
@@ -44,7 +46,8 @@ public class AdminTest extends TestCase {
         }
     }
 
-    public void testDeleteCompany() {
+    @Test
+    public void DeleteCompany() {
         try {
             adminFacade.deleteCompany(4);
         } catch (Exception e) {
@@ -53,7 +56,8 @@ public class AdminTest extends TestCase {
         }
     }
 
-    public void testGetAllCompanies() {
+    @Test
+    public void GetAllCompanies() {
         try {
             adminFacade.getAllCompanies().forEach(System.out::println);
         } catch (Exception e) {
@@ -62,7 +66,8 @@ public class AdminTest extends TestCase {
         }
     }
 
-    public void testGetOneCompany() {
+    @Test
+    public void GetOneCompany() {
         try {
             System.out.println(adminFacade.getOneCompany(0));
         } catch (Exception e) {
@@ -71,7 +76,8 @@ public class AdminTest extends TestCase {
         }
     }
 
-    public void testAddCostumer() {
+    @Test
+    public void AddCostumer() {
         try {
             Costumer costumerToAdd = new Costumer("me", "person", "my.2email@com", "1234");
             adminFacade.addCostumer(costumerToAdd);
@@ -81,7 +87,8 @@ public class AdminTest extends TestCase {
         }
     }
 
-    public void testUpdateCostumer() {
+    @Test
+    public void UpdateCostumer() {
         try {
             Costumer costumerExists = adminFacade.getAllCostumers().get(0);
             costumerExists.setId(13);
@@ -92,7 +99,8 @@ public class AdminTest extends TestCase {
         }
     }
 
-    public void testDeleteCostumer() {
+    @Test
+    public void DeleteCostumer() {
         try {
             Costumer costumerExists = adminFacade.getAllCostumers().get(0);
             adminFacade.deleteCostumer(0);
@@ -102,7 +110,8 @@ public class AdminTest extends TestCase {
         }
     }
 
-    public void testGetAllCostumers() {
+    @Test
+    public void GetAllCostumers() {
         try {
             adminFacade.getAllCostumers().forEach(System.out::println);
         } catch (Exception e) {
@@ -111,7 +120,8 @@ public class AdminTest extends TestCase {
         }
     }
 
-    public void testGetOneCostumer() {
+    @Test
+    public void GetOneCostumer() {
         try {
             Costumer costumerExists = adminFacade.getAllCostumers().get(0);
             System.out.println(adminFacade.getOneCostumer(costumerExists.getId()));

@@ -4,12 +4,13 @@ import beans.Coupon;
 import facade.CompanyFacade;
 import facade.CostumerFacade;
 import facade.LoginManager;
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class CostumerTest extends TestCase {
+public class CostumerTest {
     CostumerFacade costumerFacade = new CostumerFacade(12);
 
-    public void testLogin() {
+    @Test
+    public void Login() {
         try {
             LoginManager.getInstance().login("my.email@com", "1234", ClientType.COSTUMER);
         } catch (Exception e) {
@@ -18,7 +19,8 @@ public class CostumerTest extends TestCase {
         }
     }
 
-    public void testPurchase() {
+    @Test
+    public void Purchase() {
         CompanyFacade companyFacade = new CompanyFacade(41);
         try {
             Coupon coupon = companyFacade.getCompanyCoupons().get(0);
@@ -29,7 +31,8 @@ public class CostumerTest extends TestCase {
         }
     }
 
-    public void testGetAllPurchased() {
+    @Test
+    public void GetAllPurchased() {
         try {
             costumerFacade.getCostumerCoupons().forEach(System.out::println);
         } catch (Exception e) {
@@ -38,7 +41,8 @@ public class CostumerTest extends TestCase {
         }
     }
 
-    public void testGetCostumerDetails() {
+    @Test
+    public void GetCostumerDetails() {
         try {
             System.out.println(costumerFacade.getCostumerDetails());
         } catch (Exception e) {

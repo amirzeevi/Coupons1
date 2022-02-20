@@ -1,24 +1,20 @@
-import beans.Category;
 import beans.ClientType;
-import beans.Company;
 import beans.Coupon;
-import exceptions.CouponSystemException;
-import facade.AdminFacade;
 import facade.CompanyFacade;
 import facade.LoginManager;
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.time.LocalDate;
 
-public class CompanyTest extends TestCase {
+public class CompanyTest {
     CompanyFacade companyFacade = new CompanyFacade(41);
 
-    public CompanyTest()  {
+    public CompanyTest() {
     }
 
-    public void testLogin() {
+    @Test
+    public void Login() {
         try {
             LoginManager.getInstance().login("email@email", "1234", ClientType.COMPANY);
         } catch (Exception e) {
@@ -27,7 +23,8 @@ public class CompanyTest extends TestCase {
         }
     }
 
-    public void testAddCoupon() {
+    @Test
+    public void AddCoupon() {
         try {
             Coupon couponToAdd = new Coupon(41, 1, "myName2", "myDescription", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(12)), 20, 99.90, "image");
             companyFacade.addCoupon(couponToAdd);
@@ -37,7 +34,8 @@ public class CompanyTest extends TestCase {
         }
     }
 
-    public void testUpdateCoupon() {
+    @Test
+    public void UpdateCoupon() {
         try {
             Coupon existsCoupons = companyFacade.getCompanyCoupons().get(0);
             existsCoupons.setImage("imim");
@@ -48,17 +46,19 @@ public class CompanyTest extends TestCase {
         }
     }
 
-    public void testDeleteCoupon(){
+    @Test
+    public void DeleteCoupon() {
         try {
             Coupon existsCoupons = companyFacade.getCompanyCoupons().get(0);
             companyFacade.deleteCoupon(0);
-        }catch (Exception e){
+        } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
         }
     }
 
-    public void testGetCompanyCoupons() {
+    @Test
+    public void GetCompanyCoupons() {
         try {
             companyFacade.getCompanyCoupons().forEach(System.out::println);
         } catch (Exception e) {
@@ -67,7 +67,8 @@ public class CompanyTest extends TestCase {
         }
     }
 
-    public void testGetCompanyDetails() {
+    @Test
+    public void GetCompanyDetails() {
         try {
             System.out.println(companyFacade.getCompanyDetails());
         } catch (Exception e) {
