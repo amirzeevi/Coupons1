@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class CompanyTest {
-    CompanyFacade companyFacade = new CompanyFacade(41);
+    CompanyFacade companyFacade = new CompanyFacade(3);
 
     public CompanyTest() {
     }
@@ -26,7 +26,7 @@ public class CompanyTest {
     @Test
     public void AddCoupon() {
         try {
-            Coupon couponToAdd = new Coupon(41, 1, "myName2", "myDescription", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(12)), 20, 99.90, "image");
+            Coupon couponToAdd = new Coupon(3, 1, "myName", "myDescription", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(12)), 20, 99.90, "image");
             companyFacade.addCoupon(couponToAdd);
         } catch (Exception e) {
             assert (true);
@@ -50,7 +50,7 @@ public class CompanyTest {
     public void DeleteCoupon() {
         try {
             Coupon existsCoupons = companyFacade.getCompanyCoupons().get(0);
-            companyFacade.deleteCoupon(0);
+            companyFacade.deleteCoupon(existsCoupons.getId());
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());

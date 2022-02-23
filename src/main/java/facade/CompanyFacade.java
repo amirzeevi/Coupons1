@@ -20,7 +20,7 @@ public class CompanyFacade extends ClientFacade {
     public CompanyFacade(int companyID) {
         this.companyID = companyID;
         this.companiesDAO = new CompaniesDBDAO();
-        this.costumerDAO = new CostumerDBDAO();
+//        this.costumerDAO = new CostumerDBDAO();
         this.couponDAO = new CouponDBDAO();
     }
 
