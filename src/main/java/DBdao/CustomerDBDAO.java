@@ -2,8 +2,8 @@ package DBdao;
 
 import DB.DBmanager;
 import DB.DBrunQuery;
-import beans.Costumer;
-import dao.CostumersDAO;
+import beans.Customer;
+import dao.CustomersDAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
-public class CostumerDBDAO implements CostumersDAO {
+public class CustomerDBDAO implements CustomersDAO {
 
 
     @Override
-    public boolean isCostumerEmailExists(Costumer costumer) {
-        Map<Integer, Object> values = Map.of(1, costumer.getEmail());
+    public boolean isCustomerEmailExists(Customer customer) {
+        Map<Integer, Object> values = Map.of(1, customer.getEmail());
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_COSTUMER_EMAIL_EXISTS, values);
         assert resultSet != null;
         try {
@@ -29,71 +29,71 @@ public class CostumerDBDAO implements CostumersDAO {
     }
 
     @Override
-    public void addCostumer(Costumer costumer) {
-        Map<Integer, Object> values = Map.of(1, costumer.getFirstName(),
-                2, costumer.getLastName(),
-                3, costumer.getEmail(),
-                4, costumer.getPassword());
+    public void addCustomer(Customer customer) {
+        Map<Integer, Object> values = Map.of(1, customer.getFirstName(),
+                2, customer.getLastName(),
+                3, customer.getEmail(),
+                4, customer.getPassword());
         DBrunQuery.runQuery(DBmanager.ADD_COSTUMER, values);
     }
 
     @Override
-    public void updateCostumer(Costumer costumer) {
-        Map<Integer, Object> values = Map.of(1, costumer.getFirstName(),
-                2, costumer.getLastName(),
-                3, costumer.getEmail(),
-                4, costumer.getPassword(),
-                5, costumer.getId());
+    public void updateCustomer(Customer customer) {
+        Map<Integer, Object> values = Map.of(1, customer.getFirstName(),
+                2, customer.getLastName(),
+                3, customer.getEmail(),
+                4, customer.getPassword(),
+                5, customer.getId());
         DBrunQuery.runQuery(DBmanager.UPDATE_COSTUMER, values);
     }
 
     @Override
-    public void deleteCostumer(int costumerId) {
+    public void deleteCustomer(int costumerId) {
         Map<Integer, Object> map = Map.of(1, costumerId);
         DB.DBrunQuery.runQuery(DBmanager.DROP_COSTUMER, map);
     }
 
     @Override
-    public ArrayList<Costumer> getAllCostumers() {
-        ArrayList<Costumer> costumers = new ArrayList<>();
+    public ArrayList<Customer> getAllCustomers() {
+        ArrayList<Customer> customers = new ArrayList<>();
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ALL_COSTUMERS);
         assert resultSet != null;
         while (true) {
             try {
                 if (!resultSet.next()) break;
-                costumers.add(resultSetToCostumer(resultSet));
+                customers.add(resultSetToCustomer(resultSet));
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
         }
-        return costumers;
+        return customers;
     }
 
     @Override
-    public Costumer getOneCostumer(int costumerId) {
+    public Customer getOneCustomer(int costumerId) {
         Map<Integer, Object> map = Map.of(1, costumerId);
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ONE_COSTUMER, map);
         assert resultSet != null;
         try {
-            return resultSet.next() ? resultSetToCostumer(resultSet) : null;
+            return resultSet.next() ? resultSetToCustomer(resultSet) : null;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return null;
     }
 
-    private static Costumer resultSetToCostumer(ResultSet resultSet) {
-        Costumer costumer = new Costumer();
+    private static Customer resultSetToCustomer(ResultSet resultSet) {
+        Customer customer = new Customer();
         try {
-            costumer.setFirstName(resultSet.getString("first_name"));
-            costumer.setLastName(resultSet.getString("last_name"));
-            costumer.setEmail(resultSet.getString("email"));
-            costumer.setPassword(resultSet.getString("password"));
-            costumer.setId(resultSet.getInt("id"));
+            customer.setFirstName(resultSet.getString("first_name"));
+            customer.setLastName(resultSet.getString("last_name"));
+            customer.setEmail(resultSet.getString("email"));
+            customer.setPassword(resultSet.getString("password"));
+            customer.setId(resultSet.getInt("id"));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return costumer;
+        return customer;
 
     }
 }

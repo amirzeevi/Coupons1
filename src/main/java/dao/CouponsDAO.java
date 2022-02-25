@@ -1,10 +1,8 @@
 package dao;
 
-import beans.Costumer;
+import beans.Customer;
 import beans.Coupon;
-import exceptions.CouponSystemException;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +30,7 @@ public interface CouponsDAO {
 
     List<Coupon> getCompanyCoupons(int companyID);
 
-    ArrayList<Coupon> getCostumerCoupons(Costumer costumer);
+    ArrayList<Coupon> getCostumerCoupons(Customer customer);
 
 
 }

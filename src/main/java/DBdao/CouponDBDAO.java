@@ -2,7 +2,7 @@ package DBdao;
 
 import DB.DBmanager;
 import DB.DBrunQuery;
-import beans.Costumer;
+import beans.Customer;
 import beans.Coupon;
 import dao.CouponsDAO;
 
@@ -111,10 +111,10 @@ public class CouponDBDAO implements CouponsDAO {
 
 
     @Override
-    public ArrayList<Coupon> getCostumerCoupons(Costumer costumer) {
+    public ArrayList<Coupon> getCostumerCoupons(Customer customer) {
 
         ArrayList<Coupon> coupons = new ArrayList<>();
-        Map<Integer, Object> values = Map.of(1, costumer.getId());
+        Map<Integer, Object> values = Map.of(1, customer.getId());
 
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_COSTUMER_COUPONS, values);
 

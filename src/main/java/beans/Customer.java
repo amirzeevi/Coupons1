@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Costumer bean to specify any costumer that should log in
+ * Customer bean to specify any costumer that should log in
  */
-public class Costumer {
+public class Customer {
     private int id;
     private String firstName;
     private String lastName;
@@ -17,7 +17,7 @@ public class Costumer {
     /**
      * Constructs the costumers attributes. id is generated automatically in database.
      */
-    public Costumer(String firstName, String lastName, String email, String password) {
+    public Customer(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -25,7 +25,7 @@ public class Costumer {
         coupons = new ArrayList<>();
     }
 
-    public Costumer() {
+    public Customer() {
         coupons = new ArrayList<>();
     }
 

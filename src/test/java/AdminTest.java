@@ -1,6 +1,6 @@
 import beans.ClientType;
 import beans.Company;
-import beans.Costumer;
+import beans.Customer;
 import facade.AdminFacade;
 import facade.LoginManager;
 import org.junit.Test;
@@ -79,8 +79,8 @@ public class AdminTest {
     @Test
     public void AddCostumer() {
         try {
-            Costumer costumerToAdd = new Costumer("me", "person", "my.2email@com", "1234");
-            adminFacade.addCostumer(costumerToAdd);
+            Customer customerToAdd = new Customer("me", "person", "my.2email@com", "1234");
+            adminFacade.addCostumer(customerToAdd);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -90,9 +90,9 @@ public class AdminTest {
     @Test
     public void UpdateCostumer() {
         try {
-            Costumer costumerExists = adminFacade.getAllCostumers().get(0);
-            costumerExists.setId(13);
-            adminFacade.updateCostumer(costumerExists);
+            Customer customerExists = adminFacade.getAllCostumers().get(0);
+            customerExists.setId(13);
+            adminFacade.updateCostumer(customerExists);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -102,7 +102,7 @@ public class AdminTest {
     @Test
     public void DeleteCostumer() {
         try {
-            Costumer costumerExists = adminFacade.getAllCostumers().get(0);
+            Customer customerExists = adminFacade.getAllCostumers().get(0);
             adminFacade.deleteCostumer(0);
         } catch (Exception e) {
             assert (true);
@@ -123,8 +123,8 @@ public class AdminTest {
     @Test
     public void GetOneCostumer() {
         try {
-            Costumer costumerExists = adminFacade.getAllCostumers().get(0);
-            System.out.println(adminFacade.getOneCostumer(costumerExists.getId()));
+            Customer customerExists = adminFacade.getAllCostumers().get(0);
+            System.out.println(adminFacade.getOneCostumer(customerExists.getId()));
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());

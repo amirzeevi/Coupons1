@@ -6,7 +6,7 @@ import facade.CostumerFacade;
 import facade.LoginManager;
 import org.junit.Test;
 
-public class CostumerTest {
+public class CustomerTest {
     CostumerFacade costumerFacade = new CostumerFacade(12);
 
     @Test

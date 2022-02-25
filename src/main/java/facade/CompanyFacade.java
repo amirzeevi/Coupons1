@@ -1,8 +1,8 @@
 package facade;
 
 import DBdao.CompaniesDBDAO;
-import DBdao.CostumerDBDAO;
 import DBdao.CouponDBDAO;
+import DBdao.CustomerDBDAO;
 import beans.Category;
 import beans.Company;
 import beans.Coupon;
@@ -20,7 +20,7 @@ public class CompanyFacade extends ClientFacade {
     public CompanyFacade(int companyID) {
         this.companyID = companyID;
         this.companiesDAO = new CompaniesDBDAO();
-//        this.costumerDAO = new CostumerDBDAO();
+//        this.customerDAO = new CustomerDBDAO();
         this.couponDAO = new CouponDBDAO();
     }
 

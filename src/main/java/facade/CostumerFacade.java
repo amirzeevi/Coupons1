@@ -1,9 +1,9 @@
 package facade;
 
-import DBdao.CostumerDBDAO;
+import DBdao.CustomerDBDAO;
 import DBdao.CouponDBDAO;
 import beans.Category;
-import beans.Costumer;
+import beans.Customer;
 import beans.Coupon;
 import exceptions.CouponSystemException;
 import exceptions.ErrMsg;
@@ -19,7 +19,7 @@ public class CostumerFacade extends ClientFacade {
 
     public CostumerFacade(int costumerID) {
         this.costumerID = costumerID;
-        this.costumerDAO = new CostumerDBDAO();
+        this.customerDAO = new CustomerDBDAO();
         this.couponDAO = new CouponDBDAO();
     }
 
@@ -48,9 +48,9 @@ public class CostumerFacade extends ClientFacade {
 
     public ArrayList<Coupon> getCostumerCoupons(){
 
-        Costumer thisCostumer = this.costumerDAO.getOneCostumer(costumerID);
+        Customer thisCustomer = this.customerDAO.getOneCustomer(costumerID);
 
-        return this.couponDAO.getCostumerCoupons(thisCostumer);
+        return this.couponDAO.getCostumerCoupons(thisCustomer);
     }
 
 
@@ -74,21 +74,21 @@ public class CostumerFacade extends ClientFacade {
     }
 
 
-    public Costumer getCostumerDetails(){
+    public Customer getCostumerDetails(){
 
-        return this.costumerDAO.getOneCostumer(costumerID);
+        return this.customerDAO.getOneCustomer(costumerID);
     }
 
 
     @Override
     public boolean login(String email, String password) throws CouponSystemException {
-        Costumer costumerFromFB = this.costumerDAO.getOneCostumer(costumerID);
+        Customer customerFromFB = this.customerDAO.getOneCustomer(costumerID);
 
-        if (costumerFromFB == null) {
+        if (customerFromFB == null) {
             throw new CouponSystemException(ErrMsg.LOGIN.getMsg());
         }
 
-        return costumerFromFB.getEmail().equals(email) &&
-                costumerFromFB.getPassword().equals(password);
+        return customerFromFB.getEmail().equals(email) &&
+                customerFromFB.getPassword().equals(password);
     }
 }
