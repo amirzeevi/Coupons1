@@ -10,7 +10,8 @@ public class LoginManager {
     private LoginManager() {
     }
 
-    public ClientFacade login(String email, String password, ClientType clientType) throws CouponSystemException{
+
+    public ClientFacade login(String email, String password, ClientType clientType) throws CouponSystemException {
 
         switch (clientType) {
             case ADMINISTRATOR:
@@ -20,17 +21,19 @@ public class LoginManager {
                 }
                 return adminFacade;
             case COMPANY:
-                CompanyFacade companyFacade = new CompanyFacade(39);
+                // is this the correct place to enter company id?
+                CompanyFacade companyFacade = new CompanyFacade(7);
                 if ((!companyFacade.login(email, password))) {
                     throw new CouponSystemException("COMPANY" + ErrMsg.LOGIN.getMsg());
                 }
                 return companyFacade;
             case COSTUMER:
-                CostumerFacade costumerFacade = new CostumerFacade(9);
-                if (!costumerFacade.login(email, password)) {
+                // is this the correct place to enter customer id?
+                CustomerFacade customerFacade = new CustomerFacade(16);
+                if (!customerFacade.login(email, password)) {
                     throw new CouponSystemException("COSTUMER" + ErrMsg.LOGIN.getMsg());
                 }
-                return costumerFacade;
+                return customerFacade;
             default:
                 System.out.println("INVALID INPUT");
                 return null;
@@ -39,11 +42,7 @@ public class LoginManager {
 
     public static LoginManager getInstance() {
         if (instance == null) {
-            synchronized (LoginManager.class) {
-                if (instance == null) {
-                    instance = new LoginManager();
-                }
-            }
+            instance = new LoginManager();
         }
         return instance;
     }

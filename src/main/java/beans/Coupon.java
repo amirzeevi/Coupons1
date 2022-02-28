@@ -1,5 +1,8 @@
 package beans;
 
+import exceptions.CouponSystemException;
+import exceptions.ErrMsg;
+
 import java.util.Date;
 
 public class Coupon {
@@ -14,7 +17,8 @@ public class Coupon {
     private double price;
     private String image;
 
-    public Coupon(int companyID, int CategoryValue, String title, String description, Date startDate, Date endDate, int amount, double price, String image) {
+    public Coupon(int id, int companyID, int CategoryValue, String title, String description, Date startDate, Date endDate, int amount, double price, String image) throws CouponSystemException {
+        this.id = id;
         this.companyID = companyID;
         setCategory(CategoryValue);
         this.title = title;
@@ -26,34 +30,30 @@ public class Coupon {
         this.image = image;
     }
 
-    public Coupon() {
-    }
-
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int id) throws CouponSystemException {
+        throw new CouponSystemException(ErrMsg.CUSTOMER_ID_CHANGE.getMsg());
     }
 
     public int getCompanyID() {
         return companyID;
     }
 
-    public void setCompanyID(int companyID) {
-        this.companyID = companyID;
+    public void setCompanyID(int companyID) throws CouponSystemException {
+        throw new CouponSystemException(ErrMsg.COUPON_COMPANY_ID_CHANGE.getMsg());
     }
 
     public Category getCategory() {
         return category;
     }
 
-    public void setCategory(int CategoryValue) {
-//        if (CategoryValue - 1 >= Category.values().length || CategoryValue < 1) {
-//            System.out.println("INVALID CATEGORY ID");
-//            CategoryValue = 0;
-//        }
+    public void setCategory(int CategoryValue) throws CouponSystemException {
+        if (CategoryValue - 1 >= Category.values().length || CategoryValue < 1) {
+            throw new CouponSystemException(ErrMsg.CATEGORY.getMsg());
+        }
         this.category = Category.values()[CategoryValue - 1];
     }
 

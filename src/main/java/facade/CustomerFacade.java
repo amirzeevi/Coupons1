@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CostumerFacade extends ClientFacade {
-    private final int costumerID;
+public class CustomerFacade extends ClientFacade {
+    private final int customerID;
 
-    public CostumerFacade(int costumerID) {
-        this.costumerID = costumerID;
+    public CustomerFacade(int customerID) {
+        this.customerID = customerID;
         this.customerDAO = new CustomerDBDAO();
         this.couponDAO = new CouponDBDAO();
     }
@@ -26,11 +26,12 @@ public class CostumerFacade extends ClientFacade {
 
     public void purchaseCoupon(Coupon coupon) throws CouponSystemException{
 
+        // because can't delete expired coupons at exactly midnight using cron ?, should check if expired
         if (coupon.getEndDate().before(Date.valueOf(LocalDate.now()))) {
             throw new CouponSystemException(ErrMsg.COUPON_EXPIRED.getMsg());
         }
 
-        if (this.couponDAO.isCostumerCouponExists(costumerID, coupon.getId())) {
+        if (this.couponDAO.isCostumerCouponExists(customerID, coupon.getId())) {
             throw new CouponSystemException(ErrMsg.COUPON_EXISTS.getMsg());
         }
 
@@ -40,7 +41,7 @@ public class CostumerFacade extends ClientFacade {
             throw new CouponSystemException(ErrMsg.COUPON_AMOUNT.getMsg());
         }
 
-        this.couponDAO.addCouponsPurchase(this.costumerID, coupon.getId());
+        this.couponDAO.addCouponsPurchase(this.customerID, coupon.getId());
         couponToPurchase.setAmount(couponToPurchase.getAmount() - 1);
         this.couponDAO.updateCoupon(couponToPurchase);
     }
@@ -48,7 +49,7 @@ public class CostumerFacade extends ClientFacade {
 
     public ArrayList<Coupon> getCostumerCoupons(){
 
-        Customer thisCustomer = this.customerDAO.getOneCustomer(costumerID);
+        Customer thisCustomer = this.customerDAO.getOneCustomer(customerID);
 
         return this.couponDAO.getCostumerCoupons(thisCustomer);
     }
@@ -76,13 +77,13 @@ public class CostumerFacade extends ClientFacade {
 
     public Customer getCostumerDetails(){
 
-        return this.customerDAO.getOneCustomer(costumerID);
+        return this.customerDAO.getOneCustomer(customerID);
     }
 
 
     @Override
     public boolean login(String email, String password) throws CouponSystemException {
-        Customer customerFromFB = this.customerDAO.getOneCustomer(costumerID);
+        Customer customerFromFB = this.customerDAO.getOneCustomer(customerID);
 
         if (customerFromFB == null) {
             throw new CouponSystemException(ErrMsg.LOGIN.getMsg());

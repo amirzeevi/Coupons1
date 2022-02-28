@@ -121,16 +121,14 @@ public class CompaniesDBDAO implements dao.CompaniesDAO {
 
     private static Company resultSetToCompany(ResultSet resultSet) {
 
-        Company company = new Company();
         try {
-            company.setId(resultSet.getInt("id"));
-            company.setName(resultSet.getString("name"));
-            company.setEmail(resultSet.getString("email"));
-            company.setPassword(resultSet.getString("password"));
+            return new Company(resultSet.getInt(("id")),
+                    resultSet.getString("name"),
+                    resultSet.getString("email"),
+                    resultSet.getString("password"));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return null;
         }
-
-        return company;
     }
 }

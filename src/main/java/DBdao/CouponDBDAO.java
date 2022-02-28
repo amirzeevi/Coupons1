@@ -5,6 +5,7 @@ import DB.DBrunQuery;
 import beans.Customer;
 import beans.Coupon;
 import dao.CouponsDAO;
+import exceptions.CouponSystemException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -203,21 +204,22 @@ public class CouponDBDAO implements CouponsDAO {
 
     private Coupon resultSetToCoupon(ResultSet resultSet) {
 
-        Coupon coupon = new Coupon();
         try {
-            coupon.setId(resultSet.getInt("id"));
-            coupon.setCompanyID(resultSet.getInt("company_id"));
-            coupon.setCategory((resultSet.getInt("category_id")));
-            coupon.setTitle(resultSet.getString("title"));
-            coupon.setDescription(resultSet.getString("description"));
-            coupon.setStartDate(resultSet.getDate("start_date"));
-            coupon.setEndDate(resultSet.getDate("end_date"));
-            coupon.setAmount(resultSet.getInt("amount"));
-            coupon.setPrice(resultSet.getInt("price"));
-            coupon.setImage(resultSet.getString("image"));
-        } catch (SQLException e) {
+            return new Coupon(resultSet.getInt("id"),
+                    resultSet.getInt("company_id"),
+                    resultSet.getInt("category_id"),
+                    resultSet.getString("title"),
+                    resultSet.getString("description"),
+                    resultSet.getDate("start_date"),
+                    resultSet.getDate("end_date"),
+                    resultSet.getInt("amount"),
+                    resultSet.getInt("price"),
+                    resultSet.getString("image")
+            );
+
+        } catch (SQLException | CouponSystemException e) {
             System.out.println(e.getMessage());
+            return null;
         }
-        return coupon;
     }
 }

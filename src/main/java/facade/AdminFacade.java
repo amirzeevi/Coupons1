@@ -7,6 +7,7 @@ import beans.Company;
 import beans.Customer;
 import exceptions.CouponSystemException;
 import exceptions.ErrMsg;
+
 import java.util.*;
 
 
@@ -32,6 +33,7 @@ public class AdminFacade extends ClientFacade {
 
     public void deleteCompany(int companyID) throws CouponSystemException {
 
+        // will validate company id
         Company compToDelete = getOneCompany(companyID);
 
         this.companiesDAO.deleteCompany(companyID);
@@ -39,20 +41,15 @@ public class AdminFacade extends ClientFacade {
     }
 
 
-    public void updateCompany(Company company) throws CouponSystemException{
+    public void updateCompany(Company company) throws CouponSystemException {
 
         Company companyFromDB = getOneCompany(company.getId());
 
-        if (!(companyFromDB.getName().equals(company.getName()))) {
-            throw new CouponSystemException(ErrMsg.COMPANY_UPDATE_NAME.getMsg());
-        }
-
-        if (!(companyFromDB.getEmail().equals(company.getEmail()))) {
+        if (!companyFromDB.getEmail().equals(company.getEmail())) {
             if (this.companiesDAO.isCompanyEmailExists(company)) {
-                throw new CouponSystemException(ErrMsg.COMPANY_UPDATE.getMsg() + ErrMsg.COMPANY_SAME_EMAIL.getMsg());
+                throw new CouponSystemException(ErrMsg.COMPANY_UPDATE.getMsg() + ErrMsg.COMPANY_SAME_EMAIL);
             }
         }
-
         this.companiesDAO.updateCompany(company);
         System.out.println("COMPANY UPDATED");
     }
@@ -97,26 +94,27 @@ public class AdminFacade extends ClientFacade {
 
         Customer customerFromDB = getOneCostumer(customer.getId());
 
-        if (!(customerFromDB.getEmail().equals(customer.getEmail()))) {
+        if (!customerFromDB.getEmail().equals(customer.getEmail())) {
             if (this.customerDAO.isCustomerEmailExists(customer)) {
                 throw new CouponSystemException(ErrMsg.COSTUMER_UPDATE.getMsg() + ErrMsg.COSTUMER_SAME_EMAIL.getMsg());
             }
         }
-
         this.customerDAO.updateCustomer(customer);
         System.out.println("COSTUMER UPDATED");
     }
 
 
-    public void deleteCostumer(int costumerID) throws CouponSystemException {
+    public void deleteCustomer(int customerID) throws CouponSystemException {
 
-        getOneCostumer(costumerID);
-        this.customerDAO.deleteCustomer(costumerID);
-        System.out.println("COSTUMER #" + costumerID + " DELETED FROM DATABASE");
+        // validates customer id
+        getOneCostumer(customerID);
+
+        this.customerDAO.deleteCustomer(customerID);
+        System.out.println("COSTUMER #" + customerID + " DELETED FROM DATABASE");
     }
 
 
-    public List<Customer> getAllCostumers() throws CouponSystemException {
+    public List<Customer> getAllCustomers() throws CouponSystemException {
 
         List<Customer> customerList = this.customerDAO.getAllCustomers();
 
@@ -138,7 +136,6 @@ public class AdminFacade extends ClientFacade {
 
         return customerFromDB;
     }
-
 
     @Override
     public boolean login(String email, String password) {

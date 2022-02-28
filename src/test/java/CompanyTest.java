@@ -1,14 +1,18 @@
+import beans.Category;
 import beans.ClientType;
 import beans.Coupon;
+import exceptions.CouponSystemException;
 import facade.CompanyFacade;
 import facade.LoginManager;
 import org.junit.Test;
+import utils.TablePrinter;
 
 import java.sql.Date;
 import java.time.LocalDate;
 
 public class CompanyTest {
-    CompanyFacade companyFacade = new CompanyFacade(3);
+
+    CompanyFacade companyFacade = new CompanyFacade(7);
 
     public CompanyTest() {
     }
@@ -16,7 +20,8 @@ public class CompanyTest {
     @Test
     public void Login() {
         try {
-            LoginManager.getInstance().login("email@email", "1234", ClientType.COMPANY);
+            //need to also change company id in Login Manager
+            LoginManager.getInstance().login("my.email2@com", "1234", ClientType.COMPANY);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -26,7 +31,7 @@ public class CompanyTest {
     @Test
     public void AddCoupon() {
         try {
-            Coupon couponToAdd = new Coupon(3, 1, "myName", "myDescription", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(12)), 20, 99.90, "image");
+            Coupon couponToAdd = new Coupon(0, 7, 2, "myName2", "myDescription", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(12)), 20, 99.90, "image");
             companyFacade.addCoupon(couponToAdd);
         } catch (Exception e) {
             assert (true);
@@ -38,7 +43,7 @@ public class CompanyTest {
     public void UpdateCoupon() {
         try {
             Coupon existsCoupons = companyFacade.getCompanyCoupons().get(0);
-            existsCoupons.setImage("imim");
+            existsCoupons.setDescription("sidsid");
             companyFacade.updateCoupon(existsCoupons);
         } catch (Exception e) {
             assert (true);
@@ -49,8 +54,7 @@ public class CompanyTest {
     @Test
     public void DeleteCoupon() {
         try {
-            Coupon existsCoupons = companyFacade.getCompanyCoupons().get(0);
-            companyFacade.deleteCoupon(existsCoupons.getId());
+            companyFacade.deleteCoupon(7);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -58,9 +62,20 @@ public class CompanyTest {
     }
 
     @Test
-    public void GetCompanyCoupons() {
+    public void getOneCoupon() {
         try {
-            companyFacade.getCompanyCoupons().forEach(System.out::println);
+            System.out.println(companyFacade.getOneCoupon(4));
+        } catch (CouponSystemException e) {
+            assert (true);
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
+    public void getCompanyCoupons() {
+        try {
+            //accepts arguments
+            TablePrinter.print(companyFacade.getCompanyCoupons());
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());

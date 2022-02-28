@@ -2,16 +2,19 @@
 import beans.ClientType;
 import beans.Coupon;
 import facade.CompanyFacade;
-import facade.CostumerFacade;
+import facade.CustomerFacade;
 import facade.LoginManager;
 import org.junit.Test;
+import utils.TablePrinter;
 
 public class CustomerTest {
-    CostumerFacade costumerFacade = new CostumerFacade(12);
+
+    CustomerFacade customerFacade = new CustomerFacade(16);
 
     @Test
     public void Login() {
         try {
+            // need to also change customer id in Login Manager
             LoginManager.getInstance().login("my.email@com", "1234", ClientType.COSTUMER);
         } catch (Exception e) {
             assert (true);
@@ -21,10 +24,10 @@ public class CustomerTest {
 
     @Test
     public void Purchase() {
-        CompanyFacade companyFacade = new CompanyFacade(41);
+        CompanyFacade companyFacade = new CompanyFacade(7);
         try {
             Coupon coupon = companyFacade.getCompanyCoupons().get(0);
-            costumerFacade.purchaseCoupon(coupon);
+            customerFacade.purchaseCoupon(coupon);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -34,7 +37,8 @@ public class CustomerTest {
     @Test
     public void GetAllPurchased() {
         try {
-            costumerFacade.getCostumerCoupons().forEach(System.out::println);
+            //accepts arguments
+            TablePrinter.print(customerFacade.getCostumerCoupons());
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -44,7 +48,7 @@ public class CustomerTest {
     @Test
     public void GetCostumerDetails() {
         try {
-            System.out.println(costumerFacade.getCostumerDetails());
+            System.out.println(customerFacade.getCostumerDetails());
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());

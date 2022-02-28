@@ -83,17 +83,16 @@ public class CustomerDBDAO implements CustomersDAO {
     }
 
     private static Customer resultSetToCustomer(ResultSet resultSet) {
-        Customer customer = new Customer();
         try {
-            customer.setFirstName(resultSet.getString("first_name"));
-            customer.setLastName(resultSet.getString("last_name"));
-            customer.setEmail(resultSet.getString("email"));
-            customer.setPassword(resultSet.getString("password"));
-            customer.setId(resultSet.getInt("id"));
+            return new Customer(resultSet.getInt("id"),
+                    resultSet.getString("first_name"),
+                    resultSet.getString("last_name"),
+                    resultSet.getString("email"),
+                    resultSet.getString("password"));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return customer;
+        return null;
 
     }
 }

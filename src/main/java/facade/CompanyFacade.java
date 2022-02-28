@@ -2,7 +2,6 @@ package facade;
 
 import DBdao.CompaniesDBDAO;
 import DBdao.CouponDBDAO;
-import DBdao.CustomerDBDAO;
 import beans.Category;
 import beans.Company;
 import beans.Coupon;
@@ -20,15 +19,14 @@ public class CompanyFacade extends ClientFacade {
     public CompanyFacade(int companyID) {
         this.companyID = companyID;
         this.companiesDAO = new CompaniesDBDAO();
-//        this.customerDAO = new CustomerDBDAO();
         this.couponDAO = new CouponDBDAO();
     }
 
 
     public void addCoupon(Coupon coupon) throws CouponSystemException {
 
-        validateCompanyID(coupon);
-        validateCouponDate(coupon);
+        checkCompanyID(coupon);
+        checkCouponDate(coupon);
 
         if (this.couponDAO.isCouponCompanyExists(coupon)) {
             throw new CouponSystemException(ErrMsg.COUPON_ADD.getMsg() + ErrMsg.COUPON_TITLE_EXISTS.getMsg());
@@ -40,8 +38,8 @@ public class CompanyFacade extends ClientFacade {
 
     public void updateCoupon(Coupon coupon) throws CouponSystemException {
 
-        validateCompanyID(coupon);
-        validateCouponDate(coupon);
+        checkCompanyID(coupon);
+        checkCouponDate(coupon);
 
         Coupon couponFromDB = getOneCoupon(coupon.getId());
 
@@ -57,7 +55,7 @@ public class CompanyFacade extends ClientFacade {
     public void deleteCoupon(int couponID) throws CouponSystemException {
 
         Coupon couponFromDB = getOneCoupon(couponID);
-        validateCompanyID(couponFromDB);
+        checkCompanyID(couponFromDB);
 
         this.couponDAO.deleteCoupon(couponID);
     }
@@ -105,7 +103,7 @@ public class CompanyFacade extends ClientFacade {
     }
 
 
-    private Coupon getOneCoupon(int couponID) throws CouponSystemException {
+    public Coupon getOneCoupon(int couponID) throws CouponSystemException {
 
         Coupon couponFromDB = this.couponDAO.getOneCoupon(couponID);
 
@@ -117,7 +115,7 @@ public class CompanyFacade extends ClientFacade {
     }
 
 
-    private void validateCompanyID(Coupon coupon) throws CouponSystemException {
+    private void checkCompanyID(Coupon coupon) throws CouponSystemException {
 
         if (coupon.getCompanyID() != companyID) {
             throw new CouponSystemException(ErrMsg.COUPON_COMPANY_ID_NOT_SAME.getMsg());
@@ -125,7 +123,7 @@ public class CompanyFacade extends ClientFacade {
     }
 
 
-    private void validateCouponDate(Coupon coupon) throws CouponSystemException {
+    private void checkCouponDate(Coupon coupon) throws CouponSystemException {
 
         if (coupon.getEndDate().before(coupon.getStartDate())) {
             throw new CouponSystemException(ErrMsg.COUPON_DATE.getMsg());
