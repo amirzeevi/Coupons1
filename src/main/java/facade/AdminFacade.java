@@ -27,7 +27,7 @@ public class AdminFacade extends ClientFacade {
         }
 
         this.companiesDAO.addCompany(company);
-        System.out.println("COMPANY " + company.getName() + " ADDED TO DATABASE");
+        System.out.println("Company " + company.getName() + " added");
     }
 
 
@@ -37,7 +37,7 @@ public class AdminFacade extends ClientFacade {
         Company compToDelete = getOneCompany(companyID);
 
         this.companiesDAO.deleteCompany(companyID);
-        System.out.println("COMPANY " + compToDelete.getName() + " DELETED FROM DATABASE");
+        System.out.println("Company " + compToDelete.getName() + " Deleted");
     }
 
 
@@ -51,7 +51,7 @@ public class AdminFacade extends ClientFacade {
             }
         }
         this.companiesDAO.updateCompany(company);
-        System.out.println("COMPANY UPDATED");
+        System.out.println("Company updated");
     }
 
 
@@ -86,7 +86,7 @@ public class AdminFacade extends ClientFacade {
         }
 
         this.customerDAO.addCustomer(customer);
-        System.out.println("COSTUMER " + customer.getFirstName() + " " + customer.getLastName() + " ADDED TO DATABASE");
+        System.out.println("Customer " + customer.getFirstName() + " " + customer.getLastName() + " ADDED");
     }
 
 
@@ -100,7 +100,7 @@ public class AdminFacade extends ClientFacade {
             }
         }
         this.customerDAO.updateCustomer(customer);
-        System.out.println("COSTUMER UPDATED");
+        System.out.println("Customer updated");
     }
 
 
@@ -110,7 +110,7 @@ public class AdminFacade extends ClientFacade {
         getOneCostumer(customerID);
 
         this.customerDAO.deleteCustomer(customerID);
-        System.out.println("COSTUMER #" + customerID + " DELETED FROM DATABASE");
+        System.out.println("Customer #" + customerID + " deleted");
     }
 
 

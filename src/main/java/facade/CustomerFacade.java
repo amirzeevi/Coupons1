@@ -24,7 +24,7 @@ public class CustomerFacade extends ClientFacade {
     }
 
 
-    public void purchaseCoupon(Coupon coupon) throws CouponSystemException{
+    public void purchaseCoupon(Coupon coupon) throws CouponSystemException {
 
         // because can't delete expired coupons at exactly midnight using cron ?, should check if expired
         if (coupon.getEndDate().before(Date.valueOf(LocalDate.now()))) {
@@ -42,12 +42,13 @@ public class CustomerFacade extends ClientFacade {
         }
 
         this.couponDAO.addCouponsPurchase(this.customerID, coupon.getId());
+        System.out.println("Coupon " + coupon.getTitle() + " purchased");
         couponToPurchase.setAmount(couponToPurchase.getAmount() - 1);
         this.couponDAO.updateCoupon(couponToPurchase);
     }
 
 
-    public ArrayList<Coupon> getCostumerCoupons(){
+    public ArrayList<Coupon> getCostumerCoupons() {
 
         Customer thisCustomer = this.customerDAO.getOneCustomer(customerID);
 
@@ -55,7 +56,7 @@ public class CustomerFacade extends ClientFacade {
     }
 
 
-    public ArrayList<Coupon> getCostumerCoupon(Category category){
+    public ArrayList<Coupon> getCostumerCoupon(Category category) {
 
         List<Coupon> categoryCoupons = getCostumerCoupons().stream()
                 .filter(coupon -> coupon.getCategory().equals(category))
@@ -65,7 +66,7 @@ public class CustomerFacade extends ClientFacade {
     }
 
 
-    public ArrayList<Coupon> getCostumerCoupon(double maxPrice){
+    public ArrayList<Coupon> getCostumerCoupon(double maxPrice) {
 
         List<Coupon> maxPriceCoupons = getCostumerCoupons().stream()
                 .filter(coupon -> coupon.getPrice() <= maxPrice)
@@ -75,7 +76,7 @@ public class CustomerFacade extends ClientFacade {
     }
 
 
-    public Customer getCostumerDetails(){
+    public Customer getCostumerDetails() {
 
         return this.customerDAO.getOneCustomer(customerID);
     }
@@ -83,6 +84,7 @@ public class CustomerFacade extends ClientFacade {
 
     @Override
     public boolean login(String email, String password) throws CouponSystemException {
+
         Customer customerFromFB = this.customerDAO.getOneCustomer(customerID);
 
         if (customerFromFB == null) {

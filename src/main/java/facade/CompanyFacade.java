@@ -33,6 +33,7 @@ public class CompanyFacade extends ClientFacade {
         }
 
         this.couponDAO.addCoupons(coupon);
+        System.out.println("Coupon" + coupon.getTitle() + " added");
     }
 
 
@@ -49,6 +50,7 @@ public class CompanyFacade extends ClientFacade {
             }
         }
         this.couponDAO.updateCoupon(coupon);
+        System.out.println("Coupon " + coupon.getTitle() + " updated");
     }
 
 
@@ -58,6 +60,7 @@ public class CompanyFacade extends ClientFacade {
         checkCompanyID(couponFromDB);
 
         this.couponDAO.deleteCoupon(couponID);
+        System.out.println("Coupon " + couponFromDB.getTitle() + " deleted");
     }
 
 
