@@ -80,6 +80,8 @@ public class DBmanager {
 
     public static final String DROP_COSTUMERS_COUPONS_TABLE = "DROP TABLE `myDataBase`.`costumers_coupons`";
 
+    public static final String ADD_CATEGORY = "INSERT INTO `myDataBase`.`categories` (`name`) VALUES (?) ";
+
     public static final String IS_COMPANY_EXISTS = "SELECT count(*) FROM `myDataBase`.`companies` WHERE  name = ? OR email = ? ";
     public static final String IS_COMPANY_NAME_EXISTS = "SELECT count(*) FROM `myDataBase`.`companies` WHERE `name` = ? ";
     public static final String IS_COMPANY_EMAIL_EXISTS = "SELECT count(*) FROM `myDataBase`.`companies` WHERE `email` = ? ";

@@ -1,5 +1,7 @@
 package DB;
 
+import beans.Category;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,19 +12,20 @@ import java.util.Map;
 public class DBrunQuery {
 
 
-    public static void runQuery(String sql){
+    public static void runQuery(String sql) {
         Connection connection = null;
-        PreparedStatement stmt = null;
+        PreparedStatement stmt;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             stmt = connection.prepareStatement(sql);
             stmt.execute();
         } catch (InterruptedException | SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             ConnectionPool.getInstance().returnConnection(connection);
         }
     }
+
     public static void runQuery(String sql, Map<Integer, Object> map) {
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -47,6 +50,8 @@ public class DBrunQuery {
                     finalStmt.setBoolean(key, (Boolean) value);
                 } else if (value instanceof Float) {
                     finalStmt.setFloat(key, (Float) value);
+                } else if (value instanceof Category) {
+                    finalStmt.setString(key, String.valueOf(value));
                 }
             } catch (SQLException e) {
                 System.out.println(e.getMessage());

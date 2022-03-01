@@ -31,7 +31,7 @@ public class CompanyTest {
     @Test
     public void AddCoupon() {
         try {
-            Coupon couponToAdd = new Coupon(0, 7, 2, "myName2", "myDescription", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(12)), 20, 99.90, "image");
+            Coupon couponToAdd = new Coupon(0, 7, Category.FOOD.value, "myName2", "myDescription", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(12)), 20, 99.90, "image");
             companyFacade.addCoupon(couponToAdd);
         } catch (Exception e) {
             assert (true);

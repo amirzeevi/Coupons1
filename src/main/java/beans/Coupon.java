@@ -6,8 +6,8 @@ import exceptions.ErrMsg;
 import java.util.Date;
 
 public class Coupon {
-    private int id;
-    private int companyID;
+    private final int id;
+    private final int companyID;
     private Category category;
     private String title;
     private String description;
@@ -17,10 +17,10 @@ public class Coupon {
     private double price;
     private String image;
 
-    public Coupon(int id, int companyID, int CategoryValue, String title, String description, Date startDate, Date endDate, int amount, double price, String image) throws CouponSystemException {
+    public Coupon(int id, int companyID, int categoryValue, String title, String description, Date startDate, Date endDate, int amount, double price, String image) {
         this.id = id;
         this.companyID = companyID;
-        setCategory(CategoryValue);
+        this.category = Category.values()[categoryValue - 1];
         this.title = title;
         this.description = description;
         this.startDate = startDate;

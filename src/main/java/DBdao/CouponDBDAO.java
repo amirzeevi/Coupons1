@@ -5,7 +5,6 @@ import DB.DBrunQuery;
 import beans.Customer;
 import beans.Coupon;
 import dao.CouponsDAO;
-import exceptions.CouponSystemException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -217,7 +216,7 @@ public class CouponDBDAO implements CouponsDAO {
                     resultSet.getString("image")
             );
 
-        } catch (SQLException | CouponSystemException e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
         }
