@@ -31,7 +31,7 @@ public class AdminFacade extends ClientFacade {
 
     public void deleteCompany(int companyID) throws CouponSystemException {
 
-        // will validate company id
+        // to validate customer id
         Company compToDelete = getOneCompany(companyID);
 
         this.companiesDAO.deleteCompany(companyID);
@@ -104,7 +104,7 @@ public class AdminFacade extends ClientFacade {
 
     public void deleteCustomer(int customerID) throws CouponSystemException {
 
-        // validates customer id
+        // to validate customer id
         getOneCustomer(customerID);
 
         this.customerDAO.deleteCustomer(customerID);

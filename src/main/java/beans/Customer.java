@@ -17,7 +17,7 @@ public class Customer {
     private String password;
 
     /**
-     * Constructs the costumers attributes. id is generated automatically in database.
+     * Constructs the costumers attributes. id is for when retrieving from database.
      */
     public Customer(int id, String firstName, String lastName, String email, String password) {
         this.id = id;

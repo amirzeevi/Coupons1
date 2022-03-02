@@ -4,7 +4,7 @@ import exceptions.CouponSystemException;
 import exceptions.ErrMsg;
 
 /**
- * Company bean to specify attributes of any company that should log in the system
+ * Company bean to specify attributes and operations of any company that should log in the system
  */
 public class Company {
 
@@ -16,6 +16,7 @@ public class Company {
 
     /**
      * Constructs the company by name, email and password.
+     * id is included for when retrieving from database.
      */
 
     public Company(int id, String name, String email, String password) {
@@ -35,9 +36,7 @@ public class Company {
     }
 
     /**
-     * Sets the company name
-     *
-     * @param name new name to be set
+     * Can not change company name. will throw an exception
      */
     public void setName(String name) throws CouponSystemException {
         throw new CouponSystemException(ErrMsg.COMPANY_NAME_CHANGE.getMsg());
