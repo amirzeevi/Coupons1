@@ -3,9 +3,6 @@ package beans;
 import exceptions.CouponSystemException;
 import exceptions.ErrMsg;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Company bean to specify attributes of any company that should log in the system
  */
