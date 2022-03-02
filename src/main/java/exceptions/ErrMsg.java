@@ -18,6 +18,8 @@ public enum ErrMsg {
     COSTUMER_EXISTS("Customer already exists"),
     COSTUMER_WRONG_ID("Customer not found"),
     COUPON_ID_CHANGE("Can not change coupon id"),
+    COUPON_PRICE("coupon should have positive price"),
+    COUPON_AMOUNT_NEGATIVE("coupon should have positive amount"),
     COUPON_COMPANY_ID_CHANGE("Can not change company id"),
     COUPON_ADD("Can not add coupon: "),
     COUPON_DATE("Coupon date incorrect"),
