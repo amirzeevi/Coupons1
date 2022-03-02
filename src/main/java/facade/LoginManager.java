@@ -7,11 +7,9 @@ import exceptions.ErrMsg;
 
 public class LoginManager {
     private static LoginManager instance = null;
-    AdminFacade adminFacadeForData = new AdminFacade();
 
     private LoginManager() {
     }
-
 
     public ClientFacade login(String email, String password, ClientType clientType) throws CouponSystemException {
 
@@ -24,14 +22,14 @@ public class LoginManager {
                 return adminFacade;
 
             case COMPANY:
-                CompanyFacade companyFacade = new CompanyFacade(3); // is this the correct place to enter company id?
+                CompanyFacade companyFacade = new CompanyFacade(1); // is this the correct place to enter company id?
                 if (!companyFacade.login(email, password)) {
                     throw new CouponSystemException("Company" + ErrMsg.LOGIN.getMsg());
                 }
                 return companyFacade;
 
             case COSTUMER:
-                CustomerFacade customerFacade = new CustomerFacade(16); // is this the correct place to enter customer id?
+                CustomerFacade customerFacade = new CustomerFacade(1); // is this the correct place to enter customer id?
                 if (!customerFacade.login(email, password)) {
                     throw new CouponSystemException("Customer" + ErrMsg.LOGIN.getMsg());
                 }

@@ -9,7 +9,7 @@ import utils.TablePrinter;
 
 public class CustomerTest {
 
-    CustomerFacade customerFacade = new CustomerFacade(16);
+    CustomerFacade customerFacade = new CustomerFacade(1);
 
     @Test
     public void Login() {
@@ -24,7 +24,7 @@ public class CustomerTest {
 
     @Test
     public void Purchase() {
-        CompanyFacade companyFacade = new CompanyFacade(7);
+        CompanyFacade companyFacade = new CompanyFacade(1);
         try {
             Coupon coupon = companyFacade.getCompanyCoupons().get(0);
             customerFacade.purchaseCoupon(coupon);

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 public class CompanyTest {
 
-    CompanyFacade companyFacade = new CompanyFacade(4);
+    CompanyFacade companyFacade = new CompanyFacade(1);
 
     public CompanyTest() {
     }
