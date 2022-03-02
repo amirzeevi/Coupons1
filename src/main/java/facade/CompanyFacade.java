@@ -33,7 +33,7 @@ public class CompanyFacade extends ClientFacade {
         }
 
         this.couponDAO.addCoupons(coupon);
-        System.out.println("Coupon" + coupon.getTitle() + " added");
+        System.out.println("Coupon " + coupon.getTitle() + " added");
     }
 
 

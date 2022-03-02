@@ -47,7 +47,7 @@ public class AdminFacade extends ClientFacade {
 
         if (!companyFromDB.getEmail().equals(company.getEmail())) {
             if (this.companiesDAO.isCompanyEmailExists(company)) {
-                throw new CouponSystemException(ErrMsg.COMPANY_UPDATE.getMsg() + ErrMsg.SAME_EMAIL);
+                throw new CouponSystemException(ErrMsg.COMPANY_UPDATE.getMsg() + ErrMsg.SAME_EMAIL.getMsg());
             }
         }
         this.companiesDAO.updateCompany(company);
@@ -86,7 +86,7 @@ public class AdminFacade extends ClientFacade {
         }
 
         this.customerDAO.addCustomer(customer);
-        System.out.println("Customer " + customer.getFirstName() + " " + customer.getLastName() + " ADDED");
+        System.out.println("Customer " + customer.getFirstName() + " " + customer.getLastName() + " added");
     }
 
 

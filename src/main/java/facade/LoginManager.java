@@ -21,8 +21,8 @@ public class LoginManager {
                 }
                 return adminFacade;
             case COMPANY:
-                // is this the correct place to enter company id?
-                CompanyFacade companyFacade = new CompanyFacade(7);
+                // is this where to enter company id?
+                CompanyFacade companyFacade = new CompanyFacade(3);
                 if ((!companyFacade.login(email, password))) {
                     throw new CouponSystemException("Company" + ErrMsg.LOGIN.getMsg());
                 }

@@ -2,7 +2,7 @@ package exceptions;
 
 public enum ErrMsg {
 
-    LOGIN(" Login Incorrect"),
+    LOGIN(" login incorrect"),
     COMPANY_SAME_EMAIL_NAME("Can not add company with existing name or email"),
     COMPANY_ID_CHANGE("Can not change company ID"),
     COMPANY_NAME_CHANGE("Can not change company name"),

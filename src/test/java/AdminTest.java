@@ -26,7 +26,7 @@ public class AdminTest {
     @Test
     public void AddCompany() {
         try {
-            Company companyToAdd = new Company(3,"Add3Company", "my.email3@com", "1234");
+            Company companyToAdd = new Company(0,"Example Company", "company@com", "1234");
             adminFacade.addCompany(companyToAdd);
         } catch (Exception e) {
             assert (true);
@@ -39,7 +39,7 @@ public class AdminTest {
     public void UpdateCompany() {
         try {
             Company companyExists = adminFacade.getAllCompanies().get(0);
-            companyExists.setEmail("my.email2@com");
+            companyExists.setPassword("password");
             adminFacade.updateCompany(companyExists);
         } catch (Exception e) {
             assert (true);
@@ -50,7 +50,7 @@ public class AdminTest {
     @Test
     public void DeleteCompany() {
         try {
-            adminFacade.deleteCompany(8);
+            adminFacade.deleteCompany(2);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -70,7 +70,7 @@ public class AdminTest {
     @Test
     public void GetOneCompany() {
         try {
-            System.out.println(adminFacade.getOneCompany(7));
+            System.out.println(adminFacade.getOneCompany(1));
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -80,7 +80,7 @@ public class AdminTest {
     @Test
     public void AddCostumer() {
         try {
-            Customer customerToAdd = new Customer(0,"me", "person", "m2y.email@com", "1234");
+            Customer customerToAdd = new Customer(0,"Ploni", "Israeli", "my.email@com", "1234");
             adminFacade.addCostumer(customerToAdd);
         } catch (Exception e) {
             assert (true);
@@ -92,7 +92,7 @@ public class AdminTest {
     public void UpdateCostumer() {
         try {
             Customer customerExists = adminFacade.getAllCustomers().get(0);
-            customerExists.setEmail("mkmk");
+            customerExists.setPassword("password");
             adminFacade.updateCostumer(customerExists);
         } catch (Exception e) {
             assert (true);
@@ -103,7 +103,7 @@ public class AdminTest {
     @Test
     public void DeleteCostumer() {
         try {
-            adminFacade.deleteCustomer(17);
+            adminFacade.deleteCustomer(2);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -129,5 +129,4 @@ public class AdminTest {
             System.out.println(e.getMessage());
         }
     }
-
 }
