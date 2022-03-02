@@ -6,8 +6,12 @@ import facade.LoginManager;
 import org.junit.Test;
 import utils.TablePrinter;
 
+/**
+ * Create schema and tables in {@link Program
+ */
 
 public class AdminTest {
+
     AdminFacade adminFacade = new AdminFacade();
 
     public AdminTest() {
@@ -81,7 +85,7 @@ public class AdminTest {
     public void AddCustomer() {
         try {
             Customer customerToAdd = new Customer(0,"Ploni", "Israeli", "my.email@com", "1234");
-            adminFacade.addCostumer(customerToAdd);
+            adminFacade.addCustomer(customerToAdd);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -93,7 +97,7 @@ public class AdminTest {
         try {
             Customer customerExists = adminFacade.getAllCustomers().get(0);
             customerExists.setPassword("password");
-            adminFacade.updateCostumer(customerExists);
+            adminFacade.updateCustomer(customerExists);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -123,7 +127,7 @@ public class AdminTest {
     @Test
     public void GetOneCustomer() {
         try {
-            System.out.println(adminFacade.getOneCostumer(0));
+            System.out.println(adminFacade.getOneCustomer(0));
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());

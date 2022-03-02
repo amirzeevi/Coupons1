@@ -2,7 +2,6 @@ package facade;
 
 import DBdao.CompaniesDBDAO;
 import DBdao.CustomerDBDAO;
-import DBdao.CouponDBDAO;
 import beans.Company;
 import beans.Customer;
 import exceptions.CouponSystemException;
@@ -16,7 +15,6 @@ public class AdminFacade extends ClientFacade {
     public AdminFacade() {
         this.customerDAO = new CustomerDBDAO();
         this.companiesDAO = new CompaniesDBDAO();
-        this.couponDAO = new CouponDBDAO();
     }
 
 
@@ -79,7 +77,7 @@ public class AdminFacade extends ClientFacade {
     }
 
 
-    public void addCostumer(Customer customer) throws CouponSystemException {
+    public void addCustomer(Customer customer) throws CouponSystemException {
 
         if (this.customerDAO.isCustomerEmailExists(customer)) {
             throw new CouponSystemException(ErrMsg.COSTUMER_ADD.getMsg() + ErrMsg.SAME_EMAIL.getMsg());
@@ -90,9 +88,9 @@ public class AdminFacade extends ClientFacade {
     }
 
 
-    public void updateCostumer(Customer customer) throws CouponSystemException {
+    public void updateCustomer(Customer customer) throws CouponSystemException {
 
-        Customer customerFromDB = getOneCostumer(customer.getId());
+        Customer customerFromDB = getOneCustomer(customer.getId());
 
         if (!customerFromDB.getEmail().equals(customer.getEmail())) {
             if (this.customerDAO.isCustomerEmailExists(customer)) {
@@ -107,7 +105,7 @@ public class AdminFacade extends ClientFacade {
     public void deleteCustomer(int customerID) throws CouponSystemException {
 
         // validates customer id
-        getOneCostumer(customerID);
+        getOneCustomer(customerID);
 
         this.customerDAO.deleteCustomer(customerID);
         System.out.println("Customer #" + customerID + " deleted");
@@ -126,9 +124,9 @@ public class AdminFacade extends ClientFacade {
     }
 
 
-    public Customer getOneCostumer(int costumerID) throws CouponSystemException {
+    public Customer getOneCustomer(int customerID) throws CouponSystemException {
 
-        Customer customerFromDB = this.customerDAO.getOneCustomer(costumerID);
+        Customer customerFromDB = this.customerDAO.getOneCustomer(customerID);
 
         if (customerFromDB == null) {
             throw new CouponSystemException(ErrMsg.COSTUMER_WRONG_ID.getMsg());
