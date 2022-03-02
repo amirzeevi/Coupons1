@@ -56,7 +56,7 @@ public class CustomerFacade extends ClientFacade {
     }
 
 
-    public ArrayList<Coupon> getCostumerCoupon(Category category) {
+    public ArrayList<Coupon> getCustomerCoupon(Category category) {
 
         List<Coupon> categoryCoupons = getCostumerCoupons().stream()
                 .filter(coupon -> coupon.getCategory().equals(category))
@@ -66,7 +66,7 @@ public class CustomerFacade extends ClientFacade {
     }
 
 
-    public ArrayList<Coupon> getCostumerCoupon(double maxPrice) {
+    public ArrayList<Coupon> getCustomerCoupon(double maxPrice) {
 
         List<Coupon> maxPriceCoupons = getCostumerCoupons().stream()
                 .filter(coupon -> coupon.getPrice() <= maxPrice)
@@ -76,7 +76,7 @@ public class CustomerFacade extends ClientFacade {
     }
 
 
-    public Customer getCostumerDetails() {
+    public Customer getCustomerDetails() {
 
         return this.customerDAO.getOneCustomer(customerID);
     }

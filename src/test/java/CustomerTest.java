@@ -48,7 +48,7 @@ public class CustomerTest {
     @Test
     public void GetCostumerDetails() {
         try {
-            System.out.println(customerFacade.getCostumerDetails());
+            System.out.println(customerFacade.getCustomerDetails());
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());

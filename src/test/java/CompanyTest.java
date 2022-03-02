@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 public class CompanyTest {
 
-    CompanyFacade companyFacade = new CompanyFacade(1);
+    CompanyFacade companyFacade = new CompanyFacade(4);
 
     public CompanyTest() {
     }
@@ -31,7 +31,7 @@ public class CompanyTest {
     @Test
     public void AddCoupon() {
         try {
-            Coupon couponToAdd = new Coupon(0, 4, Category.ELECTRICITY.value, "Electric Bike", "myDescription", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(14)), 20, 99.99, "image");
+            Coupon couponToAdd = new Coupon(0, 4, Category.ELECTRICITY.value, "Electric2 Bike", "myDescription", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(14)), 20, 99.99, "image");
             companyFacade.addCoupon(couponToAdd);
         } catch (Exception e) {
             assert (true);
@@ -43,7 +43,7 @@ public class CompanyTest {
     public void UpdateCoupon() {
         try {
             Coupon existsCoupons = companyFacade.getCompanyCoupons().get(0);
-            existsCoupons.setTitle("new Title");
+            existsCoupons.setStartDate(Date.valueOf(LocalDate.now().plusDays(20)));
             companyFacade.updateCoupon(existsCoupons);
         } catch (Exception e) {
             assert (true);

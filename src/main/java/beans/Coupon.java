@@ -23,8 +23,8 @@ public class Coupon {
         this.category = Category.values()[categoryValue - 1];
         this.title = title;
         this.description = description;
-        this.endDate = endDate;
-        setStartDate(startDate);
+        this.startDate = startDate;
+        setEndDate(endDate);
         setAmount(amount);
         setPrice(price);
         this.image = image;
@@ -78,7 +78,7 @@ public class Coupon {
     }
 
     public void setStartDate(Date startDate) throws CouponSystemException {
-        if (startDate.before(endDate)) {
+        if (startDate.after(this.endDate)) {
             throw new CouponSystemException(ErrMsg.COUPON_DATE.getMsg());
         }
         this.startDate = startDate;
@@ -88,7 +88,10 @@ public class Coupon {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(Date endDate) throws CouponSystemException {
+        if (endDate.before(this.startDate)) {
+            throw new CouponSystemException(ErrMsg.COUPON_DATE.getMsg());
+        }
         this.endDate = endDate;
     }
 

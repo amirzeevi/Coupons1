@@ -26,7 +26,6 @@ public class CompanyFacade extends ClientFacade {
     public void addCoupon(Coupon coupon) throws CouponSystemException {
 
         checkCompanyID(coupon);
-        checkCouponDate(coupon);
 
         if (this.couponDAO.isCouponCompanyExists(coupon)) {
             throw new CouponSystemException(ErrMsg.COUPON_ADD.getMsg() + ErrMsg.COUPON_TITLE_EXISTS.getMsg());
@@ -40,8 +39,6 @@ public class CompanyFacade extends ClientFacade {
     public void updateCoupon(Coupon coupon) throws CouponSystemException {
 
         checkCompanyID(coupon);
-        checkCouponDate(coupon);
-
         Coupon couponFromDB = getOneCoupon(coupon.getId());
 
         if (!(couponFromDB.getTitle().equals(coupon.getTitle()))) {
@@ -124,15 +121,6 @@ public class CompanyFacade extends ClientFacade {
             throw new CouponSystemException(ErrMsg.COUPON_COMPANY_ID_NOT_SAME.getMsg());
         }
     }
-
-
-    private void checkCouponDate(Coupon coupon) throws CouponSystemException {
-
-        if (coupon.getEndDate().before(coupon.getStartDate())) {
-            throw new CouponSystemException(ErrMsg.COUPON_DATE.getMsg());
-        }
-    }
-
 
     @Override
     public boolean login(String email, String password) throws CouponSystemException {

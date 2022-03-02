@@ -31,7 +31,7 @@ public class AdminFacade extends ClientFacade {
 
     public void deleteCompany(int companyID) throws CouponSystemException {
 
-        // to validate customer id
+        // check company id
         Company compToDelete = getOneCompany(companyID);
 
         this.companiesDAO.deleteCompany(companyID);
@@ -80,7 +80,7 @@ public class AdminFacade extends ClientFacade {
     public void addCustomer(Customer customer) throws CouponSystemException {
 
         if (this.customerDAO.isCustomerEmailExists(customer)) {
-            throw new CouponSystemException(ErrMsg.COSTUMER_ADD.getMsg() + ErrMsg.SAME_EMAIL.getMsg());
+            throw new CouponSystemException(ErrMsg.CUSTOMER_ADD.getMsg() + ErrMsg.SAME_EMAIL.getMsg());
         }
 
         this.customerDAO.addCustomer(customer);
@@ -94,7 +94,7 @@ public class AdminFacade extends ClientFacade {
 
         if (!customerFromDB.getEmail().equals(customer.getEmail())) {
             if (this.customerDAO.isCustomerEmailExists(customer)) {
-                throw new CouponSystemException(ErrMsg.COSTUMER_UPDATE.getMsg() + ErrMsg.SAME_EMAIL.getMsg());
+                throw new CouponSystemException(ErrMsg.CUSTOMER_UPDATE.getMsg() + ErrMsg.SAME_EMAIL.getMsg());
             }
         }
         this.customerDAO.updateCustomer(customer);
@@ -104,7 +104,7 @@ public class AdminFacade extends ClientFacade {
 
     public void deleteCustomer(int customerID) throws CouponSystemException {
 
-        // to validate customer id
+        // validate customer id
         getOneCustomer(customerID);
 
         this.customerDAO.deleteCustomer(customerID);
@@ -129,7 +129,7 @@ public class AdminFacade extends ClientFacade {
         Customer customerFromDB = this.customerDAO.getOneCustomer(customerID);
 
         if (customerFromDB == null) {
-            throw new CouponSystemException(ErrMsg.COSTUMER_WRONG_ID.getMsg());
+            throw new CouponSystemException(ErrMsg.CUSTOMER_WRONG_ID.getMsg());
         }
 
         return customerFromDB;
