@@ -2,11 +2,8 @@ package jobs;
 
 import DBdao.CouponDBDAO;
 import beans.Coupon;
-import exceptions.CouponSystemException;
 
 import java.sql.Date;
-import java.sql.SQLException;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,7 +41,9 @@ public class CouponExpirationDailyJob implements Runnable {
     public void run() {
         while (!quit) {
             try {
-                List<Coupon> couponToDelete = this.couponDAO.getAllCoupons().stream().filter(coupon -> coupon.getEndDate().after(Date.valueOf(LocalDate.now()))).collect(Collectors.toList());
+                List<Coupon> couponToDelete = this.couponDAO.getAllCoupons().stream()
+                        .filter(coupon -> coupon.getEndDate().after(Date.valueOf(LocalDate.now())))
+                        .collect(Collectors.toList());
                 for (Coupon coupon : couponToDelete) {
                     this.couponDAO.deleteCouponPurchase(0, coupon.getId());
                     this.couponDAO.deleteCoupon(coupon.getId());
