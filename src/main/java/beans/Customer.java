@@ -10,7 +10,7 @@ import java.util.List;
  * Customer bean to specify any costumer that should log in
  */
 public class Customer {
-    private int id;
+    private final int id;
     private String firstName;
     private String lastName;
     private String email;
