@@ -21,7 +21,7 @@ public class CompanyTest {
     public void Login() {
         try {
             //need to also change company id in Login Manager
-            LoginManager.getInstance().login("my.email2@com", "1234", ClientType.COMPANY);
+            LoginManager.getInstance().login("my.email@com", "1234", ClientType.COMPANY);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
