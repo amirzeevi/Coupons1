@@ -21,15 +21,14 @@ public class LoginManager {
                 }
                 return adminFacade;
             case COMPANY:
-                // is this where to enter company id?
-                CompanyFacade companyFacade = new CompanyFacade(3);
+                CompanyFacade companyFacade = new CompanyFacade(3); // is this the correct place to enter company id?
                 if ((!companyFacade.login(email, password))) {
                     throw new CouponSystemException("Company" + ErrMsg.LOGIN.getMsg());
                 }
                 return companyFacade;
             case COSTUMER:
-                // is this the correct place to enter customer id?
-                CustomerFacade customerFacade = new CustomerFacade(16);
+                CustomerFacade customerFacade = new CustomerFacade(16); // is this the correct place to enter customer id?
+
                 if (!customerFacade.login(email, password)) {
                     throw new CouponSystemException("Customer" + ErrMsg.LOGIN.getMsg());
                 }

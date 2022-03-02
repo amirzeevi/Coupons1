@@ -28,7 +28,7 @@ public enum ErrMsg {
     COUPON_NOT_EXISTS("Coupon id not found"),
     COUPON_COMPANY_ID_NOT_SAME("Company id not same"),
     COUPON_EXISTS("Coupon already exists"),
-    COUPON_EXPIRED("Can not make purchase. coupon already exists"),
+    COUPON_EXPIRED("Can not make purchase. coupon expired"),
     COUPON_AMOUNT("Coupon out of stock"),
     CATEGORY("Invalid category"),
     LIST("Empty list");

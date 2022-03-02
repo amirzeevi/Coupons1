@@ -14,7 +14,7 @@ public class CustomerTest {
     @Test
     public void Login() {
         try {
-            // need to also change customer id in Login Manager
+            // need to also add customer id in Login Manager
             LoginManager.getInstance().login("my.email@com", "1234", ClientType.COSTUMER);
         } catch (Exception e) {
             assert (true);

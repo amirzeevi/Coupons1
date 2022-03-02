@@ -20,7 +20,7 @@ public class CompanyTest {
     @Test
     public void Login() {
         try {
-            //need to also change company id in Login Manager
+            //need to also add company id in Login Manager
             LoginManager.getInstance().login("my.email@com", "1234", ClientType.COMPANY);
         } catch (Exception e) {
             assert (true);
@@ -31,7 +31,7 @@ public class CompanyTest {
     @Test
     public void AddCoupon() {
         try {
-            Coupon couponToAdd = new Coupon(0, 4, Category.ELECTRICITY.value, "Electric Bike2", "myDescription", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(12)), 1, 99.99, "image");
+            Coupon couponToAdd = new Coupon(0, 4, Category.ELECTRICITY.value, "Electric Bike", "myDescription", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(14)), 20, 99.99, "image");
             companyFacade.addCoupon(couponToAdd);
         } catch (Exception e) {
             assert (true);
