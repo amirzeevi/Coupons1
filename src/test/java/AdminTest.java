@@ -78,7 +78,7 @@ public class AdminTest {
     }
 
     @Test
-    public void AddCostumer() {
+    public void AddCustomer() {
         try {
             Customer customerToAdd = new Customer(0,"Ploni", "Israeli", "my.email@com", "1234");
             adminFacade.addCostumer(customerToAdd);
@@ -89,7 +89,7 @@ public class AdminTest {
     }
 
     @Test
-    public void UpdateCostumer() {
+    public void UpdateCustomer() {
         try {
             Customer customerExists = adminFacade.getAllCustomers().get(0);
             customerExists.setPassword("password");
@@ -101,7 +101,7 @@ public class AdminTest {
     }
 
     @Test
-    public void DeleteCostumer() {
+    public void DeleteCustomer() {
         try {
             adminFacade.deleteCustomer(2);
         } catch (Exception e) {
@@ -111,7 +111,7 @@ public class AdminTest {
     }
 
     @Test
-    public void GetAllCostumers() {
+    public void GetAllCustomers() {
         try {
             TablePrinter.print(adminFacade.getAllCustomers());
         } catch (Exception e) {
@@ -121,7 +121,7 @@ public class AdminTest {
     }
 
     @Test
-    public void GetOneCostumer() {
+    public void GetOneCustomer() {
         try {
             System.out.println(adminFacade.getOneCostumer(0));
         } catch (Exception e) {
