@@ -104,7 +104,7 @@ public class AdminFacade extends ClientFacade {
 
     public void deleteCustomer(int customerID) throws CouponSystemException {
 
-        // validate customer id
+        // check customer id
         getOneCustomer(customerID);
 
         this.customerDAO.deleteCustomer(customerID);

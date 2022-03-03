@@ -1,20 +1,18 @@
 package jobs;
 
 import DBdao.CouponDBDAO;
-import beans.Coupon;
 import dao.CouponsDAO;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
+
 
 public class CouponExpirationDailyJob implements Runnable {
+
     private CouponsDAO couponDAO;
     private boolean quit;
 
-    public CouponExpirationDailyJob(CouponDBDAO couponDAO) {
+    public CouponExpirationDailyJob() {
         this.couponDAO = new CouponDBDAO();
         this.quit = false;
     }
