@@ -73,7 +73,7 @@ public class CompanyFacade extends ClientFacade {
     }
 
 
-    public ArrayList<Coupon> getCompanyCoupons(Category category) {
+    public ArrayList<Coupon> getCompanyCoupons(Category category) throws CouponSystemException {
 
         Predicate<Coupon> categoryCoupons = coupon -> coupon.getCategory().equals(category);
 
@@ -81,19 +81,27 @@ public class CompanyFacade extends ClientFacade {
                 .filter(categoryCoupons)
                 .collect(Collectors.toList());
 
+        if (companyCoupons.isEmpty()) {
+            throw new CouponSystemException(ErrMsg.LIST.getMsg());
+        }
+
         return (ArrayList<Coupon>) companyCoupons;
     }
 
 
-    public ArrayList<Coupon> getCompanyCoupons(double maxPrice) {
+    public ArrayList<Coupon> getCompanyCoupons(double maxPrice) throws CouponSystemException {
 
         Predicate<Coupon> maxPriceCoupons = coupon -> coupon.getPrice() <= maxPrice;
 
-        List<Coupon> coupons = this.couponDAO.getCompanyCoupons(companyID).stream()
+        List<Coupon> companyCoupons = this.couponDAO.getCompanyCoupons(companyID).stream()
                 .filter(maxPriceCoupons)
                 .collect(Collectors.toList());
 
-        return (ArrayList<Coupon>) coupons;
+        if (companyCoupons.isEmpty()) {
+            throw new CouponSystemException(ErrMsg.LIST.getMsg());
+        }
+
+        return (ArrayList<Coupon>) companyCoupons;
     }
 
 

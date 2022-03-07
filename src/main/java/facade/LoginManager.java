@@ -1,7 +1,6 @@
 package facade;
 
 import beans.ClientType;
-import beans.Company;
 import exceptions.CouponSystemException;
 import exceptions.ErrMsg;
 
@@ -11,7 +10,7 @@ public class LoginManager {
     private LoginManager() {
     }
 
-    public ClientFacade login(String email, String password, ClientType clientType) throws CouponSystemException {
+    public ClientFacade login(String email, String password, ClientType clientType, int id) throws CouponSystemException {
 
         switch (clientType) {
             case ADMINISTRATOR:
@@ -22,14 +21,14 @@ public class LoginManager {
                 return adminFacade;
 
             case COMPANY:
-                CompanyFacade companyFacade = new CompanyFacade(1); // is this the correct place to enter company id?
+                CompanyFacade companyFacade = new CompanyFacade(id); // is this the correct place to enter company id?
                 if (!companyFacade.login(email, password)) {
                     throw new CouponSystemException("Company" + ErrMsg.LOGIN.getMsg());
                 }
                 return companyFacade;
 
             case COSTUMER:
-                CustomerFacade customerFacade = new CustomerFacade(1); // is this the correct place to enter customer id?
+                CustomerFacade customerFacade = new CustomerFacade(id); // is this the correct place to enter customer id?
                 if (!customerFacade.login(email, password)) {
                     throw new CouponSystemException("Customer" + ErrMsg.LOGIN.getMsg());
                 }

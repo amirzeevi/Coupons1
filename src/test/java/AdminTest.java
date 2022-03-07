@@ -20,7 +20,7 @@ public class AdminTest {
     @Test
     public void Login() {
         try {
-            LoginManager.getInstance().login("admin@admin", "admin", ClientType.ADMINISTRATOR);
+            LoginManager.getInstance().login("admin@admin", "admin", ClientType.ADMINISTRATOR,0);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());

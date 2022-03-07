@@ -88,9 +88,7 @@ public class Company {
     }
 
     /**
-     * Sets company id number. Used only when ResultSet is retrieved from Data Base to form a company
-     *
-     * @param id Company id number
+     * Can not set company id. will throw Coupon exception
      */
     public void setId(int id) throws CouponSystemException {
         throw new CouponSystemException(ErrMsg.COMPANY_ID_CHANGE.getMsg());

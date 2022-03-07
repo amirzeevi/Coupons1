@@ -48,29 +48,43 @@ public class CustomerFacade extends ClientFacade {
     }
 
 
-    public ArrayList<Coupon> getCostumerCoupons() {
+    public ArrayList<Coupon> getCostumerCoupons() throws CouponSystemException {
 
         Customer thisCustomer = this.customerDAO.getOneCustomer(customerID);
 
-        return this.couponDAO.getCostumerCoupons(thisCustomer);
+        ArrayList<Coupon> costumerCoupon = this.couponDAO.getCostumerCoupons(thisCustomer);
+
+        if (costumerCoupon.isEmpty()) {
+            throw new CouponSystemException(ErrMsg.LIST.getMsg());
+        }
+
+        return costumerCoupon;
     }
 
 
-    public ArrayList<Coupon> getCustomerCoupon(Category category) {
+    public ArrayList<Coupon> getCustomerCoupon(Category category) throws CouponSystemException {
 
         List<Coupon> categoryCoupons = getCostumerCoupons().stream()
                 .filter(coupon -> coupon.getCategory().equals(category))
                 .collect(Collectors.toList());
 
+        if (categoryCoupons.isEmpty()) {
+            throw new CouponSystemException(ErrMsg.LIST.getMsg());
+        }
+
         return (ArrayList<Coupon>) categoryCoupons;
     }
 
 
-    public ArrayList<Coupon> getCustomerCoupon(double maxPrice) {
+    public ArrayList<Coupon> getCustomerCoupon(double maxPrice) throws CouponSystemException {
 
         List<Coupon> maxPriceCoupons = getCostumerCoupons().stream()
                 .filter(coupon -> coupon.getPrice() <= maxPrice)
                 .collect(Collectors.toList());
+
+        if (maxPriceCoupons.isEmpty()) {
+            throw new CouponSystemException(ErrMsg.LIST.getMsg());
+        }
 
         return (ArrayList<Coupon>) maxPriceCoupons;
     }
