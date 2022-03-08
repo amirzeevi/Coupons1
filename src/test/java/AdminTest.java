@@ -1,10 +1,13 @@
 import beans.ClientType;
 import beans.Company;
 import beans.Customer;
+
 import facade.AdminFacade;
 import facade.LoginManager;
 import org.junit.Test;
 import utils.TablePrinter;
+
+
 
 /**
  * Create schema and tables in {@link Program
@@ -12,15 +15,12 @@ import utils.TablePrinter;
 
 public class AdminTest {
 
-    AdminFacade adminFacade = new AdminFacade();
-
-    public AdminTest() {
-    }
+    AdminFacade adminFacade = (AdminFacade) LoginManager.getInstance().login("admin@admin", "admin", ClientType.ADMINISTRATOR);
 
     @Test
     public void Login() {
         try {
-            LoginManager.getInstance().login("admin@admin", "admin", ClientType.ADMINISTRATOR,0);
+            LoginManager.getInstance().login("admin@admin", "admin", ClientType.ADMINISTRATOR);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -30,14 +30,13 @@ public class AdminTest {
     @Test
     public void AddCompany() {
         try {
-            Company companyToAdd = new Company(0,"Example Company", "company@com", "1234");
+            Company companyToAdd = new Company(0, "Second Company", "company2@com", "1234", null);
             adminFacade.addCompany(companyToAdd);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
         }
     }
-
 
     @Test
     public void UpdateCompany() {
@@ -54,7 +53,7 @@ public class AdminTest {
     @Test
     public void DeleteCompany() {
         try {
-            adminFacade.deleteCompany(2);
+            adminFacade.deleteCompany(7);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -74,7 +73,7 @@ public class AdminTest {
     @Test
     public void GetOneCompany() {
         try {
-            System.out.println(adminFacade.getOneCompany(1));
+            System.out.println(adminFacade.getOneCompany(9));
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -84,7 +83,7 @@ public class AdminTest {
     @Test
     public void AddCustomer() {
         try {
-            Customer customerToAdd = new Customer(0,"Ploni", "Israeli", "my.email@com", "1234");
+            Customer customerToAdd = new Customer(0, "Ploni", "Israeli", "my.email@com", "1234", null);
             adminFacade.addCustomer(customerToAdd);
         } catch (Exception e) {
             assert (true);

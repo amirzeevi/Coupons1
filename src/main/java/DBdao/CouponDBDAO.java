@@ -2,7 +2,7 @@ package DBdao;
 
 import DB.DBmanager;
 import DB.DBrunQuery;
-import beans.Customer;
+import beans.Category;
 import beans.Coupon;
 import dao.CouponsDAO;
 import exceptions.CouponSystemException;
@@ -14,26 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 public class CouponDBDAO implements CouponsDAO {
-
-
-    @Override
-    public boolean isCouponExists(Coupon coupon) {
-
-        Map<Integer, Object> values = Map.of(1, coupon.getCompanyID(), 2, coupon.getCategory().value,
-                3, coupon.getTitle(), 4, coupon.getDescription(),
-                5, coupon.getStartDate(), 6, coupon.getEndDate(),
-                7, coupon.getAmount(), 8, coupon.getPrice(),
-                9, coupon.getImage());
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_COUPON_EXISTS, values);
-        assert resultSet != null;
-        try {
-            resultSet.next();
-            return resultSet.getInt(1) == 1;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-    }
 
 
     @Override
@@ -93,7 +73,7 @@ public class CouponDBDAO implements CouponsDAO {
 
 
     @Override
-    public ArrayList<Coupon> getAllCoupons() {
+    public List<Coupon> getAllCoupons() {
 
         ArrayList<Coupon> coupons = new ArrayList<>();
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ALL_COUPONS);
@@ -103,7 +83,7 @@ public class CouponDBDAO implements CouponsDAO {
             try {
                 if (!resultSet.next()) break;
                 coupons.add(resultSetToCoupon(resultSet));
-            } catch (SQLException e) {
+            } catch (SQLException | CouponSystemException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -112,10 +92,10 @@ public class CouponDBDAO implements CouponsDAO {
 
 
     @Override
-    public ArrayList<Coupon> getCostumerCoupons(Customer customer) {
+    public List<Coupon> getCostumerCoupons(int customerId) {
 
         ArrayList<Coupon> coupons = new ArrayList<>();
-        Map<Integer, Object> values = Map.of(1, customer.getId());
+        Map<Integer, Object> values = Map.of(1, customerId);
 
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_COSTUMER_COUPONS, values);
 
@@ -137,14 +117,15 @@ public class CouponDBDAO implements CouponsDAO {
 
         Map<Integer, Object> values = Map.of(1, couponID);
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ONE_COUPON, values);
-
+        Coupon coupon = null;
         assert resultSet != null;
         try {
-            return resultSet.next() ? resultSetToCoupon(resultSet) : null;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            resultSet.next();
+            coupon = resultSetToCoupon(resultSet);
+        } catch (SQLException | CouponSystemException e) {
             return null;
         }
+        return coupon;
     }
 
 
@@ -169,19 +150,11 @@ public class CouponDBDAO implements CouponsDAO {
             try {
                 if (!resultSet.next()) break;
                 companyCoupons.add(resultSetToCoupon(resultSet));
-            } catch (SQLException e) {
+            } catch (SQLException | CouponSystemException e) {
                 System.out.println(e.getMessage());
             }
         }
         return companyCoupons;
-    }
-
-
-    @Override
-    public void deleteCouponPurchase(int costumerID, int couponID) {
-
-        Map<Integer, Object> values = Map.of(1, couponID, 2, costumerID);
-        DBrunQuery.runQuery(DBmanager.DELETE_COUPON_PURCHASE, values);
     }
 
 
@@ -202,24 +175,18 @@ public class CouponDBDAO implements CouponsDAO {
     }
 
 
-    private Coupon resultSetToCoupon(ResultSet resultSet) {
+    private Coupon resultSetToCoupon(ResultSet resultSet) throws SQLException, CouponSystemException {
 
-        try {
-            return new Coupon(resultSet.getInt("id"),
-                    resultSet.getInt("company_id"),
-                    resultSet.getInt("category_id"),
-                    resultSet.getString("title"),
-                    resultSet.getString("description"),
-                    resultSet.getDate("start_date"),
-                    resultSet.getDate("end_date"),
-                    resultSet.getInt("amount"),
-                    resultSet.getInt("price"),
-                    resultSet.getString("image")
-            );
-
-        } catch (SQLException | CouponSystemException e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
+        return new Coupon(resultSet.getInt("id"),
+                resultSet.getInt("company_id"),
+                Category.values()[resultSet.getInt("category_id") - 1],
+                resultSet.getString("title"),
+                resultSet.getString("description"),
+                resultSet.getDate("start_date"),
+                resultSet.getDate("end_date"),
+                resultSet.getInt("amount"),
+                resultSet.getInt("price"),
+                resultSet.getString("image")
+        );
     }
 }

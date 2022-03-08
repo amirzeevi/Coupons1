@@ -10,7 +10,7 @@ import java.time.LocalDate;
 public class CouponExpirationDailyJob implements Runnable {
 
     private CouponsDAO couponDAO;
-    private boolean quit;
+    private boolean quit = false;
 
     public CouponExpirationDailyJob() {
         this.couponDAO = new CouponDBDAO();
@@ -39,10 +39,11 @@ public class CouponExpirationDailyJob implements Runnable {
 
     @Override
     public void run() {
+
         while (!quit) {
             try {
                 this.couponDAO.getAllCoupons().stream()
-                        .filter(coupon -> coupon.getEndDate().before(Date.valueOf(LocalDate.now())))
+                        .filter(coupon -> coupon.getEndDate().before(coupon.getStartDate()))
                         .forEach(coupon -> this.couponDAO.deleteCoupon(coupon.getId()));
 
                 Thread.sleep(1000 * 60 * 60 * 24);

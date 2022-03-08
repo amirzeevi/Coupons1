@@ -1,14 +1,10 @@
 package dao;
 
-import beans.Customer;
 import beans.Coupon;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface CouponsDAO {
-
-    boolean isCouponExists(Coupon coupon);
 
     boolean isCouponCompanyExists(Coupon coupon);
 
@@ -20,17 +16,15 @@ public interface CouponsDAO {
 
     void addCouponsPurchase(int costumerID, int couponID);
 
-    void deleteCouponPurchase(int costumerID, int couponID);
-
     boolean isCostumerCouponExists(int costumerID, int couponID);
 
     Coupon getOneCoupon(int couponID);
 
-    ArrayList<Coupon> getAllCoupons();
+    List<Coupon> getAllCoupons();
 
     List<Coupon> getCompanyCoupons(int companyID);
 
-    ArrayList<Coupon> getCostumerCoupons(Customer customer);
+    List<Coupon> getCostumerCoupons(int customerId);
 
 
 }

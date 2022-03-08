@@ -2,8 +2,6 @@ package beans;
 
 import exceptions.CouponSystemException;
 import exceptions.ErrMsg;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,16 +13,18 @@ public class Customer {
     private String lastName;
     private String email;
     private String password;
+    private List<Coupon> coupons;
 
     /**
      * Constructs the costumers attributes. id is for when retrieving from database.
      */
-    public Customer(int id, String firstName, String lastName, String email, String password) {
+    public Customer(int id, String firstName, String lastName, String email, String password, List<Coupon> coupons) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.coupons = coupons;
     }
 
     public int getId() {
@@ -32,7 +32,7 @@ public class Customer {
     }
 
     public void setId(int id) throws CouponSystemException {
-       throw new CouponSystemException(ErrMsg.CUSTOMER_ID_CHANGE.getMsg());
+        throw new CouponSystemException(ErrMsg.CUSTOMER_ID_CHANGE.getMsg());
     }
 
     public String getFirstName() {
@@ -65,6 +65,14 @@ public class Customer {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Coupon> getCoupons() {
+        return coupons;
+    }
+
+    public void setCoupons(List<Coupon> coupons) {
+        this.coupons = coupons;
     }
 
     @Override

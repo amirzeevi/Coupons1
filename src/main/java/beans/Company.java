@@ -3,6 +3,8 @@ package beans;
 import exceptions.CouponSystemException;
 import exceptions.ErrMsg;
 
+import java.util.List;
+
 /**
  * Company bean to specify attributes and operations of any company that should log in the system
  */
@@ -12,6 +14,7 @@ public class Company {
     private final String name;
     private String email;
     private String password;
+    private List<Coupon> coupons;
 
 
     /**
@@ -19,11 +22,12 @@ public class Company {
      * id is included for when retrieving from database.
      */
 
-    public Company(int id, String name, String email, String password) {
+    public Company(int id, String name, String email, String password, List<Coupon> coupons) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.coupons = coupons;
     }
 
     /**
@@ -92,6 +96,14 @@ public class Company {
      */
     public void setId(int id) throws CouponSystemException {
         throw new CouponSystemException(ErrMsg.COMPANY_ID_CHANGE.getMsg());
+    }
+
+    public List<Coupon> getCoupons() {
+        return coupons;
+    }
+
+    public void setCoupons(List<Coupon> coupons) {
+        this.coupons = coupons;
     }
 
     /**

@@ -1,6 +1,7 @@
 
 import beans.ClientType;
 import beans.Coupon;
+import exceptions.CouponSystemException;
 import facade.CompanyFacade;
 import facade.CustomerFacade;
 import facade.LoginManager;
@@ -9,13 +10,15 @@ import utils.TablePrinter;
 
 public class CustomerTest {
 
-    CustomerFacade customerFacade = new CustomerFacade(1);
+    CustomerFacade customerFacade =(CustomerFacade) LoginManager.getInstance().login("my.email@com", "password", ClientType.COSTUMER);
+
+    public CustomerTest() throws CouponSystemException {
+    }
 
     @Test
     public void Login() {
         try {
-            // need to also add customer id in Login Manager
-            LoginManager.getInstance().login("my.email@com", "1234", ClientType.COSTUMER, 1);
+            LoginManager.getInstance().login("my.email@com", "password", ClientType.COSTUMER);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -24,7 +27,8 @@ public class CustomerTest {
 
     @Test
     public void Purchase() {
-        CompanyFacade companyFacade = new CompanyFacade(1);
+        CompanyFacade companyFacade =new CompanyFacade();
+        companyFacade.login("company@com", "password");
         try {
             Coupon coupon = companyFacade.getCompanyCoupons().get(0);
             customerFacade.purchaseCoupon(coupon);
@@ -38,7 +42,7 @@ public class CustomerTest {
     public void GetAllPurchased() {
         try {
             //accepts arguments
-            TablePrinter.print(customerFacade.getCostumerCoupons());
+            TablePrinter.print(customerFacade.getCustomerCoupons());
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());

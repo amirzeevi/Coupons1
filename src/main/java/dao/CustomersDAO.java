@@ -2,9 +2,11 @@ package dao;
 
 import beans.Customer;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface CustomersDAO {
+
+    int getCustomerId(String email, String password);
 
     boolean isCustomerEmailExists(Customer customer);
 
@@ -14,7 +16,7 @@ public interface CustomersDAO {
 
     void deleteCustomer(int costumerId);
 
-    ArrayList<Customer> getAllCustomers();
+    List<Customer> getAllCustomers();
 
     Customer getOneCustomer(int costumerId);
 

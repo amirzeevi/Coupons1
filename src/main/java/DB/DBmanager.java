@@ -83,7 +83,8 @@ public class DBmanager {
     public static final String ADD_CATEGORY = "INSERT INTO `myDataBase`.`categories` (`name`) VALUES (?) ";
 
     public static final String IS_COMPANY_EXISTS = "SELECT count(*) FROM `myDataBase`.`companies` WHERE  name = ? OR email = ? ";
-    public static final String IS_COMPANY_NAME_EXISTS = "SELECT count(*) FROM `myDataBase`.`companies` WHERE `name` = ? ";
+    public static final String GET_COMPANY_ID = "SELECT id FROM `myDataBase`.`companies` WHERE  email = ? AND password = ? ";
+
     public static final String IS_COMPANY_EMAIL_EXISTS = "SELECT count(*) FROM `myDataBase`.`companies` WHERE `email` = ? ";
     public static final String ADD_COMPANY = "INSERT INTO `myDataBase`.`companies` (`name`, `email`, `password`) VALUES (?,?,?) ";
     public static final String UPDATE_COMPANY = "UPDATE `myDataBase`.`companies` SET email = ?, password = ? WHERE id = ? ";
@@ -91,8 +92,9 @@ public class DBmanager {
     public static final String GET_ALL_COMPANIES = "SELECT*FROM `myDataBase`.`companies` ";
     public static final String GET_ONE_COMPANY = "SELECT*FROM `myDataBase`.`companies` WHERE id = ?";
 
+
+    public static final String GET_CUSTOMER_ID = "SELECT id FROM `myDataBase`.`costumers` WHERE email = ? AND password = ?";
     public static final String IS_COSTUMER_EMAIL_EXISTS = "SELECT count(*) FROM `myDataBase`.`costumers` WHERE email = ?";
-    public static final String IS_COSTUMER_NAME_EXISTS = "SELECT count(*) FROM `myDataBase`.`costumers` WHERE name = ?";
     public static final String ADD_COSTUMER = "INSERT INTO `myDataBase`.`costumers` (`first_name`,`last_name`, `email`, `password`) VALUES (?,?,?,?) ";
     public static final String UPDATE_COSTUMER = "UPDATE `myDataBase`.`costumers` SET first_name = ? ,last_name = ?, email = ?, password = ? WHERE id = ? ";
     public static final String DROP_COSTUMER = "DELETE FROM `myDataBase`.`costumers` WHERE id = ? ";
@@ -112,7 +114,4 @@ public class DBmanager {
     public static final String DELETE_COUPON_PURCHASE = "DELETE FROM `myDataBase`.`costumers_coupons` WHERE coupon_id = ? OR costumer_id = ? ";
     public static final String GET_COSTUMER_COUPONS = "SELECT*FROM `myDataBase`.`costumers_coupons` WHERE costumer_id = ?";
     public static final String IS_COSTUMER_COUPON_EXISTS = "SELECT count(*) FROM `myDataBase`.`costumers_coupons` WHERE costumer_id = ? AND coupon_id = ? ";
-
-    public static final String COMPANY_LOGIN = "SELECT email, password FROM `myDataBase`.`companies` WHERE id = ?";
-    public static final String COSTUMER_LOGIN = "SELECT email, password FROM `myDataBase`.`costumers` WHERE id = ?";
 }

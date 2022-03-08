@@ -5,14 +5,14 @@ import exceptions.CouponSystemException;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface CompaniesDAO {
 
 
+    int getCompanyId(String email, String password);
 
     boolean isCompanyExists(Company company);
-
-    boolean isCompanyNameExists(Company company);
 
     boolean isCompanyEmailExists(Company company);
 
@@ -22,7 +22,7 @@ public interface CompaniesDAO {
 
     void deleteCompany(int companyID);
 
-    ArrayList<Company> getAllCompanies();
+    List<Company> getAllCompanies();
 
     Company getOneCompany(int companyID);
 }

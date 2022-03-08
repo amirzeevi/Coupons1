@@ -3,6 +3,7 @@ package beans;
 import exceptions.CouponSystemException;
 import exceptions.ErrMsg;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class Coupon {
@@ -17,16 +18,15 @@ public class Coupon {
     private double price;
     private String image;
 
-    public Coupon(int id, int companyID, int categoryValue, String title, String description, Date startDate, Date endDate, int amount, double price, String image) throws CouponSystemException {
+    public Coupon(int id, int companyID, Category category, String title, String description, Date startDate, Date endDate, int amount, double price, String image) throws CouponSystemException {
         this.id = id;
         this.companyID = companyID;
-        this.category = Category.values()[categoryValue - 1];
+        this.category = category;
         this.title = title;
         this.description = description;
         this.startDate = startDate;
-        setEndDate(endDate);
-        setAmount(amount);
-        setPrice(price);
+        this.endDate = endDate;
+        this.price = price;
         this.image = image;
     }
 
@@ -50,11 +50,8 @@ public class Coupon {
         return category;
     }
 
-    public void setCategory(int CategoryValue) throws CouponSystemException {
-        if (CategoryValue - 1 >= Category.values().length || CategoryValue < 1) {
-            throw new CouponSystemException(ErrMsg.CATEGORY.getMsg());
-        }
-        this.category = Category.values()[CategoryValue - 1];
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getTitle() {
@@ -77,10 +74,7 @@ public class Coupon {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) throws CouponSystemException {
-        if (startDate.after(this.endDate)) {
-            throw new CouponSystemException(ErrMsg.COUPON_DATE.getMsg());
-        }
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
@@ -88,10 +82,7 @@ public class Coupon {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) throws CouponSystemException {
-        if (endDate.before(this.startDate)) {
-            throw new CouponSystemException(ErrMsg.COUPON_DATE.getMsg());
-        }
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -99,10 +90,7 @@ public class Coupon {
         return amount;
     }
 
-    public void setAmount(int amount) throws CouponSystemException {
-        if (amount < 0) {
-            throw new CouponSystemException(ErrMsg.COUPON_AMOUNT_NEGATIVE.getMsg());
-        }
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
@@ -110,10 +98,7 @@ public class Coupon {
         return price;
     }
 
-    public void setPrice(double price) throws CouponSystemException {
-        if (price < 1) {
-            throw new CouponSystemException(ErrMsg.COUPON_PRICE.getMsg());
-        }
+    public void setPrice(double price) {
         this.price = price;
     }
 

@@ -6,19 +6,24 @@ import beans.Company;
 import beans.Customer;
 import exceptions.CouponSystemException;
 import exceptions.ErrMsg;
-
-import java.util.*;
+import java.util.List;
 
 
 public class AdminFacade extends ClientFacade {
 
-    public AdminFacade() {
-        this.customerDAO = new CustomerDBDAO();
-        this.companiesDAO = new CompaniesDBDAO();
+    @Override
+    public boolean login(String email, String password) {
+        if (email.equals("admin@admin") && password.equals("admin")) {
+            this.companiesDAO = new CompaniesDBDAO();
+            this.customerDAO = new CustomerDBDAO();
+            return true;
+        }
+        return false;
     }
 
-
     public void addCompany(Company company) throws CouponSystemException {
+
+        checkLogin();
 
         if (this.companiesDAO.isCompanyExists(company)) {
             throw new CouponSystemException(ErrMsg.COMPANY_SAME_EMAIL_NAME.getMsg());
@@ -31,8 +36,10 @@ public class AdminFacade extends ClientFacade {
 
     public void deleteCompany(int companyID) throws CouponSystemException {
 
-        // check company id
-        Company compToDelete = getOneCompany(companyID);
+        checkLogin();
+
+
+        Company compToDelete = getOneCompany(companyID); // check company id
 
         this.companiesDAO.deleteCompany(companyID);
         System.out.println("Company " + compToDelete.getName() + " Deleted");
@@ -40,6 +47,8 @@ public class AdminFacade extends ClientFacade {
 
 
     public void updateCompany(Company company) throws CouponSystemException {
+        checkLogin();
+
 
         Company companyFromDB = getOneCompany(company.getId());
 
@@ -53,31 +62,30 @@ public class AdminFacade extends ClientFacade {
     }
 
 
-    public ArrayList<Company> getAllCompanies() throws CouponSystemException {
+    public List<Company> getAllCompanies() throws CouponSystemException {
+        checkLogin();
 
-        ArrayList<Company> companies = this.companiesDAO.getAllCompanies();
 
-        if (companies.isEmpty()) {
-            throw new CouponSystemException(ErrMsg.LIST.getMsg());
-        }
-
-        return companies;
+        return this.companiesDAO.getAllCompanies();
     }
 
 
     public Company getOneCompany(int companyID) throws CouponSystemException {
+        checkLogin();
+
 
         Company companyFromDB = this.companiesDAO.getOneCompany(companyID);
 
         if (companyFromDB == null) {
             throw new CouponSystemException(ErrMsg.COMPANY_NOT_FOUND.getMsg());
         }
-
         return companyFromDB;
     }
 
 
     public void addCustomer(Customer customer) throws CouponSystemException {
+        checkLogin();
+
 
         if (this.customerDAO.isCustomerEmailExists(customer)) {
             throw new CouponSystemException(ErrMsg.CUSTOMER_ADD.getMsg() + ErrMsg.SAME_EMAIL.getMsg());
@@ -89,6 +97,8 @@ public class AdminFacade extends ClientFacade {
 
 
     public void updateCustomer(Customer customer) throws CouponSystemException {
+        checkLogin();
+
 
         Customer customerFromDB = getOneCustomer(customer.getId());
 
@@ -103,9 +113,10 @@ public class AdminFacade extends ClientFacade {
 
 
     public void deleteCustomer(int customerID) throws CouponSystemException {
+        checkLogin();
 
-        // check customer id
-        getOneCustomer(customerID);
+
+        getOneCustomer(customerID); // check customer id
 
         this.customerDAO.deleteCustomer(customerID);
         System.out.println("Customer #" + customerID + " deleted");
@@ -113,30 +124,29 @@ public class AdminFacade extends ClientFacade {
 
 
     public List<Customer> getAllCustomers() throws CouponSystemException {
+        checkLogin();
 
-        List<Customer> customerList = this.customerDAO.getAllCustomers();
 
-        if (customerList.isEmpty()) {
-            throw new CouponSystemException(ErrMsg.LIST.getMsg());
-        }
-
-        return customerList;
+        return this.customerDAO.getAllCustomers();
     }
 
 
     public Customer getOneCustomer(int customerID) throws CouponSystemException {
+        checkLogin();
+
 
         Customer customerFromDB = this.customerDAO.getOneCustomer(customerID);
 
         if (customerFromDB == null) {
             throw new CouponSystemException(ErrMsg.CUSTOMER_WRONG_ID.getMsg());
         }
-
         return customerFromDB;
     }
 
-    @Override
-    public boolean login(String email, String password) {
-        return email.equals("admin@admin") && password.equals("admin");
+    private void checkLogin() throws CouponSystemException {
+        if (this.companiesDAO == null) {
+            throw new CouponSystemException("You are not logged in properly");
+        }
     }
+
 }

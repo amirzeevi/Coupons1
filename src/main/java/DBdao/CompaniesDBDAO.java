@@ -3,13 +3,33 @@ package DBdao;
 import DB.DBmanager;
 import DB.DBrunQuery;
 import beans.Company;
+import beans.Coupon;
+import dao.CompaniesDAO;
+import dao.CouponsDAO;
+import exceptions.ErrMsg;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-public class CompaniesDBDAO implements dao.CompaniesDAO {
+public class CompaniesDBDAO implements CompaniesDAO {
+
+
+    @Override
+    public int getCompanyId(String email, String password) {
+
+        Map<Integer, Object> values = Map.of(1, email, 2, password);
+        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_COMPANY_ID, values);
+        assert resultSet != null;
+        try {
+            resultSet.next();
+            return resultSet.getInt("id");
+        } catch (SQLException e) {
+            return 0;
+        }
+    }
 
 
     @Override
@@ -17,22 +37,6 @@ public class CompaniesDBDAO implements dao.CompaniesDAO {
 
         Map<Integer, Object> values = Map.of(1, company.getName(), 2, company.getEmail());
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_COMPANY_EXISTS, values);
-        assert resultSet != null;
-        try {
-            resultSet.next();
-            return resultSet.getInt(1) > 0;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-    }
-
-
-    @Override
-    public boolean isCompanyNameExists(Company company) {
-
-        Map<Integer, Object> values = Map.of(1, company.getName());
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_COMPANY_NAME_EXISTS, values);
         assert resultSet != null;
         try {
             resultSet.next();
@@ -85,19 +89,18 @@ public class CompaniesDBDAO implements dao.CompaniesDAO {
 
 
     @Override
-    public ArrayList<Company> getAllCompanies() {
+    public List<Company> getAllCompanies() {
 
         ArrayList<Company> companyList = new ArrayList<>();
+        try {
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ALL_COMPANIES);
 
         assert resultSet != null;
-        while (true) {
-            try {
-                if (!resultSet.next()) break;
+            while (resultSet.next()) {
                 companyList.add(resultSetToCompany(resultSet));
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
             }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
         return companyList;
     }
@@ -111,24 +114,22 @@ public class CompaniesDBDAO implements dao.CompaniesDAO {
 
         assert resultSet != null;
         try {
-            return resultSet.next() ? resultSetToCompany(resultSet) : null;
+            resultSet.next();
+            return resultSetToCompany(resultSet);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
             return null;
         }
     }
 
+    private static Company resultSetToCompany(ResultSet resultSet) throws SQLException {
 
-    private static Company resultSetToCompany(ResultSet resultSet) {
-
-        try {
+            CouponsDAO couponsDAO = new CouponDBDAO();
+            List<Coupon> companyCoupon = (couponsDAO.getCompanyCoupons(resultSet.getInt(("id"))));
             return new Company(resultSet.getInt(("id")),
                     resultSet.getString("name"),
                     resultSet.getString("email"),
-                    resultSet.getString("password"));
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
+                    resultSet.getString("password"),
+                    companyCoupon);
+
     }
 }

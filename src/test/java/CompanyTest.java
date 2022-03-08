@@ -2,6 +2,7 @@ import beans.Category;
 import beans.ClientType;
 import beans.Coupon;
 import exceptions.CouponSystemException;
+import facade.ClientFacade;
 import facade.CompanyFacade;
 import facade.LoginManager;
 import org.junit.Test;
@@ -12,16 +13,13 @@ import java.time.LocalDate;
 
 public class CompanyTest {
 
-    CompanyFacade companyFacade = new CompanyFacade(4);
+    CompanyFacade companyFacade = (CompanyFacade) LoginManager.getInstance().login("company@com", "password", ClientType.COMPANY);
 
-    public CompanyTest() {
-    }
 
     @Test
     public void Login() {
         try {
-            //need to also add company id in Login Manager
-            LoginManager.getInstance().login("my.email@com", "1234", ClientType.COMPANY, 4);
+            LoginManager.getInstance().login("company@com", "password", ClientType.COMPANY);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -31,7 +29,7 @@ public class CompanyTest {
     @Test
     public void AddCoupon() {
         try {
-            Coupon couponToAdd = new Coupon(0, 4, Category.ELECTRICITY.value, "Electric2 Bike", "myDescription", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(14)), 20, 99.99, "image");
+            Coupon couponToAdd = new Coupon(0, 6, Category.ELECTRICITY, "Electric Bike2", "myDescription", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(14)), 20, 99.99, "image");
             companyFacade.addCoupon(couponToAdd);
         } catch (Exception e) {
             assert (true);
@@ -54,7 +52,7 @@ public class CompanyTest {
     @Test
     public void DeleteCoupon() {
         try {
-            companyFacade.deleteCoupon(3);
+            companyFacade.deleteCoupon(12);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -64,7 +62,7 @@ public class CompanyTest {
     @Test
     public void getOneCoupon() {
         try {
-            System.out.println(companyFacade.getOneCoupon(4));
+            System.out.println(companyFacade.getOneCoupon(10));
         } catch (CouponSystemException e) {
             assert (true);
             System.out.println(e.getMessage());

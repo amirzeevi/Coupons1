@@ -1,7 +1,7 @@
 package facade;
 
-import DBdao.CustomerDBDAO;
 import DBdao.CouponDBDAO;
+import DBdao.CustomerDBDAO;
 import beans.Category;
 import beans.Customer;
 import beans.Coupon;
@@ -10,21 +10,31 @@ import exceptions.ErrMsg;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CustomerFacade extends ClientFacade {
-    private final int customerID;
+    private int customerID;
 
-    public CustomerFacade(int customerID) {
-        this.customerID = customerID;
+
+    @Override
+    public boolean login(String email, String password) {
         this.customerDAO = new CustomerDBDAO();
+        int customerId = this.customerDAO.getCustomerId(email, password);
+
+        if (customerId == 0) {
+            this.customerDAO = null;
+            return false;
+        }
         this.couponDAO = new CouponDBDAO();
+        this.customerID = customerId;
+        return true;
     }
 
 
     public void purchaseCoupon(Coupon coupon) throws CouponSystemException {
+        checkLogin();
 
         // because can't delete expired coupons at exactly midnight using cron ?, should check if expired
         if (coupon.getEndDate().before(Date.valueOf(LocalDate.now()))) {
@@ -41,71 +51,47 @@ public class CustomerFacade extends ClientFacade {
             throw new CouponSystemException(ErrMsg.COUPON_AMOUNT.getMsg());
         }
 
+        getCustomerDetails().getCoupons().add(couponToPurchase);
+
         this.couponDAO.addCouponsPurchase(this.customerID, coupon.getId());
         System.out.println("Coupon " + coupon.getTitle() + " purchased");
+
         couponToPurchase.setAmount(couponToPurchase.getAmount() - 1);
         this.couponDAO.updateCoupon(couponToPurchase);
     }
 
 
-    public ArrayList<Coupon> getCostumerCoupons() throws CouponSystemException {
-
-        Customer thisCustomer = this.customerDAO.getOneCustomer(customerID);
-
-        ArrayList<Coupon> costumerCoupon = this.couponDAO.getCostumerCoupons(thisCustomer);
-
-        if (costumerCoupon.isEmpty()) {
-            throw new CouponSystemException(ErrMsg.LIST.getMsg());
-        }
-
-        return costumerCoupon;
+    public List<Coupon> getCustomerCoupons() throws CouponSystemException {
+        checkLogin();
+        return this.couponDAO.getCostumerCoupons(customerID);
     }
 
 
-    public ArrayList<Coupon> getCustomerCoupon(Category category) throws CouponSystemException {
-
-        List<Coupon> categoryCoupons = getCostumerCoupons().stream()
+    public List<Coupon> getCustomerCoupon(Category category) throws CouponSystemException {
+        checkLogin();
+        return getCustomerCoupons().stream()
                 .filter(coupon -> coupon.getCategory().equals(category))
                 .collect(Collectors.toList());
-
-        if (categoryCoupons.isEmpty()) {
-            throw new CouponSystemException(ErrMsg.LIST.getMsg());
-        }
-
-        return (ArrayList<Coupon>) categoryCoupons;
     }
 
 
-    public ArrayList<Coupon> getCustomerCoupon(double maxPrice) throws CouponSystemException {
-
-        List<Coupon> maxPriceCoupons = getCostumerCoupons().stream()
+    public List<Coupon> getCustomerCoupon(double maxPrice) throws CouponSystemException {
+        checkLogin();
+        return getCustomerCoupons().stream()
                 .filter(coupon -> coupon.getPrice() <= maxPrice)
                 .collect(Collectors.toList());
-
-        if (maxPriceCoupons.isEmpty()) {
-            throw new CouponSystemException(ErrMsg.LIST.getMsg());
-        }
-
-        return (ArrayList<Coupon>) maxPriceCoupons;
     }
 
 
-    public Customer getCustomerDetails() {
-
+    public Customer getCustomerDetails() throws CouponSystemException {
+        checkLogin();
         return this.customerDAO.getOneCustomer(customerID);
     }
 
 
-    @Override
-    public boolean login(String email, String password) throws CouponSystemException {
-
-        Customer customerFromFB = this.customerDAO.getOneCustomer(customerID);
-
-        if (customerFromFB == null) {
-            throw new CouponSystemException(ErrMsg.LOGIN.getMsg());
+    private void checkLogin() throws CouponSystemException {
+        if (this.customerDAO == null) {
+            throw new CouponSystemException("You are not logged in properly");
         }
-
-        return customerFromFB.getEmail().equals(email) &&
-                customerFromFB.getPassword().equals(password);
     }
 }
