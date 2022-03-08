@@ -1,7 +1,7 @@
 package beans;
 
 import exceptions.CouponSystemException;
-import exceptions.ErrMsg;
+
 import java.util.List;
 
 /**
@@ -32,7 +32,7 @@ public class Customer {
     }
 
     public void setId(int id) throws CouponSystemException {
-        throw new CouponSystemException(ErrMsg.CUSTOMER_ID_CHANGE.getMsg());
+        throw new CouponSystemException("You can not change customer id");
     }
 
     public String getFirstName() {

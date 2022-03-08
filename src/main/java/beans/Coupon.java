@@ -1,9 +1,7 @@
 package beans;
 
 import exceptions.CouponSystemException;
-import exceptions.ErrMsg;
 
-import java.util.Arrays;
 import java.util.Date;
 
 public class Coupon {
@@ -26,6 +24,7 @@ public class Coupon {
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.amount = amount;
         this.price = price;
         this.image = image;
     }
@@ -35,7 +34,7 @@ public class Coupon {
     }
 
     public void setId(int id) throws CouponSystemException {
-        throw new CouponSystemException(ErrMsg.CUSTOMER_ID_CHANGE.getMsg());
+        throw new CouponSystemException("You can not change coupon id");
     }
 
     public int getCompanyID() {
@@ -43,7 +42,7 @@ public class Coupon {
     }
 
     public void setCompanyID(int companyID) throws CouponSystemException {
-        throw new CouponSystemException(ErrMsg.COUPON_COMPANY_ID_CHANGE.getMsg());
+        throw new CouponSystemException("You can not change coupon company id");
     }
 
     public Category getCategory() {

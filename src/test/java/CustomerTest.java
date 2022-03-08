@@ -12,9 +12,6 @@ public class CustomerTest {
 
     CustomerFacade customerFacade =(CustomerFacade) LoginManager.getInstance().login("my.email@com", "password", ClientType.COSTUMER);
 
-    public CustomerTest() throws CouponSystemException {
-    }
-
     @Test
     public void Login() {
         try {

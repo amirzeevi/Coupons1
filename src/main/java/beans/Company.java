@@ -1,7 +1,6 @@
 package beans;
 
 import exceptions.CouponSystemException;
-import exceptions.ErrMsg;
 
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class Company {
      * Can not change company name. will throw an exception
      */
     public void setName(String name) throws CouponSystemException {
-        throw new CouponSystemException(ErrMsg.COMPANY_NAME_CHANGE.getMsg());
+        throw new CouponSystemException("You can not change company name");
     }
 
     /**
@@ -95,7 +94,7 @@ public class Company {
      * Can not set company id. will throw Coupon exception
      */
     public void setId(int id) throws CouponSystemException {
-        throw new CouponSystemException(ErrMsg.COMPANY_ID_CHANGE.getMsg());
+        throw new CouponSystemException("You can not change company id");
     }
 
     public List<Coupon> getCoupons() {

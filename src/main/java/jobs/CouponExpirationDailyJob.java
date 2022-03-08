@@ -42,9 +42,8 @@ public class CouponExpirationDailyJob implements Runnable {
 
         while (!quit) {
             try {
-                this.couponDAO.getAllCoupons().stream()
-                        .filter(coupon -> coupon.getEndDate().before(coupon.getStartDate()))
-                        .forEach(coupon -> this.couponDAO.deleteCoupon(coupon.getId()));
+
+                this.couponDAO.deleteExpiredCoupons();
 
                 Thread.sleep(1000 * 60 * 60 * 24);
             } catch (InterruptedException e) {

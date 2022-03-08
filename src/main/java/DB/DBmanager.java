@@ -91,6 +91,8 @@ public class DBmanager {
     public static final String DROP_COMPANY = "DELETE FROM `myDataBase`.`companies` WHERE id = ? ";
     public static final String GET_ALL_COMPANIES = "SELECT*FROM `myDataBase`.`companies` ";
     public static final String GET_ONE_COMPANY = "SELECT*FROM `myDataBase`.`companies` WHERE id = ?";
+    public static final String GET_COMPANY_COUPON_CATEGORY = "SELECT * FROM `myDataBase`.`coupons` WHERE category_id = ? AND company_id = ? ";
+    public static final String GET_COMPANY_COUPON_MAX_PRICE = "SELECT * FROM `myDataBase`.`coupons` WHERE price <= ? AND company_id = ? ";
 
 
     public static final String GET_CUSTOMER_ID = "SELECT id FROM `myDataBase`.`costumers` WHERE email = ? AND password = ?";
@@ -100,9 +102,11 @@ public class DBmanager {
     public static final String DROP_COSTUMER = "DELETE FROM `myDataBase`.`costumers` WHERE id = ? ";
     public static final String GET_ALL_COSTUMERS = "SELECT*FROM `myDataBase`.`costumers` ";
     public static final String GET_ONE_COSTUMER = "SELECT*FROM `myDataBase`.`costumers` WHERE id = ?";
+    public static final String GET_CUSTOMER_COUPON_CATEGORY = "SELECT * FROM `myDataBase`.`costumers_coupons`, `myDataBase`.`coupons`  WHERE category_id = ? AND costumer_id = ? ";
+    public static final String GET_CUSTOMER_COUPON_MAX_PRICE = "SELECT * FROM `myDataBase`.`costumers_coupons`, `myDataBase`.`coupons`  WHERE AND price <= ? AND costumer_id = ? ";
 
 
-    public static final String IS_COUPON_EXISTS = "SELECT count(*) FROM `myDataBase`.`coupons` WHERE company_id = ? AND category_id = ? AND title = ? AND description = ? AND start_date = ? AND end_date = ? AND amount = ? AND price = ? AND image = ? ";
+    public static final String DELETE_EXPIRED_COUPONS = "DELETE FROM `myDataBase`.`coupons` WHERE start_date > end_date";
     public static final String IS_COUPON_COMPANY_EXISTS = "SELECT count(*) FROM `myDataBase`.`coupons` WHERE company_id = ? AND title = ? ";
     public static final String ADD_COUPON = "INSERT INTO `myDataBase`.`coupons` (`company_id`, `category_id`, `title`, `description`, `start_date`, `end_date`, `amount`, `price`, `image`) VALUES (?,?,?,?,?,?,?,?,?) ";
     public static final String DELETE_COUPON = "DELETE FROM `myDataBase`.`coupons` WHERE id = ? ";
@@ -111,7 +115,6 @@ public class DBmanager {
     public static final String GET_ALL_COUPONS = "SELECT*FROM `myDataBase`.`coupons` ";
     public static final String GET_COMPANY_COUPONS = "SELECT*FROM `myDataBase`.`coupons` WHERE  company_id = ?";
     public static final String ADD_COUPON_PURCHASE = "INSERT INTO `myDataBase`.`costumers_coupons` (`costumer_id`, `coupon_id`) VALUES (?, ?) ";
-    public static final String DELETE_COUPON_PURCHASE = "DELETE FROM `myDataBase`.`costumers_coupons` WHERE coupon_id = ? OR costumer_id = ? ";
     public static final String GET_COSTUMER_COUPONS = "SELECT*FROM `myDataBase`.`costumers_coupons` WHERE costumer_id = ?";
     public static final String IS_COSTUMER_COUPON_EXISTS = "SELECT count(*) FROM `myDataBase`.`costumers_coupons` WHERE costumer_id = ? AND coupon_id = ? ";
 }

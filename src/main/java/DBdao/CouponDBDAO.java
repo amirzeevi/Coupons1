@@ -90,6 +90,79 @@ public class CouponDBDAO implements CouponsDAO {
         return coupons;
     }
 
+    @Override
+    public List<Coupon> getCompanyCouponsByCategory(Category category, int companyId) {
+        Map<Integer, Object> values = Map.of(1, category.value, 2, companyId);
+        List<Coupon> categoryCoupons = new ArrayList<>();
+        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_COMPANY_COUPON_CATEGORY, values);
+
+        assert resultSet != null;
+        try {
+            while (resultSet.next()) {
+                categoryCoupons.add(resultSetToCoupon(resultSet));
+            }
+        } catch (SQLException | CouponSystemException e) {
+            System.out.println(e.getMessage());
+        }
+        return categoryCoupons;
+    }
+
+    @Override
+    public List<Coupon> getCompanyCouponByMaxPrice(double maxPrice, int companyId) {
+        Map<Integer, Object> values = Map.of(1, maxPrice, 2, companyId);
+        List<Coupon> maxPriceCoupons = new ArrayList<>();
+        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_COMPANY_COUPON_MAX_PRICE, values);
+
+        assert resultSet != null;
+        try {
+            while (resultSet.next()) {
+                maxPriceCoupons.add(resultSetToCoupon(resultSet));
+            }
+        } catch (SQLException | CouponSystemException e) {
+            System.out.println(e.getMessage());
+        }
+        return maxPriceCoupons;
+    }
+
+    @Override
+    public List<Coupon> getCustomerCouponsByCategory(Category category, int customerId) {
+        Map<Integer, Object> values = Map.of(1, category.value, 2, customerId);
+        List<Coupon> categoryCoupons = new ArrayList<>();
+        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_CUSTOMER_COUPON_CATEGORY, values);
+
+        assert resultSet != null;
+        try {
+            while (resultSet.next()) {
+                categoryCoupons.add(resultSetToCoupon(resultSet));
+            }
+        } catch (SQLException | CouponSystemException e) {
+            System.out.println(e.getMessage());
+        }
+        return categoryCoupons;
+    }
+
+
+    @Override
+    public List<Coupon> getCustomerCouponByMaxPrice(double maxPrice, int customerId) {
+        Map<Integer, Object> values = Map.of(1, maxPrice, 2, customerId);
+        List<Coupon> maxPriceCoupons = new ArrayList<>();
+        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_CUSTOMER_COUPON_MAX_PRICE, values);
+
+        assert resultSet != null;
+        try {
+            while (resultSet.next()) {
+                maxPriceCoupons.add(resultSetToCoupon(resultSet));
+            }
+        } catch (SQLException | CouponSystemException e) {
+            System.out.println(e.getMessage());
+        }
+        return maxPriceCoupons;
+    }
+
+    @Override
+    public void deleteExpiredCoupons() {
+        DBrunQuery.runQuery(DBmanager.DELETE_EXPIRED_COUPONS);
+    }
 
     @Override
     public List<Coupon> getCostumerCoupons(int customerId) {

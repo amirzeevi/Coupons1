@@ -6,7 +6,6 @@ import beans.Company;
 import beans.Coupon;
 import dao.CompaniesDAO;
 import dao.CouponsDAO;
-import exceptions.ErrMsg;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

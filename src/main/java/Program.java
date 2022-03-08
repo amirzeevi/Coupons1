@@ -1,8 +1,15 @@
 
 import DBdao.CouponDBDAO;
+import beans.Category;
+import beans.ClientType;
+import beans.Company;
 import beans.Coupon;
 import dao.CouponsDAO;
+import exceptions.CouponSystemException;
+import exceptions.LogInException;
 import facade.AdminFacade;
+import facade.CompanyFacade;
+import facade.LoginManager;
 import jobs.CouponExpirationDailyJob;
 
 import java.sql.Date;
@@ -14,7 +21,7 @@ import java.util.stream.Collectors;
 
 public class Program {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CouponSystemException, LogInException {
 //        DBrunQuery.runQuery(DBmanager.CREATE_SCHEMA);
 //        DBrunQuery.runQuery(DBmanager.CREATE_COMPANIES_TABLE);
 //        DBrunQuery.runQuery(DBmanager.CREATE_COSTUMERS_TABLE);
@@ -27,19 +34,15 @@ public class Program {
 //            DBrunQuery.runQuery(DBmanager.ADD_CATEGORY, values);
 //        }
 
-//
-//        CouponExpirationDailyJob couponExpirationDailyJob = new CouponExpirationDailyJob();
-//        Thread t = new Thread(couponExpirationDailyJob);
-//        t.start();
-//        try {
-//            Thread.sleep(3000);
-//        } catch (InterruptedException ignored) {
-//        }
-//        couponExpirationDailyJob.stop();
-        CouponsDAO couponsDAO = new CouponDBDAO();
-        couponsDAO.getAllCoupons().stream()
-                .filter(coupon -> coupon.getStartDate().after(coupon.getEndDate()))
-                .forEach(coupon -> couponsDAO.deleteCoupon(coupon.getId()));
+//        AdminFacade adminFacade = (AdminFacade) LoginManager.getInstance().login("admin@admin", "admin", ClientType.ADMINISTRATOR);
+        CompanyFacade companyFacade = (CompanyFacade)LoginManager.getInstance().login("company@com", "password", ClientType.COMPANY);
+//        Company company = adminFacade.getOneCompany(6);
+//        Coupon coupon = company.getCoupons().get(0);
+//        System.out.println(coupon);
+//        coupon.setPrice(200.50);
+//        companyFacade.updateCoupon(coupon);
+//        company.getCoupons().forEach(System.out::println);
+        companyFacade.getCompanyCoupons(Category.ELECTRICITY).forEach(System.out::println);
     }
 }
 

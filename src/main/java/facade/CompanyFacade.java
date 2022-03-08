@@ -6,11 +6,9 @@ import beans.Category;
 import beans.Company;
 import beans.Coupon;
 import exceptions.CouponSystemException;
-import exceptions.ErrMsg;
+import exceptions.LogInException;
 
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class CompanyFacade extends ClientFacade {
     private int companyID;
@@ -30,104 +28,90 @@ public class CompanyFacade extends ClientFacade {
         return true;
     }
 
-    public void addCoupon(Coupon coupon) throws CouponSystemException {
-
-        checkLogin();
+    public void addCoupon(Coupon coupon) throws CouponSystemException, LogInException {
+        checkLoggedIn();
         checkCouponInfo(coupon);
 
         if (this.couponDAO.isCouponCompanyExists(coupon)) {
-            throw new CouponSystemException(ErrMsg.COUPON_ADD.getMsg() + ErrMsg.COUPON_TITLE_EXISTS.getMsg());
+            throw new CouponSystemException("Can not add - coupon already exists");
         }
 
         getCompanyDetails().getCoupons().add(coupon);
         this.couponDAO.addCoupons(coupon);
 
-        System.out.println("Coupon " + coupon.getTitle() + " added");
+        System.out.println("Coupon added");
     }
 
 
-    public void updateCoupon(Coupon coupon) throws CouponSystemException {
+    public void updateCoupon(Coupon coupon) throws CouponSystemException, LogInException {
 
-        checkLogin();
+        checkLoggedIn();
         checkCouponInfo(coupon);
 
         Coupon couponFromDB = getOneCoupon(coupon.getId());
 
         if (!(couponFromDB.getTitle().equals(coupon.getTitle()))) {
             if (this.couponDAO.isCouponCompanyExists(coupon)) {
-                throw new CouponSystemException(ErrMsg.COUPON_TITLE_EXISTS.getMsg());
+                throw new CouponSystemException("Can not update coupon to existing title");
             }
         }
 
         getCompanyDetails().getCoupons().stream().
-                filter(couponFromList -> couponFromList.getId() == coupon.getId())
-                .forEach(couponFromList -> couponFromList = coupon);
+                filter(listCoupon -> listCoupon.getId() == coupon.getId())
+                .forEach(listCoupon -> listCoupon = coupon);
 
         this.couponDAO.updateCoupon(coupon);
-        System.out.println("Coupon " + coupon.getTitle() + " updated");
+        System.out.println("Coupon updated");
     }
 
 
-    public void deleteCoupon(int couponID) throws CouponSystemException {
+    public void deleteCoupon(int couponID) throws CouponSystemException, LogInException {
 
-        checkLogin();
-
+        checkLoggedIn();
         Coupon couponFromDB = getOneCoupon(couponID);
 
         if (couponFromDB.getCompanyID() != companyID) {
-            throw new CouponSystemException("This coupon does not belong to this company");
+            throw new CouponSystemException("Coupon does not belong to this company");
         }
 
         getCompanyDetails().getCoupons().removeIf(coupon -> coupon.getId() == couponID);
 
         this.couponDAO.deleteCoupon(couponID);
-        System.out.println("Coupon " + couponFromDB.getTitle() + " deleted");
+        System.out.println("Coupon deleted");
     }
 
 
-    public List<Coupon> getCompanyCoupons() throws CouponSystemException {
-        checkLogin();
-
+    public List<Coupon> getCompanyCoupons() throws LogInException {
+        checkLoggedIn();
         return this.couponDAO.getCompanyCoupons(companyID);
     }
 
 
-    public List<Coupon> getCompanyCoupons(Category category) throws CouponSystemException {
-        checkLogin();
-
-        Predicate<Coupon> categoryCoupons = coupon -> coupon.getCategory().equals(category);
-
-        return this.couponDAO.getCompanyCoupons(companyID).stream()
-                .filter(categoryCoupons)
-                .collect(Collectors.toList());
+    public List<Coupon> getCompanyCoupons(Category category) throws LogInException {
+        checkLoggedIn();
+        return this.couponDAO.getCompanyCouponsByCategory(category, companyID);
     }
 
 
-    public List<Coupon> getCompanyCoupons(double maxPrice) throws CouponSystemException {
-        checkLogin();
-
-        Predicate<Coupon> maxPriceCoupons = coupon -> coupon.getPrice() <= maxPrice;
-
-        return this.couponDAO.getCompanyCoupons(companyID).stream()
-                .filter(maxPriceCoupons)
-                .collect(Collectors.toList());
+    public List<Coupon> getCompanyCoupons(double maxPrice) throws  LogInException {
+        checkLoggedIn();
+        return this.couponDAO.getCompanyCouponByMaxPrice(maxPrice, companyID);
     }
 
 
-    public Company getCompanyDetails() throws CouponSystemException {
-        checkLogin();
-
+    public Company getCompanyDetails() throws LogInException {
+        checkLoggedIn();
         return this.companiesDAO.getOneCompany(companyID);
     }
 
 
-    public Coupon getOneCoupon(int couponID) throws CouponSystemException {
-        checkLogin();
+    public Coupon getOneCoupon(int couponID) throws CouponSystemException, LogInException {
+        checkLoggedIn();
 
         Coupon couponFromDB = this.couponDAO.getOneCoupon(couponID);
 
         if (couponFromDB == null) {
-            throw new CouponSystemException(ErrMsg.COUPON_NOT_EXISTS.getMsg());
+            throw new CouponSystemException("Coupon not found");
         }
         return couponFromDB;
     }
@@ -136,7 +120,7 @@ public class CompanyFacade extends ClientFacade {
     private void checkCouponInfo(Coupon coupon) throws CouponSystemException {
 
         if (coupon.getCompanyID() != companyID) {
-            throw new CouponSystemException("Company id is not correct");
+            throw new CouponSystemException("Company id  incorrect");
         }
         if (coupon.getStartDate().after(coupon.getEndDate())) {
             throw new CouponSystemException("Coupon date incorrect");
@@ -144,14 +128,14 @@ public class CompanyFacade extends ClientFacade {
         if (coupon.getPrice() < 0) {
             throw new CouponSystemException("Coupon price should be positive");
         }
-        if (coupon.getAmount() < 0) {
+        if (coupon.getAmount() < 1) {
             throw new CouponSystemException("Coupon amount should be positive");
         }
     }
 
-    private void checkLogin() throws CouponSystemException {
+    private void checkLoggedIn() throws  LogInException {
         if (this.couponDAO == null) {
-            throw new CouponSystemException("You are not logged in properly");
+            throw new LogInException("You are not logged in");
         }
     }
 }

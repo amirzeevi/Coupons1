@@ -2,6 +2,7 @@ import beans.Category;
 import beans.ClientType;
 import beans.Coupon;
 import exceptions.CouponSystemException;
+import exceptions.LogInException;
 import facade.ClientFacade;
 import facade.CompanyFacade;
 import facade.LoginManager;
@@ -29,7 +30,7 @@ public class CompanyTest {
     @Test
     public void AddCoupon() {
         try {
-            Coupon couponToAdd = new Coupon(0, 6, Category.ELECTRICITY, "Electric Bike2", "myDescription", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(14)), 20, 99.99, "image");
+            Coupon couponToAdd = new Coupon(0, 6, Category.ELECTRICITY, "Electric Bik23e", "myDescription", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(12)), 20, 99.99, "image");
             companyFacade.addCoupon(couponToAdd);
         } catch (Exception e) {
             assert (true);
@@ -40,8 +41,8 @@ public class CompanyTest {
     @Test
     public void UpdateCoupon() {
         try {
-            Coupon existsCoupons = companyFacade.getCompanyCoupons().get(0);
-            existsCoupons.setStartDate(Date.valueOf(LocalDate.now().plusDays(20)));
+            Coupon existsCoupons = companyFacade.getCompanyCoupons().get(1);
+            existsCoupons.setPrice(20);
             companyFacade.updateCoupon(existsCoupons);
         } catch (Exception e) {
             assert (true);
@@ -52,7 +53,7 @@ public class CompanyTest {
     @Test
     public void DeleteCoupon() {
         try {
-            companyFacade.deleteCoupon(12);
+            companyFacade.deleteCoupon(18);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -62,8 +63,8 @@ public class CompanyTest {
     @Test
     public void getOneCoupon() {
         try {
-            System.out.println(companyFacade.getOneCoupon(10));
-        } catch (CouponSystemException e) {
+            System.out.println(companyFacade.getOneCoupon(19));
+        } catch (CouponSystemException | LogInException e) {
             assert (true);
             System.out.println(e.getMessage());
         }

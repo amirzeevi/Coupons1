@@ -2,6 +2,7 @@ import beans.ClientType;
 import beans.Company;
 import beans.Customer;
 
+import exceptions.CouponSystemException;
 import facade.AdminFacade;
 import facade.LoginManager;
 import org.junit.Test;

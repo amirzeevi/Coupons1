@@ -3,7 +3,6 @@ import org.junit.Test;
 
 public class JobsTest {
 
-
     @Test public void dailyCouponDelete(){
         CouponExpirationDailyJob couponExpirationDailyJob = new CouponExpirationDailyJob();
         Thread t = new Thread(couponExpirationDailyJob);
