@@ -95,7 +95,7 @@ public class CompanyFacade extends ClientFacade {
 
     public List<Coupon> getCompanyCoupons(double maxPrice) throws  LogInException {
         checkLoggedIn();
-        return this.couponDAO.getCompanyCouponByMaxPrice(maxPrice, companyID);
+        return this.couponDAO.getCompanyCouponsByMaxPrice(maxPrice, companyID);
     }
 
 

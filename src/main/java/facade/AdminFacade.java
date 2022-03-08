@@ -55,7 +55,7 @@ public class AdminFacade extends ClientFacade {
 
         if (!companyFromDB.getEmail().equals(company.getEmail())) {
             if (this.companiesDAO.isCompanyEmailExists(company)) {
-                throw new CouponSystemException("Can not update company to existing company name");
+                throw new CouponSystemException("Can not update - Email already exists");
             }
         }
         this.companiesDAO.updateCompany(company);

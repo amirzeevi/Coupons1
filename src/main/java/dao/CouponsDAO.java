@@ -25,17 +25,18 @@ public interface CouponsDAO {
 
     List<Coupon> getAllCoupons();
 
-    List<Coupon> getCompanyCouponsByCategory(Category category, int companyId);
-
-    List<Coupon> getCompanyCouponByMaxPrice(double MaxPrice, int companyId);
-
-    List<Coupon> getCustomerCouponsByCategory(Category category, int customerId);
-
-    List<Coupon> getCustomerCouponByMaxPrice(double maxPrice, int customerId);
-
     List<Coupon> getCompanyCoupons(int companyID);
 
     List<Coupon> getCostumerCoupons(int customerId);
+
+    List<Coupon> getCompanyCouponsByCategory(Category category, int companyId);
+
+    List<Coupon> getCompanyCouponsByMaxPrice(double MaxPrice, int companyId);
+
+    List<Coupon> getCustomerCouponsByCategory(Category category, int customerId);
+
+    List<Coupon> getCustomerCouponsByMaxPrice(double maxPrice, int customerId);
+
 
 
 }

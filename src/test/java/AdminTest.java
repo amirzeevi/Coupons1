@@ -43,7 +43,7 @@ public class AdminTest {
     public void UpdateCompany() {
         try {
             Company companyExists = adminFacade.getAllCompanies().get(0);
-            companyExists.setPassword("password");
+            companyExists.setEmail("company2@com");
             adminFacade.updateCompany(companyExists);
         } catch (Exception e) {
             assert (true);

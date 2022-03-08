@@ -38,7 +38,7 @@ public class CustomerDBDAO implements CustomersDAO {
         assert resultSet != null;
         try {
             resultSet.next();
-            return resultSet.getInt(1) == 1;
+            return resultSet.getInt("counter") == 1;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return false;

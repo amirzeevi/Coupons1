@@ -39,7 +39,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
         assert resultSet != null;
         try {
             resultSet.next();
-            return resultSet.getInt(1) == 1;
+            return resultSet.getInt("counter") == 1;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return false;
@@ -55,7 +55,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
         assert resultSet != null;
         try {
             resultSet.next();
-            return resultSet.getInt(1) == 1;
+            return resultSet.getInt("counter") == 1;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return false;
@@ -65,7 +65,6 @@ public class CompaniesDBDAO implements CompaniesDAO {
 
     @Override
     public void addCompany(Company company) {
-
         Map<Integer, Object> map = Map.of(1, company.getName(), 2, company.getEmail(), 3, company.getPassword());
         DBrunQuery.runQuery(DBmanager.ADD_COMPANY, map);
     }
@@ -73,7 +72,6 @@ public class CompaniesDBDAO implements CompaniesDAO {
 
     @Override
     public void updateCompany(Company company) {
-
         Map<Integer, Object> map = Map.of(1, company.getEmail(), 2, company.getPassword(), 3, company.getId());
         DBrunQuery.runQuery(DBmanager.UPDATE_COMPANY, map);
     }
@@ -81,7 +79,6 @@ public class CompaniesDBDAO implements CompaniesDAO {
 
     @Override
     public void deleteCompany(int companyID) {
-
         Map<Integer, Object> map = Map.of(1, companyID);
         DBrunQuery.runQuery(DBmanager.DROP_COMPANY, map);
     }
@@ -120,8 +117,8 @@ public class CompaniesDBDAO implements CompaniesDAO {
         }
     }
 
-    private static Company resultSetToCompany(ResultSet resultSet) throws SQLException {
 
+    private static Company resultSetToCompany(ResultSet resultSet) throws SQLException {
             CouponsDAO couponsDAO = new CouponDBDAO();
             List<Coupon> companyCoupon = (couponsDAO.getCompanyCoupons(resultSet.getInt(("id"))));
             return new Company(resultSet.getInt(("id")),

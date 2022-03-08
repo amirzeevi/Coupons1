@@ -1,7 +1,6 @@
 package facade;
 
 import beans.ClientType;
-import exceptions.CouponSystemException;
 
 
 public class LoginManager {
@@ -28,9 +27,11 @@ public class LoginManager {
                 System.out.println("Invalid input");
                 return null;
         }
+
         if (facade.login(email, password)) {
             return facade;
         }
+
         System.out.println("Email or Password incorrect");
         return null;
     }

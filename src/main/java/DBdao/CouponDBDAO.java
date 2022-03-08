@@ -66,7 +66,6 @@ public class CouponDBDAO implements CouponsDAO {
 
     @Override
     public void deleteCoupon(int couponID) {
-
         Map<Integer, Object> values = Map.of(1, couponID);
         DBrunQuery.runQuery(DBmanager.DELETE_COUPON, values);
     }
@@ -74,7 +73,6 @@ public class CouponDBDAO implements CouponsDAO {
 
     @Override
     public List<Coupon> getAllCoupons() {
-
         ArrayList<Coupon> coupons = new ArrayList<>();
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ALL_COUPONS);
 
@@ -89,6 +87,7 @@ public class CouponDBDAO implements CouponsDAO {
         }
         return coupons;
     }
+
 
     @Override
     public List<Coupon> getCompanyCouponsByCategory(Category category, int companyId) {
@@ -107,8 +106,9 @@ public class CouponDBDAO implements CouponsDAO {
         return categoryCoupons;
     }
 
+
     @Override
-    public List<Coupon> getCompanyCouponByMaxPrice(double maxPrice, int companyId) {
+    public List<Coupon> getCompanyCouponsByMaxPrice(double maxPrice, int companyId) {
         Map<Integer, Object> values = Map.of(1, maxPrice, 2, companyId);
         List<Coupon> maxPriceCoupons = new ArrayList<>();
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_COMPANY_COUPON_MAX_PRICE, values);
@@ -123,6 +123,7 @@ public class CouponDBDAO implements CouponsDAO {
         }
         return maxPriceCoupons;
     }
+
 
     @Override
     public List<Coupon> getCustomerCouponsByCategory(Category category, int customerId) {
@@ -143,7 +144,7 @@ public class CouponDBDAO implements CouponsDAO {
 
 
     @Override
-    public List<Coupon> getCustomerCouponByMaxPrice(double maxPrice, int customerId) {
+    public List<Coupon> getCustomerCouponsByMaxPrice(double maxPrice, int customerId) {
         Map<Integer, Object> values = Map.of(1, maxPrice, 2, customerId);
         List<Coupon> maxPriceCoupons = new ArrayList<>();
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_CUSTOMER_COUPON_MAX_PRICE, values);
@@ -159,10 +160,12 @@ public class CouponDBDAO implements CouponsDAO {
         return maxPriceCoupons;
     }
 
+
     @Override
     public void deleteExpiredCoupons() {
         DBrunQuery.runQuery(DBmanager.DELETE_EXPIRED_COUPONS);
     }
+
 
     @Override
     public List<Coupon> getCostumerCoupons(int customerId) {
@@ -190,7 +193,7 @@ public class CouponDBDAO implements CouponsDAO {
 
         Map<Integer, Object> values = Map.of(1, couponID);
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ONE_COUPON, values);
-        Coupon coupon = null;
+        Coupon coupon;
         assert resultSet != null;
         try {
             resultSet.next();
@@ -204,7 +207,6 @@ public class CouponDBDAO implements CouponsDAO {
 
     @Override
     public void addCouponsPurchase(int costumerID, int couponID) {
-
         Map<Integer, Object> values = Map.of(1, costumerID, 2, couponID);
         DBrunQuery.runQuery(DBmanager.ADD_COUPON_PURCHASE, values);
     }
@@ -212,7 +214,6 @@ public class CouponDBDAO implements CouponsDAO {
 
     @Override
     public List<Coupon> getCompanyCoupons(int companyID) {
-
         List<Coupon> companyCoupons = new ArrayList<>();
         Map<Integer, Object> values = Map.of(1, companyID);
 
@@ -233,9 +234,7 @@ public class CouponDBDAO implements CouponsDAO {
 
     @Override
     public boolean isCostumerCouponExists(int costumerID, int couponID) {
-
         Map<Integer, Object> values = Map.of(1, costumerID, 2, couponID);
-
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_COSTUMER_COUPON_EXISTS, values);
         assert resultSet != null;
         try {
@@ -249,7 +248,6 @@ public class CouponDBDAO implements CouponsDAO {
 
 
     private Coupon resultSetToCoupon(ResultSet resultSet) throws SQLException, CouponSystemException {
-
         return new Coupon(resultSet.getInt("id"),
                 resultSet.getInt("company_id"),
                 Category.values()[resultSet.getInt("category_id") - 1],
