@@ -1,7 +1,7 @@
 package facade;
 
-import DBdao.CompaniesDBDAO;
-import DBdao.CouponDBDAO;
+import dbdao.CompaniesDBDAO;
+import dbdao.CouponDBDAO;
 import beans.Category;
 import beans.Company;
 import beans.Coupon;
@@ -23,8 +23,8 @@ public class CompanyFacade extends ClientFacade {
             this.companiesDAO = null;
             return false;
         }
-        this.companyID = companyId;
         this.couponDAO = new CouponDBDAO();
+        this.companyID = companyId;
         return true;
     }
 

@@ -2,21 +2,30 @@ import beans.ClientType;
 import beans.Company;
 import beans.Customer;
 
-import exceptions.CouponSystemException;
+import exceptions.LogInException;
 import facade.AdminFacade;
 import facade.LoginManager;
+import org.junit.Before;
 import org.junit.Test;
 import utils.TablePrinter;
 
+import java.util.ArrayList;
 
-
-/**
- * Create schema and tables in {@link Program
- */
 
 public class AdminTest {
 
-    AdminFacade adminFacade = (AdminFacade) LoginManager.getInstance().login("admin@admin", "admin", ClientType.ADMINISTRATOR);
+    AdminFacade adminFacade;
+
+    @Before
+    public void setUp() {
+        try {
+            adminFacade = (AdminFacade) LoginManager.getInstance().
+                    login("ad2min@admin", "admin", ClientType.ADMINISTRATOR);
+        } catch (LogInException e) {
+            System.out.println(e.getMessage());
+            adminFacade = new AdminFacade();
+        }
+    }
 
     @Test
     public void Login() {
@@ -31,7 +40,7 @@ public class AdminTest {
     @Test
     public void AddCompany() {
         try {
-            Company companyToAdd = new Company(0, "Second Company", "company2@com", "1234", null);
+            Company companyToAdd = new Company(0, "Company", "company@com", "1234", new ArrayList<>());
             adminFacade.addCompany(companyToAdd);
         } catch (Exception e) {
             assert (true);
@@ -74,7 +83,7 @@ public class AdminTest {
     @Test
     public void GetOneCompany() {
         try {
-            System.out.println(adminFacade.getOneCompany(9));
+            TablePrinter.print(adminFacade.getOneCompany(9));
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -127,7 +136,7 @@ public class AdminTest {
     @Test
     public void GetOneCustomer() {
         try {
-            System.out.println(adminFacade.getOneCustomer(0));
+            TablePrinter.print(adminFacade.getOneCustomer(0));
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());

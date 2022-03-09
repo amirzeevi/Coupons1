@@ -1,6 +1,6 @@
 package beans;
 
-import exceptions.CouponSystemException;
+import exceptions.ChangedValueNotAllowed;
 
 import java.util.List;
 
@@ -41,8 +41,8 @@ public class Company {
     /**
      * Can not change company name. will throw an exception
      */
-    public void setName(String name) throws CouponSystemException {
-        throw new CouponSystemException("You can not change company name");
+    public void setName(String name) throws ChangedValueNotAllowed {
+        throw new ChangedValueNotAllowed("You can not change company name");
     }
 
     /**
@@ -93,8 +93,8 @@ public class Company {
     /**
      * Can not set company id. will throw Coupon exception
      */
-    public void setId(int id) throws CouponSystemException {
-        throw new CouponSystemException("You can not change company id");
+    public void setId(int id) throws ChangedValueNotAllowed {
+        throw new ChangedValueNotAllowed("You can not change company id");
     }
 
     public List<Coupon> getCoupons() {
@@ -105,19 +105,4 @@ public class Company {
         this.coupons = coupons;
     }
 
-    /**
-     * Overrides Object toString method to generate a String with company details.
-     *
-     * @return String of company details
-     */
-
-    @Override
-    public String toString() {
-        return "Company{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }

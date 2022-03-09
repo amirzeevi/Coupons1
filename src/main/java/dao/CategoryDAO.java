@@ -8,5 +8,5 @@ public interface CategoryDAO {
 
      void addOneCategory(Category category);
 
-     void deleteOneCategory(Category category);
+     void deleteCategory(Category category);
 }

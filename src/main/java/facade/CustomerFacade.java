@@ -1,7 +1,7 @@
 package facade;
 
-import DBdao.CouponDBDAO;
-import DBdao.CustomerDBDAO;
+import dbdao.CouponDBDAO;
+import dbdao.CustomerDBDAO;
 import beans.Category;
 import beans.Customer;
 import beans.Coupon;

@@ -6,6 +6,8 @@ import exceptions.LogInException;
 import facade.ClientFacade;
 import facade.CompanyFacade;
 import facade.LoginManager;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import utils.TablePrinter;
 
@@ -14,8 +16,18 @@ import java.time.LocalDate;
 
 public class CompanyTest {
 
-    CompanyFacade companyFacade = (CompanyFacade) LoginManager.getInstance().login("company@com", "password", ClientType.COMPANY);
+    CompanyFacade companyFacade;
 
+    @Before
+    public void setUp() {
+        try {
+            companyFacade = (CompanyFacade) LoginManager.getInstance().
+                    login("com", "cm", ClientType.COMPANY);
+        } catch (LogInException e) {
+            System.out.println(e.getMessage());
+            companyFacade = new CompanyFacade();
+        }
+    }
 
     @Test
     public void Login() {
@@ -30,7 +42,17 @@ public class CompanyTest {
     @Test
     public void AddCoupon() {
         try {
-            Coupon couponToAdd = new Coupon(0, 6, Category.ELECTRICITY, "Electric Bik23e", "myDescription", Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now().plusDays(12)), 20, 99.99, "image");
+            Coupon couponToAdd = new Coupon(0,
+                    6,
+                    Category.ELECTRICITY,
+                    "Electric Bik23e",
+                    "myDescription",
+                    Date.valueOf(LocalDate.now()),
+                    Date.valueOf(LocalDate.now().plusDays(12)),
+                    20,
+                    99.99,
+                    "image");
+
             companyFacade.addCoupon(couponToAdd);
         } catch (Exception e) {
             assert (true);
@@ -63,7 +85,7 @@ public class CompanyTest {
     @Test
     public void getOneCoupon() {
         try {
-            System.out.println(companyFacade.getOneCoupon(19));
+            TablePrinter.print(companyFacade.getOneCoupon(19));
         } catch (CouponSystemException | LogInException e) {
             assert (true);
             System.out.println(e.getMessage());

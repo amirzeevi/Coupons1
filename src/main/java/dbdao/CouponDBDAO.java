@@ -1,7 +1,7 @@
-package DBdao;
+package dbdao;
 
-import DB.DBmanager;
-import DB.DBrunQuery;
+import db.DBmanager;
+import db.DBrunQuery;
 import beans.Category;
 import beans.Coupon;
 import dao.CouponsDAO;
@@ -173,7 +173,7 @@ public class CouponDBDAO implements CouponsDAO {
         ArrayList<Coupon> coupons = new ArrayList<>();
         Map<Integer, Object> values = Map.of(1, customerId);
 
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_COSTUMER_COUPONS, values);
+        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_CUSTOMER_COUPONS, values);
 
         assert resultSet != null;
         while (true) {
@@ -235,7 +235,7 @@ public class CouponDBDAO implements CouponsDAO {
     @Override
     public boolean isCostumerCouponExists(int costumerID, int couponID) {
         Map<Integer, Object> values = Map.of(1, costumerID, 2, couponID);
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_COSTUMER_COUPON_EXISTS, values);
+        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_CUSTOMER_COUPON_EXISTS, values);
         assert resultSet != null;
         try {
             resultSet.next();

@@ -1,6 +1,6 @@
 package beans;
 
-import exceptions.CouponSystemException;
+import exceptions.ChangedValueNotAllowed;
 
 import java.util.List;
 
@@ -31,8 +31,8 @@ public class Customer {
         return id;
     }
 
-    public void setId(int id) throws CouponSystemException {
-        throw new CouponSystemException("You can not change customer id");
+    public void setId(int id) throws ChangedValueNotAllowed {
+        throw new ChangedValueNotAllowed("You can not change customer id");
     }
 
     public String getFirstName() {
@@ -75,14 +75,4 @@ public class Customer {
         this.coupons = coupons;
     }
 
-    @Override
-    public String toString() {
-        return "Costumer{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }

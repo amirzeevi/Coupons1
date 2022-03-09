@@ -1,6 +1,7 @@
 package beans;
 
-import exceptions.CouponSystemException;
+import exceptions.ChangedValueNotAllowed;
+
 
 import java.util.Date;
 
@@ -16,7 +17,8 @@ public class Coupon {
     private double price;
     private String image;
 
-    public Coupon(int id, int companyID, Category category, String title, String description, Date startDate, Date endDate, int amount, double price, String image) throws CouponSystemException {
+    public Coupon(int id, int companyID, Category category, String title,
+                  String description, Date startDate, Date endDate, int amount, double price, String image) {
         this.id = id;
         this.companyID = companyID;
         this.category = category;
@@ -33,16 +35,16 @@ public class Coupon {
         return id;
     }
 
-    public void setId(int id) throws CouponSystemException {
-        throw new CouponSystemException("You can not change coupon id");
+    public void setId(int id) throws ChangedValueNotAllowed {
+        throw new ChangedValueNotAllowed("You can not change coupon id");
     }
 
     public int getCompanyID() {
         return companyID;
     }
 
-    public void setCompanyID(int companyID) throws CouponSystemException {
-        throw new CouponSystemException("You can not change coupon company id");
+    public void setCompanyID(int companyID) throws ChangedValueNotAllowed {
+        throw new ChangedValueNotAllowed("You can not change coupon company id");
     }
 
     public Category getCategory() {
@@ -109,19 +111,4 @@ public class Coupon {
         this.image = image;
     }
 
-    @Override
-    public String toString() {
-        return "Coupon{" +
-                "id=" + id +
-                ", CompanyID=" + companyID +
-                ", category=" + category +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", amount=" + amount +
-                ", price=" + price +
-                ", image='" + image + '\'' +
-                '}';
-    }
 }

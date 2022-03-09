@@ -31,13 +31,11 @@ public interface CouponsDAO {
 
     List<Coupon> getCompanyCouponsByCategory(Category category, int companyId);
 
-    List<Coupon> getCompanyCouponsByMaxPrice(double MaxPrice, int companyId);
+    List<Coupon> getCompanyCouponsByMaxPrice(double maxPrice, int companyId);
 
     List<Coupon> getCustomerCouponsByCategory(Category category, int customerId);
 
     List<Coupon> getCustomerCouponsByMaxPrice(double maxPrice, int customerId);
-
-
 
 }
 

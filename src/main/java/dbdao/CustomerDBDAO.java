@@ -1,7 +1,7 @@
-package DBdao;
+package dbdao;
 
-import DB.DBmanager;
-import DB.DBrunQuery;
+import db.DBmanager;
+import db.DBrunQuery;
 import beans.Coupon;
 import beans.Customer;
 import dao.CouponsDAO;
@@ -34,7 +34,7 @@ public class CustomerDBDAO implements CustomersDAO {
     @Override
     public boolean isCustomerEmailExists(Customer customer) {
         Map<Integer, Object> values = Map.of(1, customer.getEmail());
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_COSTUMER_EMAIL_EXISTS, values);
+        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_CUSTOMER_EMAIL_EXISTS, values);
         assert resultSet != null;
         try {
             resultSet.next();
@@ -52,7 +52,7 @@ public class CustomerDBDAO implements CustomersDAO {
                 2, customer.getLastName(),
                 3, customer.getEmail(),
                 4, customer.getPassword());
-        DBrunQuery.runQuery(DBmanager.ADD_COSTUMER, values);
+        DBrunQuery.runQuery(DBmanager.ADD_CUSTOMER, values);
     }
 
 
@@ -63,21 +63,21 @@ public class CustomerDBDAO implements CustomersDAO {
                 3, customer.getEmail(),
                 4, customer.getPassword(),
                 5, customer.getId());
-        DBrunQuery.runQuery(DBmanager.UPDATE_COSTUMER, values);
+        DBrunQuery.runQuery(DBmanager.UPDATE_CUSTOMER, values);
     }
 
 
     @Override
     public void deleteCustomer(int costumerId) {
         Map<Integer, Object> map = Map.of(1, costumerId);
-        DB.DBrunQuery.runQuery(DBmanager.DROP_COSTUMER, map);
+        db.DBrunQuery.runQuery(DBmanager.DROP_CUSTOMER, map);
     }
 
 
     @Override
     public ArrayList<Customer> getAllCustomers() {
         ArrayList<Customer> customers = new ArrayList<>();
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ALL_COSTUMERS);
+        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ALL_CUSTOMERS);
         assert resultSet != null;
         try {
             while (resultSet.next()) {
@@ -94,7 +94,7 @@ public class CustomerDBDAO implements CustomersDAO {
     @Override
     public Customer getOneCustomer(int costumerId) {
         Map<Integer, Object> map = Map.of(1, costumerId);
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ONE_COSTUMER, map);
+        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ONE_CUSTOMER, map);
         assert resultSet != null;
         try {
             resultSet.next();

@@ -1,6 +1,7 @@
 package facade;
 
 import beans.ClientType;
+import exceptions.LogInException;
 
 
 public class LoginManager {
@@ -9,7 +10,7 @@ public class LoginManager {
     private LoginManager() {
     }
 
-    public ClientFacade login(String email, String password, ClientType clientType) {
+    public ClientFacade login(String email, String password, ClientType clientType) throws LogInException {
 
         ClientFacade facade;
 
@@ -24,16 +25,14 @@ public class LoginManager {
                 facade = new CustomerFacade();
                 break;
             default:
-                System.out.println("Invalid input");
-                return null;
+                throw new LogInException("Invalid input");
         }
 
         if (facade.login(email, password)) {
             return facade;
         }
 
-        System.out.println("Email or Password incorrect");
-        return null;
+        throw new LogInException("Email or password incorrect");
     }
 
 

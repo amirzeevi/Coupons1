@@ -1,10 +1,7 @@
 package jobs;
 
-import DBdao.CouponDBDAO;
+import dbdao.CouponDBDAO;
 import dao.CouponsDAO;
-
-import java.sql.Date;
-import java.time.LocalDate;
 
 
 public class CouponExpirationDailyJob implements Runnable {
