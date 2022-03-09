@@ -15,7 +15,6 @@ import java.util.Map;
 
 public class CompaniesDBDAO implements CompaniesDAO {
 
-
     @Override
     public int getCompanyId(String email, String password) {
         Map<Integer, Object> values = Map.of(1, email, 2, password);
@@ -29,7 +28,6 @@ public class CompaniesDBDAO implements CompaniesDAO {
         }
     }
 
-
     @Override
     public boolean isCompanyExists(Company company) {
         Map<Integer, Object> values = Map.of(1, company.getName(), 2, company.getEmail());
@@ -37,13 +35,12 @@ public class CompaniesDBDAO implements CompaniesDAO {
         assert resultSet != null;
         try {
             resultSet.next();
-            return resultSet.getInt(1) == 1;
+            return resultSet.getInt("counter") == 1;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return false;
         }
     }
-
 
     @Override
     public boolean isCompanyEmailExists(Company company) {
@@ -59,13 +56,11 @@ public class CompaniesDBDAO implements CompaniesDAO {
         }
     }
 
-
     @Override
     public void addCompany(Company company) {
         Map<Integer, Object> map = Map.of(1, company.getName(), 2, company.getEmail(), 3, company.getPassword());
         DBrunQuery.runQuery(DBmanager.ADD_COMPANY, map);
     }
-
 
     @Override
     public void updateCompany(Company company) {
@@ -73,30 +68,26 @@ public class CompaniesDBDAO implements CompaniesDAO {
         DBrunQuery.runQuery(DBmanager.UPDATE_COMPANY, map);
     }
 
-
     @Override
     public void deleteCompany(int companyID) {
         Map<Integer, Object> map = Map.of(1, companyID);
         DBrunQuery.runQuery(DBmanager.DROP_COMPANY, map);
     }
 
-
     @Override
     public List<Company> getAllCompanies() {
-        ArrayList<Company> companyList = new ArrayList<>();
+        ArrayList<Company> companiesList = new ArrayList<>();
         try {
             ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ALL_COMPANIES);
-
             assert resultSet != null;
             while (resultSet.next()) {
-                companyList.add(resultSetToCompany(resultSet));
+                companiesList.add(resultSetToCompany(resultSet));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return companyList;
+        return companiesList;
     }
-
 
     @Override
     public Company getOneCompany(int companyID) {
@@ -111,7 +102,6 @@ public class CompaniesDBDAO implements CompaniesDAO {
             return null;
         }
     }
-
 
     private static Company resultSetToCompany(ResultSet resultSet) throws SQLException {
         CouponsDAO couponsDAO = new CouponDBDAO();

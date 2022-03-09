@@ -16,7 +16,6 @@ import java.util.Map;
 
 public class CustomerDBDAO implements CustomersDAO {
 
-
     @Override
     public int getCustomerId(String email, String password) {
         Map<Integer, Object> values = Map.of(1, email, 2, password);
@@ -29,7 +28,6 @@ public class CustomerDBDAO implements CustomersDAO {
             return 0;
         }
     }
-
 
     @Override
     public boolean isCustomerEmailExists(Customer customer) {
@@ -45,7 +43,6 @@ public class CustomerDBDAO implements CustomersDAO {
         }
     }
 
-
     @Override
     public void addCustomer(Customer customer) {
         Map<Integer, Object> values = Map.of(1, customer.getFirstName(),
@@ -54,7 +51,6 @@ public class CustomerDBDAO implements CustomersDAO {
                 4, customer.getPassword());
         DBrunQuery.runQuery(DBmanager.ADD_CUSTOMER, values);
     }
-
 
     @Override
     public void updateCustomer(Customer customer) {
@@ -66,13 +62,11 @@ public class CustomerDBDAO implements CustomersDAO {
         DBrunQuery.runQuery(DBmanager.UPDATE_CUSTOMER, values);
     }
 
-
     @Override
     public void deleteCustomer(int costumerId) {
         Map<Integer, Object> map = Map.of(1, costumerId);
         db.DBrunQuery.runQuery(DBmanager.DROP_CUSTOMER, map);
     }
-
 
     @Override
     public ArrayList<Customer> getAllCustomers() {
@@ -90,7 +84,6 @@ public class CustomerDBDAO implements CustomersDAO {
         }
     }
 
-
     @Override
     public Customer getOneCustomer(int costumerId) {
         Map<Integer, Object> map = Map.of(1, costumerId);
@@ -103,7 +96,6 @@ public class CustomerDBDAO implements CustomersDAO {
         return null;
         }
     }
-
 
     private static Customer resultSetToCustomer(ResultSet resultSet) throws SQLException {
             CouponsDAO couponsDAO = new CouponDBDAO();
