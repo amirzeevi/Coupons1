@@ -21,7 +21,6 @@ public class CustomerFacade extends ClientFacade {
         int customerId = new CustomerDBDAO().getCustomerId(email, password);
 
         if (customerId == 0) {
-            this.customerDAO = null;
             return false;
         }
         this.couponDAO = new CouponDBDAO();

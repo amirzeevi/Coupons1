@@ -20,7 +20,6 @@ public class CompanyFacade extends ClientFacade {
         int companyId = new CompaniesDBDAO().getCompanyId(email, password);
 
         if (companyId == 0) {
-            this.companiesDAO = null;
             return false;
         }
         this.couponDAO = new CouponDBDAO();
