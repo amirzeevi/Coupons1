@@ -13,10 +13,11 @@ public class CreateTablesTest {
         DBrunQuery.runQuery(DBmanager.CREATE_COUPONS_TABLE);
         DBrunQuery.runQuery(DBmanager.CREATE_CUSTOMERS_COUPONS_TABLE);
         DBrunQuery.runQuery(DBmanager.SET_TIME_ZONE);
+        DBrunQuery.runQuery(DBmanager.CREATE_COUPON_PURCHASE_TRIGGER);
     }
 
     @Test
-    public void dropAll(){
+    public void dropAll() {
         DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_COUPONS_TABLE);
         DBrunQuery.runQuery(DBmanager.DROP_COUPONS_TABLE);
         DBrunQuery.runQuery(DBmanager.DROP_COMPANIES_TABLE);

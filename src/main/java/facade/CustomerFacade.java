@@ -39,13 +39,10 @@ public class CustomerFacade extends ClientFacade {
         if (this.couponDAO.isCostumerCouponExist(customerID, coupon.getId())) {
             throw new CouponSystemException("Can not make purchase - you already own this coupon");
         }
-
         getCustomerDetails().getCoupons().add(coupon);
+
         this.couponDAO.addCouponsPurchase(this.customerID, coupon.getId());
         System.out.println("Coupon purchased");
-
-        coupon.setAmount(coupon.getAmount() - 1);
-        this.couponDAO.updateCoupon(coupon);
     }
 
     public List<Coupon> getCustomerCoupons() {

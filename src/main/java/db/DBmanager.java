@@ -70,6 +70,14 @@ public class DBmanager {
             "    ON DELETE CASCADE" +
             "    ON UPDATE NO ACTION)";
 
+    public static final String CREATE_COUPON_PURCHASE_TRIGGER = "CREATE TRIGGER coupon_purchase_trigger" +
+            " AFTER INSERT ON `coupons_database`.`customers_coupons`" +
+            " FOR EACH ROW" +
+            " UPDATE `coupons_database`.`coupons` SET `amount` = `amount`-1 WHERE `id` = " +
+            "(SELECT `coupon_id` FROM `coupons_database`.`customers_coupons` ORDER BY `coupon_id` DESC LIMIT 1)";
+
+    public static final String SET_TIME_ZONE = "SET GLOBAL time_zone = `+02:00`";
+
     public static final String DROP_SCHEMA = "DROP SCHEMA `coupons_database`";
     public static final String DROP_COMPANIES_TABLE = "DROP TABLE `coupons_database`.`companies`";
     public static final String DROP_CUSTOMERS_TABLE = "DROP TABLE `coupons_database`.`customers`";
@@ -77,7 +85,6 @@ public class DBmanager {
     public static final String DROP_COUPONS_TABLE = "DROP TABLE `coupons_database`.`coupons`";
     public static final String DROP_CUSTOMERS_COUPONS_TABLE = "DROP TABLE `coupons_database`.`customers_coupons`";
 
-    public static final String SET_TIME_ZONE = "SET GLOBAL time_zone = `+02:00`";
     public static final String ADD_CATEGORY = "INSERT INTO `coupons_database`.`categories` (`name`) VALUES (?) ";
     public static final String DELETE_CATEGORY = "DELETE FROM `coupons_database`.`categories` WHERE name = ? ";
 
@@ -109,7 +116,8 @@ public class DBmanager {
     public static final String DELETE_COUPON = "DELETE FROM `coupons_database`.`coupons` WHERE id = ? ";
     public static final String DELETE_EXPIRED_COUPONS = "DELETE FROM `coupons_database`.`coupons` WHERE end_date < now()";
     public static final String UPDATE_COUPON = "UPDATE `coupons_database`.`coupons` SET category_id = ?, title = ?, description = ?, start_date = ?, end_date = ?, amount = ?, price = ?, image = ? WHERE id = ? ";
-    public static final String CAN_NOT_UPDATE_COUPON = "SELECT * FROM `coupons_database`.`coupons` WHERE id = ? AND company_id = ? AND title != ? UNION SELECT * FROM `coupons_database`.`coupons` WHERE title = ? AND company_id = ? ";
+    public static final String CAN_NOT_UPDATE_COUPON = "SELECT * FROM `coupons_database`.`coupons` WHERE id = ? AND company_id = ? AND title != ? " +
+            "UNION SELECT * FROM `coupons_database`.`coupons` WHERE title = ? AND company_id = ? ";
     public static final String GET_ONE_COUPON = "SELECT*FROM `coupons_database`.`coupons` WHERE id = ?";
     public static final String GET_COMPANY_COUPONS = "SELECT*FROM `coupons_database`.`coupons` WHERE  company_id = ?";
     public static final String ADD_COUPON_PURCHASE = "INSERT INTO `coupons_database`.`customers_coupons` (`customer_id`, `coupon_id`) VALUES (?, ?) ";
