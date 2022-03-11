@@ -11,9 +11,7 @@ public class LoginManager {
     }
 
     public ClientFacade login(String email, String password, ClientType clientType) throws LogInException {
-
         ClientFacade facade;
-
         switch (clientType) {
             case ADMINISTRATOR:
                 facade = new AdminFacade();
@@ -27,14 +25,11 @@ public class LoginManager {
             default:
                 throw new LogInException("Invalid input");
         }
-
         if (facade.login(email, password)) {
             return facade;
         }
-
         throw new LogInException("Email or password incorrect");
     }
-
 
     public static LoginManager getInstance() {
         if (instance == null) {

@@ -5,7 +5,6 @@ import db.DBrunQuery;
 import beans.Category;
 import beans.Coupon;
 import dao.CouponsDAO;
-import exceptions.CouponSystemException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,25 +12,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The CouponDBDAO is the class that should access the database and update the company table.
+ */
 public class CouponDBDAO implements CouponsDAO {
-
+    /**
+     * Will return true if the specified coupon exist based on its title and company id
+     */
     @Override
-    public boolean isCouponCompanyExists(Coupon coupon) {
-        Map<Integer, Object> values = Map.of(1, coupon.getCompanyID(), 2, coupon.getTitle());
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_COUPON_COMPANY_EXISTS, values);
-        assert resultSet != null;
+    public boolean isCompanyCouponExist(Coupon coupon) {
         try {
-            resultSet.next();
-            return resultSet.getInt("counter") == 1;
+            return DBrunQuery.getResultSet(DBmanager.IS_COUPON_COMPANY_EXISTS, Map.of(
+                    1, coupon.getCompanyID(),
+                    2, coupon.getTitle())).next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return false;
         }
+        return false;
     }
-
-    public void addCoupons(Coupon coupon) {
-
-        Map<Integer, Object> values = Map.of(
+    /**
+     * When updating a coupon's title we need to make sure the title does not already exist for the same company.
+     * Will return true if it finds another coupon with the same title.
+     */
+    @Override
+    public boolean isCostumerCouponExist(int costumerID, int couponID) {
+        try {
+            return DBrunQuery.getResultSet
+                    (DBmanager.IS_CUSTOMER_COUPON_EXISTS, Map.of(
+                            1, costumerID,
+                            2, couponID)).next();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+    /**
+     * Adds the specified coupon to the coupons table.
+     */
+    @Override
+    public void addCoupon(Coupon coupon) {
+        DBrunQuery.runQuery(DBmanager.ADD_COUPON, Map.of(
                 1, coupon.getCompanyID(),
                 2, coupon.getCategory().value,
                 3, coupon.getTitle(),
@@ -40,14 +60,14 @@ public class CouponDBDAO implements CouponsDAO {
                 6, coupon.getEndDate(),
                 7, coupon.getAmount(),
                 8, coupon.getPrice(),
-                9, coupon.getImage());
-
-        DBrunQuery.runQuery(DBmanager.ADD_COUPON, values);
+                9, coupon.getImage()));
     }
-
+    /**
+     * Updates the specified coupon to the coupons table.
+     */
     @Override
     public void updateCoupon(Coupon coupon) {
-        Map<Integer, Object> values = Map.of(
+        DBrunQuery.runQuery(DBmanager.UPDATE_COUPON, Map.of(
                 1, coupon.getCategory().value,
                 2, coupon.getTitle(),
                 3, coupon.getDescription(),
@@ -56,40 +76,24 @@ public class CouponDBDAO implements CouponsDAO {
                 6, coupon.getAmount(),
                 7, coupon.getPrice(),
                 8, coupon.getImage(),
-                9, coupon.getId());
-
-        DBrunQuery.runQuery(DBmanager.UPDATE_COUPON, values);
+                9, coupon.getId()));
     }
-
+    /**
+     * Deletes the specified coupon from the coupons table.
+     */
     @Override
     public void deleteCoupon(int couponID) {
-        Map<Integer, Object> values = Map.of(1, couponID);
-        DBrunQuery.runQuery(DBmanager.DELETE_COUPON, values);
+        DBrunQuery.runQuery(DBmanager.DELETE_COUPON, Map.of(1, couponID));
     }
 
-    @Override
-    public List<Coupon> getAllCoupons() {
-        ArrayList<Coupon> coupons = new ArrayList<>();
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ALL_COUPONS);
-        assert resultSet != null;
-        while (true) {
-            try {
-                if (!resultSet.next()) break;
-                coupons.add(resultSetToCoupon(resultSet));
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return coupons;
-    }
-
+    /**
+     * Retrieves all the specified company's coupons that are from the specified category and returns a list.
+     */
     @Override
     public List<Coupon> getCompanyCouponsByCategory(Category category, int companyId) {
-        Map<Integer, Object> values = Map.of(1, category.value, 2, companyId);
         List<Coupon> categoryCoupons = new ArrayList<>();
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_COMPANY_COUPON_CATEGORY, values);
-
-        assert resultSet != null;
+        ResultSet resultSet = DBrunQuery.getResultSet
+                (DBmanager.GET_COMPANY_COUPON_CATEGORY, Map.of(1, category.value, 2, companyId));
         try {
             while (resultSet.next()) {
                 categoryCoupons.add(resultSetToCoupon(resultSet));
@@ -97,16 +101,17 @@ public class CouponDBDAO implements CouponsDAO {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
         return categoryCoupons;
     }
-
+    /**
+     * Retrieves all the specified company's coupons that are from the specified maximum price and returns a list.
+     */
     @Override
     public List<Coupon> getCompanyCouponsByMaxPrice(double maxPrice, int companyId) {
-        Map<Integer, Object> values = Map.of(1, maxPrice, 2, companyId);
         List<Coupon> maxPriceCoupons = new ArrayList<>();
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_COMPANY_COUPON_MAX_PRICE, values);
-
-        assert resultSet != null;
+        ResultSet resultSet = DBrunQuery.getResultSet
+                (DBmanager.GET_COMPANY_COUPON_MAX_PRICE, Map.of(1, maxPrice, 2, companyId));
         try {
             while (resultSet.next()) {
                 maxPriceCoupons.add(resultSetToCoupon(resultSet));
@@ -116,14 +121,14 @@ public class CouponDBDAO implements CouponsDAO {
         }
         return maxPriceCoupons;
     }
-
+    /**
+     * Retrieves all the specified customer's coupons that are from the specified category and returns a list.
+     */
     @Override
     public List<Coupon> getCustomerCouponsByCategory(Category category, int customerId) {
-        Map<Integer, Object> values = Map.of(1, category.value, 2, customerId);
         List<Coupon> categoryCoupons = new ArrayList<>();
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_CUSTOMER_COUPON_CATEGORY, values);
-
-        assert resultSet != null;
+        ResultSet resultSet = DBrunQuery.getResultSet
+                (DBmanager.GET_CUSTOMER_COUPON_CATEGORY, Map.of(1, category.value, 2, customerId));
         try {
             while (resultSet.next()) {
                 categoryCoupons.add(resultSetToCoupon(resultSet));
@@ -131,15 +136,17 @@ public class CouponDBDAO implements CouponsDAO {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
         return categoryCoupons;
     }
-
+    /**
+     * Retrieves all the specified customer's coupons that are from the specified maximum price and returns a list.
+     */
     @Override
     public List<Coupon> getCustomerCouponsByMaxPrice(double maxPrice, int customerId) {
-        Map<Integer, Object> values = Map.of(1, maxPrice, 2, customerId);
         List<Coupon> maxPriceCoupons = new ArrayList<>();
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_CUSTOMER_COUPON_MAX_PRICE, values);
-        assert resultSet != null;
+        ResultSet resultSet = DBrunQuery.getResultSet
+                (DBmanager.GET_CUSTOMER_COUPON_MAX_PRICE, Map.of(1, maxPrice, 2, customerId));
         try {
             while (resultSet.next()) {
                 maxPriceCoupons.add(resultSetToCoupon(resultSet));
@@ -147,88 +154,99 @@ public class CouponDBDAO implements CouponsDAO {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
         return maxPriceCoupons;
     }
-
+    /**
+     * Deletes all expired coupons from the coupons table.
+     */
     @Override
     public void deleteExpiredCoupons() {
         DBrunQuery.runQuery(DBmanager.DELETE_EXPIRED_COUPONS);
     }
-
+    /**
+     * Retrieves all the specified customer's coupons from the database and returns a list.
+     */
     @Override
     public List<Coupon> getCostumerCoupons(int customerId) {
-
         ArrayList<Coupon> coupons = new ArrayList<>();
-        Map<Integer, Object> values = Map.of(1, customerId);
-
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_CUSTOMER_COUPONS, values);
-
-        assert resultSet != null;
-        while (true) {
-            try {
-                if (!resultSet.next()) break;
+        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_CUSTOMER_COUPONS, Map.of(1, customerId));
+        try {
+            while (resultSet.next()) {
                 coupons.add(getOneCoupon(resultSet.getInt("coupon_id")));
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
             }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
+
         return coupons;
     }
-
+    /**
+     * Retrieves the specified coupon from the database based on its id.
+     */
     @Override
     public Coupon getOneCoupon(int couponID) {
-        Map<Integer, Object> values = Map.of(1, couponID);
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ONE_COUPON, values);
-        Coupon coupon;
-        assert resultSet != null;
+        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ONE_COUPON, Map.of(1, couponID));
         try {
-            resultSet.next();
-            coupon = resultSetToCoupon(resultSet);
+            return resultSet.next() ? resultSetToCoupon(resultSet) : null;
         } catch (SQLException e) {
-            return null;
+            System.out.println(e.getMessage());
         }
-        return coupon;
+        return null;
     }
-
+    /**
+     * Adds to the coupon vs customers table if the customer does not already own this coupon, and
+     * if it is in stock and did not expire.
+     * Will also decrease the coupon's amount by 1.
+     */
     @Override
     public void addCouponsPurchase(int costumerID, int couponID) {
-        Map<Integer, Object> values = Map.of(1, costumerID, 2, couponID);
-        DBrunQuery.runQuery(DBmanager.ADD_COUPON_PURCHASE, values);
+        DBrunQuery.runQuery(DBmanager.ADD_COUPON_PURCHASE, Map.of(1, costumerID, 2, couponID));
     }
-
+    /**
+     * Retrieves all the specified company's coupons from the database and returns a list.
+     */
     @Override
     public List<Coupon> getCompanyCoupons(int companyID) {
         List<Coupon> companyCoupons = new ArrayList<>();
-        Map<Integer, Object> values = Map.of(1, companyID);
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_COMPANY_COUPONS, values);
-        while (true) {
-            assert resultSet != null;
-            try {
-                if (!resultSet.next()) break;
-                companyCoupons.add(resultSetToCoupon(resultSet));
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return companyCoupons;
-    }
-
-    @Override
-    public boolean isCostumerCouponExists(int costumerID, int couponID) {
-        Map<Integer, Object> values = Map.of(1, costumerID, 2, couponID);
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_CUSTOMER_COUPON_EXISTS, values);
-        assert resultSet != null;
+        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_COMPANY_COUPONS, Map.of(1, companyID));
         try {
-            resultSet.next();
-            return resultSet.getInt(1) == 1;
+            while (resultSet.next()) {
+                companyCoupons.add(resultSetToCoupon(resultSet));
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return false;
         }
-    }
 
-    private Coupon resultSetToCoupon(ResultSet resultSet) throws SQLException{
-        return new Coupon(resultSet.getInt("id"),
+        return companyCoupons;
+    }
+    /**
+     * Adds the specified coupon to the coupons table.
+     */
+    @Override
+    public boolean canNotUpdateCoupon(Coupon coupon) {
+        try {
+            String couponTitle = coupon.getTitle();
+            int companyID = coupon.getCompanyID();
+            ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.CAN_NOT_UPDATE_COUPON, Map.of(
+                    1, coupon.getId(),
+                    2, companyID,
+                    3, couponTitle,
+                    4, couponTitle,
+                    5, companyID));
+            resultSet.next();
+            return resultSet.next();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+    /**
+     *A private service method to be used in multiple method that will convert the result set into a coupon.
+     */
+    private Coupon resultSetToCoupon(ResultSet resultSet) throws SQLException {
+        return new Coupon(
+                resultSet.getInt("id"),
                 resultSet.getInt("company_id"),
                 Category.values()[resultSet.getInt("category_id") - 1],
                 resultSet.getString("title"),

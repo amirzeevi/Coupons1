@@ -6,6 +6,8 @@ import exceptions.LogInException;
 import facade.CompanyFacade;
 import facade.CustomerFacade;
 import facade.LoginManager;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import utils.TablePrinter;
 
@@ -13,9 +15,15 @@ public class CustomerTest {
 
     CustomerFacade customerFacade;
 
-    public CustomerTest() throws LogInException {
-        customerFacade = (CustomerFacade) LoginManager.getInstance()
-                .login("my.email@com", "password", ClientType.COSTUMER);
+    @Before
+    public void setUp() {
+        customerFacade = new CustomerFacade();
+        customerFacade.login("my.email@com", "password");
+    }
+
+    @After
+    public void tearDown() {
+        customerFacade = null;
     }
 
     @Test
@@ -28,10 +36,15 @@ public class CustomerTest {
         }
     }
 
+    @Test(expected = LogInException.class)
+    public void exceptionLogin() throws LogInException {
+        LoginManager.getInstance().login("not.my.email@com", "password", ClientType.COSTUMER);
+    }
+
     @Test
     public void Purchase() {
         CompanyFacade companyFacade = new CompanyFacade();
-        companyFacade.login("company@com", "password");
+        companyFacade.login("company@com", "1234");
         try {
             Coupon coupon = companyFacade.getCompanyCoupons().get(0);
             customerFacade.purchaseCoupon(coupon);
@@ -41,24 +54,23 @@ public class CustomerTest {
         }
     }
 
-    @Test
-    public void GetAllPurchased() {
-        try {
-            //accepts arguments
-            TablePrinter.print(customerFacade.getCustomerCoupons());
-        } catch (Exception e) {
-            assert (true);
-            System.out.println(e.getMessage());
-        }
+    @Test(expected = CouponSystemException.class)
+    public void exceptionPurchase() throws CouponSystemException, LogInException {
+        CompanyFacade companyFacade = new CompanyFacade();
+        companyFacade.login("company@com", "1234");
+        Coupon coupon = companyFacade.getCompanyCoupons().get(0);
+        customerFacade.purchaseCoupon(coupon);
     }
 
     @Test
-    public void GetCostumerDetails() {
-        try {
-            System.out.println(customerFacade.getCustomerDetails());
-        } catch (Exception e) {
-            assert (true);
-            System.out.println(e.getMessage());
-        }
+    public void GetAllPurchased() throws LogInException {
+        //accepts arguments
+        TablePrinter.print(customerFacade.getCustomerCoupons());
     }
+
+    @Test
+    public void GetCostumerDetails() throws LogInException {
+        System.out.println(customerFacade.getCustomerDetails());
+    }
+
 }

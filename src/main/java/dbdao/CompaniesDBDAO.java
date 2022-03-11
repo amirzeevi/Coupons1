@@ -3,113 +3,129 @@ package dbdao;
 import db.DBmanager;
 import db.DBrunQuery;
 import beans.Company;
-import beans.Coupon;
 import dao.CompaniesDAO;
-import dao.CouponsDAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * The CompanyDBDAO is the class that should access the database and update the company table.
+ */
 public class CompaniesDBDAO implements CompaniesDAO {
-
+    /**
+     * Retrieves from the date base the company's id, based on the specified email and password.
+     * if it does not find a match, will return the id 0
+     */
     @Override
     public int getCompanyId(String email, String password) {
-        Map<Integer, Object> values = Map.of(1, email, 2, password);
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_COMPANY_ID, values);
-        assert resultSet != null;
         try {
-            resultSet.next();
-            return resultSet.getInt("id");
-        } catch (SQLException e) {
-            return 0;
-        }
-    }
-
-    @Override
-    public boolean isCompanyExists(Company company) {
-        Map<Integer, Object> values = Map.of(1, company.getName(), 2, company.getEmail());
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_COMPANY_EXISTS, values);
-        assert resultSet != null;
-        try {
-            resultSet.next();
-            return resultSet.getInt("counter") == 1;
+            ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_COMPANY_ID, Map.of(1, email, 2, password));
+            return resultSet.next() ? resultSet.getInt("id") : 0;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return false;
         }
+        return 0;
     }
-
+    /**
+     * This will return true if the company exist in the database based on its email, or name.
+     */
     @Override
-    public boolean isCompanyEmailExists(Company company) {
-        Map<Integer, Object> values = Map.of(1, company.getEmail());
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_COMPANY_EMAIL_EXISTS, values);
-        assert resultSet != null;
+    public boolean isCompanyExist(Company company) {
         try {
-            resultSet.next();
-            return resultSet.getInt("counter") == 1;
+            return DBrunQuery.getResultSet
+                    (DBmanager.IS_COMPANY_EXISTS, Map.of(1, company.getName(), 2, company.getEmail())).next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return false;
         }
+        return false;
     }
-
+    /**
+     * When updating a company's name we need to make sure the name does not already exist.
+     * Will return true if it finds another company with the same name.
+     */
     @Override
     public void addCompany(Company company) {
-        Map<Integer, Object> map = Map.of(1, company.getName(), 2, company.getEmail(), 3, company.getPassword());
-        DBrunQuery.runQuery(DBmanager.ADD_COMPANY, map);
+        DBrunQuery.runQuery(DBmanager.ADD_COMPANY, Map.of(
+                1, company.getName(),
+                2, company.getEmail(),
+                3, company.getPassword()));
     }
-
+    /**
+     * Adds the specified company to the companies table.
+     */
     @Override
     public void updateCompany(Company company) {
-        Map<Integer, Object> map = Map.of(1, company.getEmail(), 2, company.getPassword(), 3, company.getId());
-        DBrunQuery.runQuery(DBmanager.UPDATE_COMPANY, map);
+        DBrunQuery.runQuery(DBmanager.UPDATE_COMPANY, Map.of(
+                1, company.getEmail(),
+                2, company.getPassword(),
+                3, company.getId()));
     }
-
+    /**
+     * Updates the specified company to the companies table.
+     */
+    @Override
+    public boolean canNotUpdateCompany(Company company) {
+        try {
+            String email = company.getEmail();
+            ResultSet resultSet = DBrunQuery.getResultSet
+                    (DBmanager.CAN_NOT_UPDATE_COMPANY, Map.of(1, company.getId(), 2, email, 3, email));
+            resultSet.next();
+            return resultSet.next();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+    /**
+     * Deletes the specified company from the companies table and also
+     * will delete any coupon that the company owns
+     */
     @Override
     public void deleteCompany(int companyID) {
-        Map<Integer, Object> map = Map.of(1, companyID);
-        DBrunQuery.runQuery(DBmanager.DROP_COMPANY, map);
+        DBrunQuery.runQuery(DBmanager.DELETE_COMPANY, Map.of(1, companyID));
     }
-
+    /**
+     * Retrieves all companies from the database and returns a list.
+     */
     @Override
     public List<Company> getAllCompanies() {
         ArrayList<Company> companiesList = new ArrayList<>();
+        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ALL_COMPANIES);
         try {
-            ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ALL_COMPANIES);
-            assert resultSet != null;
             while (resultSet.next()) {
                 companiesList.add(resultSetToCompany(resultSet));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
         return companiesList;
     }
-
+    /**
+     * Retrieves the specified company from the database.
+     */
     @Override
     public Company getOneCompany(int companyID) {
-        Map<Integer, Object> map = Map.of(1, companyID);
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ONE_COMPANY, map);
-
-        assert resultSet != null;
+        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ONE_COMPANY, Map.of(1, companyID));
         try {
-            resultSet.next();
-            return resultSetToCompany(resultSet);
+            return resultSet.next() ? resultSetToCompany(resultSet) : null;
         } catch (SQLException e) {
-            return null;
+            System.out.println(e.getMessage());
         }
+        return null;
     }
-
+    /**
+     *A private service method to be used in multiple methods. will convert the result set into a company.
+     */
     private static Company resultSetToCompany(ResultSet resultSet) throws SQLException {
-        CouponsDAO couponsDAO = new CouponDBDAO();
-        List<Coupon> companyCoupon = (couponsDAO.getCompanyCoupons(resultSet.getInt(("id"))));
-        return new Company(resultSet.getInt(("id")),
+        int companyID = resultSet.getInt("id");
+        return new Company(
+                companyID,
                 resultSet.getString("name"),
                 resultSet.getString("email"),
                 resultSet.getString("password"),
-                companyCoupon);
+                new CouponDBDAO().getCompanyCoupons(companyID));
     }
 }

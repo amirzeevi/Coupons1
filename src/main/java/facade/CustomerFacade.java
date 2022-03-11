@@ -16,7 +16,6 @@ import java.util.List;
 public class CustomerFacade extends ClientFacade {
     private int customerID;
 
-
     @Override
     public boolean login(String email, String password) {
         this.customerDAO = new CustomerDBDAO();
@@ -31,63 +30,49 @@ public class CustomerFacade extends ClientFacade {
         return true;
     }
 
-
     public void purchaseCoupon(Coupon coupon) throws CouponSystemException, LogInException {
-
-        checkLoggedIn();
-
         if (coupon.getEndDate().before(Date.valueOf(LocalDate.now()))) {
             throw new CouponSystemException("Can not make purchase - coupon is out of date");
         }
-
-        if (this.couponDAO.isCostumerCouponExists(customerID, coupon.getId())) {
+        if (coupon.getAmount() == 0) {
+            throw new CouponSystemException("Can not make purchase - coupon is out of stock");
+        }
+        if (this.couponDAO.isCostumerCouponExist(customerID, coupon.getId())) {
             throw new CouponSystemException("Can not make purchase - you already own this coupon");
         }
 
-        Coupon couponToPurchase = this.couponDAO.getOneCoupon(coupon.getId());
-
-        if (couponToPurchase.getAmount() == 0) {
-            throw new CouponSystemException("Can not make purchase - coupon is out of stock");
-        }
-
-        getCustomerDetails().getCoupons().add(couponToPurchase);
-
+        getCustomerDetails().getCoupons().add(coupon);
         this.couponDAO.addCouponsPurchase(this.customerID, coupon.getId());
         System.out.println("Coupon purchased");
 
-        couponToPurchase.setAmount(couponToPurchase.getAmount() - 1);
-        this.couponDAO.updateCoupon(couponToPurchase);
+        coupon.setAmount(coupon.getAmount() - 1);
+        this.couponDAO.updateCoupon(coupon);
     }
-
 
     public List<Coupon> getCustomerCoupons() throws LogInException {
         checkLoggedIn();
         return this.couponDAO.getCostumerCoupons(customerID);
     }
 
-
     public List<Coupon> getCustomerCoupon(Category category) throws LogInException {
         checkLoggedIn();
         return this.couponDAO.getCustomerCouponsByCategory(category, customerID);
     }
 
-
-    public List<Coupon> getCustomerCoupon(double maxPrice) throws  LogInException {
+    public List<Coupon> getCustomerCoupon(double maxPrice) throws LogInException {
         checkLoggedIn();
         return this.couponDAO.getCustomerCouponsByMaxPrice(maxPrice, customerID);
 
     }
-
 
     public Customer getCustomerDetails() throws LogInException {
         checkLoggedIn();
         return this.customerDAO.getOneCustomer(customerID);
     }
 
-
-    private void checkLoggedIn() throws  LogInException {
+    private void checkLoggedIn() throws LogInException {
         if (this.customerDAO == null) {
-            throw new LogInException("You are not logged in");
+            throw new LogInException("You did not log in correctly");
         }
     }
 }

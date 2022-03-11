@@ -12,6 +12,7 @@ public class CreateTablesTest {
         DBrunQuery.runQuery(DBmanager.CREATE_CATEGORIES_TABLE);
         DBrunQuery.runQuery(DBmanager.CREATE_COUPONS_TABLE);
         DBrunQuery.runQuery(DBmanager.CREATE_CUSTOMERS_COUPONS_TABLE);
+        DBrunQuery.runQuery(DBmanager.SET_TIME_ZONE);
     }
 
     @Test

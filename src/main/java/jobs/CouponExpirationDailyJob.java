@@ -6,24 +6,12 @@ import dao.CouponsDAO;
 
 public class CouponExpirationDailyJob implements Runnable {
 
-    private CouponsDAO couponDAO;
-    private boolean quit = false;
+    private final CouponsDAO couponDAO;
+    private boolean quit;
 
     public CouponExpirationDailyJob() {
         this.couponDAO = new CouponDBDAO();
         this.quit = false;
-    }
-
-    public CouponsDAO getCouponDAO() {
-        return couponDAO;
-    }
-
-    public void setCouponDAO(CouponsDAO couponDAO) {
-        this.couponDAO = couponDAO;
-    }
-
-    public boolean isQuit() {
-        return quit;
     }
 
     public void setQuit(boolean quit) {
@@ -36,16 +24,16 @@ public class CouponExpirationDailyJob implements Runnable {
 
     @Override
     public void run() {
-
-        while (!quit) {
-            try {
-
+        try {
+            while (!quit) {
+                System.out.println("Starting scan for expired coupons");
                 this.couponDAO.deleteExpiredCoupons();
-
+                System.out.println("Going to sleep");
                 Thread.sleep(1000 * 60 * 60 * 24);
-            } catch (InterruptedException e) {
-                System.out.println(e.getMessage());
             }
+        } catch (InterruptedException e) {
+            System.out.println("I'm up !");
         }
+        System.out.println("I'm out");
     }
 }

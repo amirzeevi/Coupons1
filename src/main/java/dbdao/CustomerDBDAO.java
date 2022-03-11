@@ -2,109 +2,134 @@ package dbdao;
 
 import db.DBmanager;
 import db.DBrunQuery;
-import beans.Coupon;
 import beans.Customer;
-import dao.CouponsDAO;
 import dao.CustomersDAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-
+/**
+ * The CustomerDBDAO is the class that should access the database and update the company table.
+ */
 
 public class CustomerDBDAO implements CustomersDAO {
-
+    /**
+     * Retrieves from the date base the custmer's id, based on the specified email and password.
+     * if it does not find a match, will return the id 0
+     */
     @Override
     public int getCustomerId(String email, String password) {
-        Map<Integer, Object> values = Map.of(1, email, 2, password);
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_CUSTOMER_ID, values);
-        assert resultSet != null;
+        ResultSet resultSet = DBrunQuery.getResultSet
+                (DBmanager.GET_CUSTOMER_ID, Map.of(1, email, 2, password));
         try {
-            resultSet.next();
-            return resultSet.getInt("id");
-        } catch (SQLException e) {
-            return 0;
-        }
-    }
-
-    @Override
-    public boolean isCustomerEmailExists(Customer customer) {
-        Map<Integer, Object> values = Map.of(1, customer.getEmail());
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_CUSTOMER_EMAIL_EXISTS, values);
-        assert resultSet != null;
-        try {
-            resultSet.next();
-            return resultSet.getInt("counter") == 1;
+            if (resultSet.next())
+                return resultSet.getInt("id");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return false;
         }
+        return 0;
     }
-
+    /**
+     * When updating a customer's email we need to make sure the email does not already exist.
+     * Will return true if it finds another customer with the same email.
+     */
+    @Override
+    public boolean canNotUpdateCustomer(Customer customer) {
+        try {
+            String email = customer.getEmail();
+            ResultSet resultSet = DBrunQuery.getResultSet
+                    (DBmanager.CAN_NOT_UPDATE_CUSTOMER, Map.of(1, customer.getId(), 2, email, 3, email));
+            resultSet.next();
+            return resultSet.next();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+    /**
+     * This will return true if the specified email exist in the database.
+     */
+    @Override
+    public boolean isCustomerEmailExists(Customer customer) {
+        try {
+            return DBrunQuery.getResultSet(DBmanager.IS_CUSTOMER_EMAIL_EXISTS, Map.of(1, customer.getEmail())).next();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+    /**
+     * Adds the specified customer to the customers table.
+     */
     @Override
     public void addCustomer(Customer customer) {
-        Map<Integer, Object> values = Map.of(1, customer.getFirstName(),
+        DBrunQuery.runQuery(DBmanager.ADD_CUSTOMER, Map.of(
+                1, customer.getFirstName(),
                 2, customer.getLastName(),
                 3, customer.getEmail(),
-                4, customer.getPassword());
-        DBrunQuery.runQuery(DBmanager.ADD_CUSTOMER, values);
+                4, customer.getPassword()));
     }
-
+    /**
+     * Updates the specified customer to the customers table.
+     */
     @Override
     public void updateCustomer(Customer customer) {
-        Map<Integer, Object> values = Map.of(1, customer.getFirstName(),
+        DBrunQuery.runQuery(DBmanager.UPDATE_CUSTOMER, Map.of(
+                1, customer.getFirstName(),
                 2, customer.getLastName(),
                 3, customer.getEmail(),
                 4, customer.getPassword(),
-                5, customer.getId());
-        DBrunQuery.runQuery(DBmanager.UPDATE_CUSTOMER, values);
+                5, customer.getId()));
     }
-
+    /**
+     * Deletes the specified customer from the customers table.
+     */
     @Override
     public void deleteCustomer(int costumerId) {
-        Map<Integer, Object> map = Map.of(1, costumerId);
-        db.DBrunQuery.runQuery(DBmanager.DROP_CUSTOMER, map);
+        DBrunQuery.runQuery(DBmanager.DELETE_CUSTOMER, Map.of(1, costumerId));
     }
-
+    /**
+     * Retrieves all customers from the database and returns a list.
+     */
     @Override
     public ArrayList<Customer> getAllCustomers() {
         ArrayList<Customer> customers = new ArrayList<>();
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ALL_CUSTOMERS);
-        assert resultSet != null;
         try {
             while (resultSet.next()) {
                 customers.add(resultSetToCustomer(resultSet));
             }
-            return customers;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return null;
         }
+        return customers;
     }
-
+    /**
+     * Retrieves the specified customer from the database based on its id.
+     */
     @Override
     public Customer getOneCustomer(int costumerId) {
-        Map<Integer, Object> map = Map.of(1, costumerId);
-        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ONE_CUSTOMER, map);
-        assert resultSet != null;
+        ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ONE_CUSTOMER, Map.of(1, costumerId));
         try {
-            resultSet.next();
-            return resultSetToCustomer(resultSet);
+            if (resultSet.next())
+                return resultSetToCustomer(resultSet);
         } catch (SQLException e) {
-        return null;
+            System.out.println(e.getMessage());
         }
+        return null;
     }
-
+    /**
+     *A private service method to be used in multiple method that will convert the result set into a customer.
+     */
     private static Customer resultSetToCustomer(ResultSet resultSet) throws SQLException {
-            CouponsDAO couponsDAO = new CouponDBDAO();
-            List<Coupon> customerCoupons = couponsDAO.getCostumerCoupons(resultSet.getInt("id"));
-            return new Customer(resultSet.getInt("id"),
-                    resultSet.getString("first_name"),
-                    resultSet.getString("last_name"),
-                    resultSet.getString("email"),
-                    resultSet.getString("password"),
-                    customerCoupons);
+        int customerID = resultSet.getInt("id");
+        return new Customer(
+                customerID,
+                resultSet.getString("first_name"),
+                resultSet.getString("last_name"),
+                resultSet.getString("email"),
+                resultSet.getString("password"),
+                new CouponDBDAO().getCostumerCoupons(customerID));
     }
 }

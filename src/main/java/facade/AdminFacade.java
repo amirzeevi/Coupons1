@@ -21,43 +21,35 @@ public class AdminFacade extends ClientFacade {
         return false;
     }
 
-
     public void addCompany(Company company) throws CouponSystemException, LogInException {
         checkLogin();
-        if (this.companiesDAO.isCompanyExists(company)) {
+        if (this.companiesDAO.isCompanyExist(company)) {
             throw new CouponSystemException("Can not add company with existing name or email");
         }
         this.companiesDAO.addCompany(company);
         System.out.println("Company added");
     }
 
-
     public void deleteCompany(int companyID) throws CouponSystemException, LogInException {
-        checkLogin();
-        getOneCompany(companyID); // check company id
+        // check company id
+        getOneCompany(companyID);
         this.companiesDAO.deleteCompany(companyID);
         System.out.println("Company Deleted");
     }
 
-
     public void updateCompany(Company company) throws CouponSystemException, LogInException {
         checkLogin();
-        Company companyFromDB = getOneCompany(company.getId());
-        if (!companyFromDB.getEmail().equals(company.getEmail())) {
-            if (this.companiesDAO.isCompanyEmailExists(company)) {
-                throw new CouponSystemException("Can not update - Email already exists");
-            }
+        if (this.companiesDAO.canNotUpdateCompany(company)) {
+            throw new CouponSystemException("Can not update - Email already exists");
         }
         this.companiesDAO.updateCompany(company);
         System.out.println("Company updated");
     }
 
-
     public List<Company> getAllCompanies() throws LogInException {
         checkLogin();
         return this.companiesDAO.getAllCompanies();
     }
-
 
     public Company getOneCompany(int companyID) throws CouponSystemException, LogInException {
         checkLogin();
@@ -68,7 +60,6 @@ public class AdminFacade extends ClientFacade {
         return companyFromDB;
     }
 
-
     public void addCustomer(Customer customer) throws CouponSystemException, LogInException {
         checkLogin();
         if (this.customerDAO.isCustomerEmailExists(customer)) {
@@ -78,36 +69,26 @@ public class AdminFacade extends ClientFacade {
         System.out.println("Customer added");
     }
 
-
     public void updateCustomer(Customer customer) throws CouponSystemException, LogInException {
         checkLogin();
-        Customer customerFromDB = getOneCustomer(customer.getId());
-
-        if (!customerFromDB.getEmail().equals(customer.getEmail())) {
-            if (this.customerDAO.isCustomerEmailExists(customer)) {
-                throw new CouponSystemException("Can not update customer email already exists");
-            }
+        if (this.customerDAO.canNotUpdateCustomer(customer)) {
+            throw new CouponSystemException("Can not update customer email already exists");
         }
         this.customerDAO.updateCustomer(customer);
         System.out.println("Customer updated");
     }
 
-
     public void deleteCustomer(int customerID) throws CouponSystemException, LogInException {
-        checkLogin();
         // check customer id
         getOneCustomer(customerID);
-
         this.customerDAO.deleteCustomer(customerID);
         System.out.println("Customer deleted");
     }
-
 
     public List<Customer> getAllCustomers() throws LogInException {
         checkLogin();
         return this.customerDAO.getAllCustomers();
     }
-
 
     public Customer getOneCustomer(int customerID) throws CouponSystemException, LogInException {
         checkLogin();
@@ -118,10 +99,9 @@ public class AdminFacade extends ClientFacade {
         return customerFromDB;
     }
 
-
     private void checkLogin() throws LogInException {
         if (this.companiesDAO == null) {
-            throw new LogInException("You are not logged in");
+            throw new LogInException("You did not log in correctly");
         }
     }
 }

@@ -1,6 +1,6 @@
 package beans;
 
-import exceptions.ChangedValueNotAllowed;
+import exceptions.NotAllowedValueChange;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class Company {
     private final String name;
     private String email;
     private String password;
-    private List<Coupon> coupons;
+    private final List<Coupon> coupons;
 
 
     /**
@@ -41,8 +41,8 @@ public class Company {
     /**
      * Can not change company name. will throw an exception
      */
-    public void setName(String name) throws ChangedValueNotAllowed {
-        throw new ChangedValueNotAllowed("You can not change company name");
+    public void setName(String name) throws NotAllowedValueChange {
+        throw new NotAllowedValueChange("You can not change company name");
     }
 
     /**
@@ -91,18 +91,17 @@ public class Company {
     }
 
     /**
-     * Can not set company id. will throw Coupon exception
+     * * Can not change company id. will throw exception
+     * @throws NotAllowedValueChange
      */
-    public void setId(int id) throws ChangedValueNotAllowed {
-        throw new ChangedValueNotAllowed("You can not change company id");
+    public void setId(int id) throws NotAllowedValueChange {
+        throw new NotAllowedValueChange("You can not change company id");
     }
 
+    /**
+     * Returns a list of the company coupons
+     */
     public List<Coupon> getCoupons() {
         return coupons;
     }
-
-    public void setCoupons(List<Coupon> coupons) {
-        this.coupons = coupons;
-    }
-
 }
