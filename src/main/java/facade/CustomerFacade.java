@@ -6,7 +6,6 @@ import beans.Category;
 import beans.Customer;
 import beans.Coupon;
 import exceptions.CouponSystemException;
-import exceptions.LogInException;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -49,11 +48,11 @@ public class CustomerFacade extends ClientFacade {
         return this.couponDAO.getCostumerCoupons(customerID);
     }
 
-    public List<Coupon> getCustomerCoupon(Category category) {
+    public List<Coupon> getCustomerCoupons(Category category) {
         return this.couponDAO.getCustomerCouponsByCategory(category, customerID);
     }
 
-    public List<Coupon> getCustomerCoupon(double maxPrice) {
+    public List<Coupon> getCustomerCoupons(double maxPrice) {
         return this.couponDAO.getCustomerCouponsByMaxPrice(maxPrice, customerID);
 
     }

@@ -70,7 +70,7 @@ public class DBmanager {
             "    ON DELETE CASCADE" +
             "    ON UPDATE NO ACTION)";
 
-    public static final String CREATE_COUPON_PURCHASE_TRIGGER = "CREATE TRIGGER coupon_purchase_trigger" +
+    public static final String CREATE_COUPON_PURCHASE_TRIGGER = "CREATE TRIGGER coupons_database.coupon_purchase_trigger" +
             " AFTER INSERT ON `coupons_database`.`customers_coupons`" +
             " FOR EACH ROW" +
             " UPDATE `coupons_database`.`coupons` SET `amount` = `amount`-1 WHERE `id` = " +
@@ -107,8 +107,8 @@ public class DBmanager {
     public static final String CAN_NOT_UPDATE_CUSTOMER = "SELECT * FROM `coupons_database`.`customers` WHERE id = ? AND email != ? UNION SELECT * FROM `coupons_database`.`customers` WHERE email = ?";
     public static final String GET_ALL_CUSTOMERS = "SELECT*FROM `coupons_database`.`customers` ";
     public static final String GET_ONE_CUSTOMER = "SELECT*FROM `coupons_database`.`customers` WHERE id = ?";
-    public static final String GET_CUSTOMER_COUPON_CATEGORY = "SELECT * FROM `coupons_database`.`customers_coupons`, `coupons_database`.`coupons`  WHERE category_id = ? AND customer_id = ? ";
-    public static final String GET_CUSTOMER_COUPON_MAX_PRICE = "SELECT * FROM `coupons_database`.`customers_coupons`, `coupons_database`.`coupons`  WHERE AND price <= ? AND customer_id = ? ";
+    public static final String GET_CUSTOMER_COUPON_CATEGORY = "SELECT * FROM `coupons_database`.`coupons` WHERE `category_id` = ? AND id IN (SELECT `coupon_id` FROM `coupons_database`.`customers_coupons` WHERE `customer_id` = ?)";
+    public static final String GET_CUSTOMER_COUPON_MAX_PRICE = "SELECT * FROM `coupons_database`.`coupons` WHERE `price` <= ? AND id IN (SELECT `coupon_id` FROM `coupons_database`.`customers_coupons` WHERE `customer_id` = ?)";
 
     public static final String IS_COUPON_COMPANY_EXISTS = "SELECT * FROM `coupons_database`.`coupons` WHERE company_id = ? AND title = ? ";
     public static final String IS_CUSTOMER_COUPON_EXISTS = "SELECT * FROM `coupons_database`.`customers_coupons` WHERE customer_id = ? AND coupon_id = ? ";

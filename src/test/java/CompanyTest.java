@@ -21,7 +21,7 @@ public class CompanyTest {
     @Before
     public void setUp() {
         companyFacade = new CompanyFacade();
-        companyFacade.login("email@com2", "Eded");
+        companyFacade.login("company@com", "password");
     }
 
     @After
@@ -32,7 +32,7 @@ public class CompanyTest {
     @Test
     public void Login() {
         try {
-            LoginManager.getInstance().login("company@com", "1234", ClientType.COMPANY);
+            LoginManager.getInstance().login("company@com", "password", ClientType.COMPANY);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -49,7 +49,7 @@ public class CompanyTest {
         try {
             Coupon couponToAdd = new Coupon(
                     0,
-                    2,
+                    1,
                     Category.ELECTRICITY,
                     "Electric Bike",
                     "myDescription",
@@ -66,8 +66,30 @@ public class CompanyTest {
         }
     }
 
+    @Test
+    public void AddCoupon2() {
+        try {
+            Coupon couponToAdd = new Coupon(
+                    0,
+                    1,
+                    Category.VACATION,
+                    "Hotel California",
+                    "Vacation",
+                    Date.valueOf(LocalDate.now()),
+                    Date.valueOf(LocalDate.now().plusDays(12)),
+                    20,
+                    99.99,
+                    "image");
+
+            companyFacade.addCoupon(couponToAdd);
+        } catch (Exception e) {
+            assert (true);
+            System.out.println(e.getMessage());
+        }
+    }
+
     @Test(expected = CouponSystemException.class)
-    public void exceptionAddCoupon() throws CouponSystemException, LogInException {
+    public void exceptionAddCoupon() throws CouponSystemException {
         Coupon couponToAdd = new Coupon(
                 0,
                 4,
@@ -87,7 +109,7 @@ public class CompanyTest {
     public void UpdateCoupon() {
         try {
             Coupon existsCoupons = companyFacade.getCompanyCoupons().get(0);
-            existsCoupons.setTitle("me");
+            existsCoupons.setTitle("City Bike");
             companyFacade.updateCoupon(existsCoupons);
         } catch (Exception e) {
             assert (true);
@@ -96,7 +118,7 @@ public class CompanyTest {
     }
 
     @Test(expected = CouponSystemException.class)
-    public void exceptionUpdateCoupon() throws CouponSystemException, LogInException {
+    public void exceptionUpdateCoupon() throws CouponSystemException{
         Coupon existsCoupons = companyFacade.getCompanyCoupons().get(1);
         existsCoupons.setAmount(-5);
         companyFacade.updateCoupon(existsCoupons);
@@ -105,7 +127,7 @@ public class CompanyTest {
     @Test
     public void DeleteCoupon() {
         try {
-            companyFacade.deleteCoupon(4);
+            companyFacade.deleteCoupon(2);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -113,14 +135,14 @@ public class CompanyTest {
     }
 
     @Test(expected = CouponSystemException.class)
-    public void exceptionDeleteCoupon() throws CouponSystemException, LogInException {
-        companyFacade.deleteCoupon(4);
+    public void exceptionDeleteCoupon() throws CouponSystemException{
+        companyFacade.deleteCoupon(23);
     }
 
     @Test
     public void getOneCoupon() {
         try {
-            TablePrinter.print(companyFacade.getOneCoupon(4));
+            TablePrinter.print(companyFacade.getOneCoupon(1));
         } catch (CouponSystemException e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -128,18 +150,18 @@ public class CompanyTest {
     }
 
     @Test(expected = CouponSystemException.class)
-    public void exceptionGetOneCoupon() throws CouponSystemException, LogInException {
+    public void exceptionGetOneCoupon() throws CouponSystemException {
         TablePrinter.print(companyFacade.getOneCoupon(4));
     }
 
     @Test
-    public void getCompanyCoupons() throws LogInException {
+    public void getCompanyCoupons() {
         //takes arguments
         TablePrinter.print(companyFacade.getCompanyCoupons());
     }
 
     @Test
-    public void GetCompanyDetails() throws LogInException {
+    public void GetCompanyDetails() {
         TablePrinter.print(companyFacade.getCompanyDetails());
     }
 }

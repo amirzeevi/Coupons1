@@ -62,11 +62,27 @@ public class AdminTest {
         }
     }
 
+    @Test
+    public void AddCompany2() {
+        try {
+            Company companyToAdd = new Company(
+                    0,
+                    "Company2",
+                    "company2@com",
+                    "1234",
+                    new ArrayList<>());
+            adminFacade.addCompany(companyToAdd);
+        } catch (Exception e) {
+            assert (true);
+            System.out.println(e.getMessage());
+        }
+    }
+
     @Test(expected = CouponSystemException.class)
-    public void exceptionAddCompany() throws CouponSystemException, LogInException {
+    public void exceptionAddCompany() throws CouponSystemException {
         Company companyToAdd = new Company(
                 0,
-                "New Company",
+                "Company3",
                 "company@com",
                 "1234",
                 new ArrayList<>());
@@ -77,7 +93,7 @@ public class AdminTest {
     public void UpdateCompany() {
         try {
             Company companyExists = adminFacade.getAllCompanies().get(0);
-            companyExists.setPassword("Eded");
+            companyExists.setPassword("password");
             adminFacade.updateCompany(companyExists);
         } catch (Exception e) {
             assert (true);
@@ -86,24 +102,24 @@ public class AdminTest {
     }
 
     @Test(expected = NotAllowedValueChange.class)
-    public void exceptionUpdateCompany() throws NotAllowedValueChange, LogInException, CouponSystemException {
-        Company companyExists = adminFacade.getOneCompany(2);
+    public void exceptionUpdateCompany() throws NotAllowedValueChange, CouponSystemException {
+        Company companyExists = adminFacade.getOneCompany(1);
         companyExists.setId(1);
         adminFacade.updateCompany(companyExists);
 
     }
 
     @Test(expected = CouponSystemException.class)
-    public void exceptionUpdateCompany2() throws LogInException, CouponSystemException {
-        Company companyExists = adminFacade.getOneCompany(2);
-        companyExists.setEmail("company@com");
+    public void exceptionUpdateCompany2() throws CouponSystemException {
+        Company companyExists = adminFacade.getOneCompany(1);
+        companyExists.setEmail("company2@com");
         adminFacade.updateCompany(companyExists);
     }
 
     @Test
     public void DeleteCompany() {
         try {
-            adminFacade.deleteCompany(1);
+            adminFacade.deleteCompany(2);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -111,19 +127,19 @@ public class AdminTest {
     }
 
     @Test(expected = CouponSystemException.class)
-    public void exceptionDeleteCompany() throws CouponSystemException, LogInException {
-        adminFacade.deleteCompany(1);
+    public void exceptionDeleteCompany() throws CouponSystemException{
+        adminFacade.deleteCompany(2);
     }
 
     @Test
-    public void GetAllCompanies() throws LogInException {
+    public void GetAllCompanies() {
         TablePrinter.print(adminFacade.getAllCompanies());
     }
 
     @Test
     public void GetOneCompany() {
         try {
-            TablePrinter.print(adminFacade.getOneCompany(3));
+            TablePrinter.print(adminFacade.getOneCompany(1));
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -131,8 +147,8 @@ public class AdminTest {
     }
 
     @Test(expected = CouponSystemException.class)
-    public void exceptionGetOneCompany() throws CouponSystemException, LogInException {
-        TablePrinter.print(adminFacade.getOneCompany(1));
+    public void exceptionGetOneCompany() throws CouponSystemException{
+        TablePrinter.print(adminFacade.getOneCompany(2));
     }
 
     @Test
@@ -141,6 +157,22 @@ public class AdminTest {
             Customer customerToAdd = new Customer(
                     0,
                     "Ploni",
+                    "Israeli",
+                    "my.email@com",
+                    "1234",
+                    new ArrayList<>());
+            adminFacade.addCustomer(customerToAdd);
+        } catch (Exception e) {
+            assert (true);
+            System.out.println(e.getMessage());
+        }
+    }
+    @Test
+    public void AddCustomer2() {
+        try {
+            Customer customerToAdd = new Customer(
+                    0,
+                    "Almoni",
                     "Israeli",
                     "my.email2@com",
                     "1234",
@@ -153,7 +185,7 @@ public class AdminTest {
     }
 
     @Test(expected = CouponSystemException.class)
-    public void exceptionAddCustomer() throws CouponSystemException, LogInException {
+    public void exceptionAddCustomer() throws CouponSystemException {
         Customer customerToAdd = new Customer(
                 0,
                 "Almoni",
@@ -168,7 +200,7 @@ public class AdminTest {
     public void UpdateCustomer() {
         try {
             Customer customerExists = adminFacade.getAllCustomers().get(0);
-            customerExists.setPassword("1234");
+            customerExists.setPassword("12345678");
             adminFacade.updateCustomer(customerExists);
         } catch (Exception e) {
             assert (true);
@@ -177,7 +209,7 @@ public class AdminTest {
     }
 
     @Test(expected = NotAllowedValueChange.class)
-    public void exceptionUpdateCustomer() throws CouponSystemException, LogInException, NotAllowedValueChange {
+    public void exceptionUpdateCustomer() throws CouponSystemException, NotAllowedValueChange {
 
         Customer customerExists = adminFacade.getAllCustomers().get(0);
         customerExists.setId(14);
@@ -188,7 +220,7 @@ public class AdminTest {
     @Test
     public void DeleteCustomer() {
         try {
-            adminFacade.deleteCustomer(1);
+            adminFacade.deleteCustomer(2);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -196,28 +228,27 @@ public class AdminTest {
     }
 
     @Test(expected = CouponSystemException.class)
-    public void exceptionDeleteCustomer() throws CouponSystemException, LogInException {
-        adminFacade.deleteCustomer(1);
+    public void exceptionDeleteCustomer() throws CouponSystemException {
+        adminFacade.deleteCustomer(2);
     }
 
     @Test
-    public void GetAllCustomers() throws LogInException {
+    public void GetAllCustomers() {
         TablePrinter.print(adminFacade.getAllCustomers());
     }
 
     @Test
     public void GetOneCustomer() {
         try {
-            TablePrinter.print(adminFacade.getOneCustomer(2));
+            TablePrinter.print(adminFacade.getOneCustomer(1));
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
         }
     }
 
-
     @Test(expected = CouponSystemException.class)
-    public void exceptionGetOneCustomer() throws CouponSystemException, LogInException {
+    public void exceptionGetOneCustomer() throws CouponSystemException{
         TablePrinter.print(adminFacade.getOneCustomer(123));
     }
 }

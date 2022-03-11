@@ -29,7 +29,7 @@ public class AdminFacade extends ClientFacade {
         System.out.println("Company added");
     }
 
-    public void deleteCompany(int companyID) throws CouponSystemException, LogInException {
+    public void deleteCompany(int companyID) throws CouponSystemException {
         // check company id
         getOneCompany(companyID);
         this.companiesDAO.deleteCompany(companyID);

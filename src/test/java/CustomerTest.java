@@ -1,4 +1,5 @@
 
+import beans.Category;
 import beans.ClientType;
 import beans.Coupon;
 import exceptions.CouponSystemException;
@@ -18,7 +19,7 @@ public class CustomerTest {
     @Before
     public void setUp() {
         customerFacade = new CustomerFacade();
-        customerFacade.login("my.email3@com", "1234");
+        customerFacade.login("my.email@com", "12345678");
     }
 
     @After
@@ -29,7 +30,7 @@ public class CustomerTest {
     @Test
     public void Login() {
         try {
-            LoginManager.getInstance().login("my.email@com", "password", ClientType.COSTUMER);
+            LoginManager.getInstance().login("my.email@com", "12345678", ClientType.COSTUMER);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -44,7 +45,7 @@ public class CustomerTest {
     @Test
     public void Purchase() {
         CompanyFacade companyFacade = new CompanyFacade();
-        companyFacade.login("company@com", "1234");
+        companyFacade.login("company@com", "password");
         try {
             Coupon coupon = companyFacade.getCompanyCoupons().get(0);
             customerFacade.purchaseCoupon(coupon);
@@ -55,22 +56,22 @@ public class CustomerTest {
     }
 
     @Test(expected = CouponSystemException.class)
-    public void exceptionPurchase() throws CouponSystemException, LogInException {
+    public void exceptionPurchase() throws CouponSystemException {
         CompanyFacade companyFacade = new CompanyFacade();
-        companyFacade.login("company@com", "1234");
+        companyFacade.login("company@com", "password");
         Coupon coupon = companyFacade.getCompanyCoupons().get(0);
         customerFacade.purchaseCoupon(coupon);
     }
 
     @Test
-    public void GetAllPurchased() throws LogInException {
-        //accepts arguments
+    public void GetAllPurchased() {
+        //takes arguments
         TablePrinter.print(customerFacade.getCustomerCoupons());
     }
 
     @Test
-    public void GetCostumerDetails() throws LogInException {
-        System.out.println(customerFacade.getCustomerDetails());
+    public void GetCostumerDetails() {
+        TablePrinter.print(customerFacade.getCustomerDetails());
     }
 
 }
