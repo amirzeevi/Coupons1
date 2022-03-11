@@ -17,29 +17,30 @@ public class CompanyFacade extends ClientFacade {
 
     @Override
     public boolean login(String email, String password) {
-        this.companiesDAO = new CompaniesDBDAO();
-        int companyId = this.companiesDAO.getCompanyId(email, password);
+        int companyId = new CompaniesDBDAO().getCompanyId(email, password);
+
         if (companyId == 0) {
             this.companiesDAO = null;
             return false;
         }
         this.couponDAO = new CouponDBDAO();
+        this.companiesDAO = new CompaniesDBDAO();
         this.companyID = companyId;
         return true;
     }
 
-    public void addCoupon(Coupon coupon) throws CouponSystemException, LogInException {
-        checkLoggedIn();
+    public void addCoupon(Coupon coupon) throws CouponSystemException {
         checkCouponInfo(coupon);
         if (this.couponDAO.isCompanyCouponExist(coupon)) {
             throw new CouponSystemException("Can not add - coupon already exists");
         }
         getCompanyDetails().getCoupons().add(coupon);
+
         this.couponDAO.addCoupon(coupon);
         System.out.println("Coupon added");
     }
 
-    public void updateCoupon(Coupon coupon) throws CouponSystemException, LogInException {
+    public void updateCoupon(Coupon coupon) throws CouponSystemException {
         checkCouponInfo(coupon);
         if (this.couponDAO.canNotUpdateCoupon(coupon)) {
             throw new CouponSystemException("Can not update coupon to existing title");
@@ -52,38 +53,34 @@ public class CompanyFacade extends ClientFacade {
         System.out.println("Coupon updated");
     }
 
-    public void deleteCoupon(int couponID) throws CouponSystemException, LogInException {
+    public void deleteCoupon(int couponID) throws CouponSystemException {
         Coupon couponFromDB = getOneCoupon(couponID);
         if (couponFromDB.getCompanyID() != companyID) {
             throw new CouponSystemException("Coupon does not belong to this company");
         }
         getCompanyDetails().getCoupons().removeIf(coupon -> coupon.getId() == couponID);
+
         this.couponDAO.deleteCoupon(couponID);
         System.out.println("Coupon deleted");
     }
 
-    public List<Coupon> getCompanyCoupons() throws LogInException {
-        checkLoggedIn();
+    public List<Coupon> getCompanyCoupons() {
         return this.couponDAO.getCompanyCoupons(companyID);
     }
 
-    public List<Coupon> getCompanyCoupons(Category category) throws LogInException {
-        checkLoggedIn();
+    public List<Coupon> getCompanyCoupons(Category category) {
         return this.couponDAO.getCompanyCouponsByCategory(category, companyID);
     }
 
-    public List<Coupon> getCompanyCoupons(double maxPrice) throws LogInException {
-        checkLoggedIn();
+    public List<Coupon> getCompanyCoupons(double maxPrice) {
         return this.couponDAO.getCompanyCouponsByMaxPrice(maxPrice, companyID);
     }
 
-    public Company getCompanyDetails() throws LogInException {
-        checkLoggedIn();
+    public Company getCompanyDetails() {
         return this.companiesDAO.getOneCompany(companyID);
     }
 
-    public Coupon getOneCoupon(int couponID) throws CouponSystemException, LogInException {
-        checkLoggedIn();
+    public Coupon getOneCoupon(int couponID) throws CouponSystemException {
         Coupon couponFromDB = this.couponDAO.getOneCoupon(couponID);
         if (couponFromDB == null) {
             throw new CouponSystemException("Coupon not found");
@@ -104,12 +101,6 @@ public class CompanyFacade extends ClientFacade {
         }
         if (coupon.getAmount() < 1) {
             throw new CouponSystemException("Coupon amount should be positive");
-        }
-    }
-
-    private void checkLoggedIn() throws LogInException {
-        if (this.couponDAO == null) {
-            throw new LogInException("You did not log in correctly");
         }
     }
 }

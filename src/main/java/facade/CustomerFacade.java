@@ -18,19 +18,19 @@ public class CustomerFacade extends ClientFacade {
 
     @Override
     public boolean login(String email, String password) {
-        this.customerDAO = new CustomerDBDAO();
-        int customerId = this.customerDAO.getCustomerId(email, password);
+        int customerId = new CustomerDBDAO().getCustomerId(email, password);
 
         if (customerId == 0) {
             this.customerDAO = null;
             return false;
         }
         this.couponDAO = new CouponDBDAO();
+        this.customerDAO = new CustomerDBDAO();
         this.customerID = customerId;
         return true;
     }
 
-    public void purchaseCoupon(Coupon coupon) throws CouponSystemException, LogInException {
+    public void purchaseCoupon(Coupon coupon) throws CouponSystemException {
         if (coupon.getEndDate().before(Date.valueOf(LocalDate.now()))) {
             throw new CouponSystemException("Can not make purchase - coupon is out of date");
         }
@@ -49,30 +49,20 @@ public class CustomerFacade extends ClientFacade {
         this.couponDAO.updateCoupon(coupon);
     }
 
-    public List<Coupon> getCustomerCoupons() throws LogInException {
-        checkLoggedIn();
+    public List<Coupon> getCustomerCoupons() {
         return this.couponDAO.getCostumerCoupons(customerID);
     }
 
-    public List<Coupon> getCustomerCoupon(Category category) throws LogInException {
-        checkLoggedIn();
+    public List<Coupon> getCustomerCoupon(Category category) {
         return this.couponDAO.getCustomerCouponsByCategory(category, customerID);
     }
 
-    public List<Coupon> getCustomerCoupon(double maxPrice) throws LogInException {
-        checkLoggedIn();
+    public List<Coupon> getCustomerCoupon(double maxPrice) {
         return this.couponDAO.getCustomerCouponsByMaxPrice(maxPrice, customerID);
 
     }
 
-    public Customer getCustomerDetails() throws LogInException {
-        checkLoggedIn();
+    public Customer getCustomerDetails() {
         return this.customerDAO.getOneCustomer(customerID);
-    }
-
-    private void checkLoggedIn() throws LogInException {
-        if (this.customerDAO == null) {
-            throw new LogInException("You did not log in correctly");
-        }
     }
 }
