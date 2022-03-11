@@ -82,8 +82,7 @@ public class DBmanager {
     public static final String DELETE_CATEGORY = "DELETE FROM `coupons_database`.`categories` WHERE name = ? ";
 
     public static final String GET_COMPANY_ID = "SELECT id FROM `coupons_database`.`companies` WHERE  email = ? AND password = ? ";
-    public static final String IS_COMPANY_EXISTS = "SELECT * FROM `coupons_database`.`companies` WHERE  name = ? OR email = ? ";
-    public static final String IS_COMPANY_EMAIL_EXISTS = "SELECT * FROM `coupons_database`.`companies` WHERE `email` = ? ";
+    public static final String IS_COMPANY_EXIST = "SELECT * FROM `coupons_database`.`companies` WHERE  name = ? OR email = ? ";
     public static final String ADD_COMPANY = "INSERT INTO `coupons_database`.`companies` (`name`, `email`, `password`) VALUES (?,?,?) ";
     public static final String DELETE_COMPANY = "DELETE FROM `coupons_database`.`companies` WHERE id = ? ";
     public static final String UPDATE_COMPANY = "UPDATE `coupons_database`.`companies` SET email = ?, password = ? WHERE id = ? ";
@@ -114,5 +113,5 @@ public class DBmanager {
     public static final String GET_ONE_COUPON = "SELECT*FROM `coupons_database`.`coupons` WHERE id = ?";
     public static final String GET_COMPANY_COUPONS = "SELECT*FROM `coupons_database`.`coupons` WHERE  company_id = ?";
     public static final String ADD_COUPON_PURCHASE = "INSERT INTO `coupons_database`.`customers_coupons` (`customer_id`, `coupon_id`) VALUES (?, ?) ";
-    public static final String GET_CUSTOMER_COUPONS = "SELECT*FROM `coupons_database`.`customers_coupons` WHERE customer_id = ?";
+    public static final String GET_CUSTOMER_COUPONS = "SELECT * FROM `coupons_database`.`coupons` WHERE id IN (SELECT coupon_id FROM `coupons_database`.`customers_coupons` WHERE customer_id = ?)";
 }

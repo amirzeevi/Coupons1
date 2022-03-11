@@ -89,7 +89,7 @@ public class CompanyFacade extends ClientFacade {
 
     private void checkCouponInfo(Coupon coupon) throws CouponSystemException {
         if (coupon.getCompanyID() != companyID) {
-            throw new CouponSystemException("Coupon's company id incorrect");
+            throw new CouponSystemException("Coupon company id incorrect");
         }
         if (coupon.getStartDate().after(coupon.getEndDate()) ||
                 coupon.getEndDate().before(Date.valueOf(LocalDate.now()))) {

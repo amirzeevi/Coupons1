@@ -121,7 +121,7 @@ public class CompanyTest {
     public void getOneCoupon() {
         try {
             TablePrinter.print(companyFacade.getOneCoupon(4));
-        } catch (CouponSystemException | LogInException e) {
+        } catch (CouponSystemException e) {
             assert (true);
             System.out.println(e.getMessage());
         }

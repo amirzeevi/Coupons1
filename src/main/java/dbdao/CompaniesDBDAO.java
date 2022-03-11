@@ -35,7 +35,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
     public boolean isCompanyExist(Company company) {
         try {
             return DBrunQuery.getResultSet
-                    (DBmanager.IS_COMPANY_EXISTS, Map.of(1, company.getName(), 2, company.getEmail())).next();
+                    (DBmanager.IS_COMPANY_EXIST, Map.of(1, company.getName(), 2, company.getEmail())).next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

@@ -18,7 +18,7 @@ public class CustomerTest {
     @Before
     public void setUp() {
         customerFacade = new CustomerFacade();
-        customerFacade.login("my.email@com", "password");
+        customerFacade.login("my.email3@com", "1234");
     }
 
     @After
