@@ -70,7 +70,7 @@ public class DBmanager {
             "    ON DELETE CASCADE" +
             "    ON UPDATE NO ACTION)";
 
-    public static final String CREATE_COUPON_PURCHASE_TRIGGER = "CREATE TRIGGER coupons_database.coupon_purchase_trigger" +
+    public static final String CREATE_TRIGGER_COUPON_PURCHASE = "CREATE TRIGGER coupons_database.coupon_purchase_trigger" +
             " AFTER INSERT ON `coupons_database`.`customers_coupons`" +
             " FOR EACH ROW" +
             " UPDATE `coupons_database`.`coupons` SET `amount` = `amount`-1 WHERE `id` = " +

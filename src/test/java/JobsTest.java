@@ -12,9 +12,9 @@ public class JobsTest {
 
     @Before
     public void setUp() {
-        Coupon expired = new Coupon(
+        Coupon expiredCoupon = new Coupon(
                 0,
-                2,
+                1,
                 Category.FOOD,
                 "Expired",
                 "Description",
@@ -24,8 +24,7 @@ public class JobsTest {
                 1.99,
                 "book"
         );
-        CouponDBDAO couponDBDAO = new CouponDBDAO();
-        couponDBDAO.addCoupon(expired);
+        new CouponDBDAO().addCoupon(expiredCoupon);
     }
 
     @Test

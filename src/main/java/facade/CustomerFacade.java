@@ -29,6 +29,9 @@ public class CustomerFacade extends ClientFacade {
     }
 
     public void purchaseCoupon(Coupon coupon) throws CouponSystemException {
+        if (coupon == null) {
+            throw new CouponSystemException("Coupon does not exist");
+        }
         if (coupon.getEndDate().before(Date.valueOf(LocalDate.now()))) {
             throw new CouponSystemException("Can not make purchase - coupon is out of date");
         }

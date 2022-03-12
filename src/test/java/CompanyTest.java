@@ -1,9 +1,9 @@
 import beans.Category;
 import beans.ClientType;
+import beans.Company;
 import beans.Coupon;
+import dbdao.CompaniesDBDAO;
 import exceptions.CouponSystemException;
-import exceptions.LogInException;
-import exceptions.NotAllowedValueChange;
 import facade.CompanyFacade;
 import facade.LoginManager;
 import org.junit.After;
@@ -15,13 +15,14 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 public class CompanyTest {
-
+    Company company;
     CompanyFacade companyFacade;
 
     @Before
     public void setUp() {
+        company = new CompaniesDBDAO().getAllCompanies().get(0);
         companyFacade = new CompanyFacade();
-        companyFacade.login("company@com", "password");
+        companyFacade.login(company.getEmail(), company.getPassword());
     }
 
     @After
@@ -32,16 +33,11 @@ public class CompanyTest {
     @Test
     public void Login() {
         try {
-            LoginManager.getInstance().login("company@com", "password", ClientType.COMPANY);
+            LoginManager.getInstance().login("company2@com", "password", ClientType.COMPANY);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
         }
-    }
-
-    @Test(expected = LogInException.class)
-    public void exceptionLogin() throws LogInException {
-        LoginManager.getInstance().login("company@com", "not.remember", ClientType.COMPANY);
     }
 
     @Test
@@ -49,7 +45,7 @@ public class CompanyTest {
         try {
             Coupon couponToAdd = new Coupon(
                     0,
-                    1,
+                    company.getId(),
                     Category.ELECTRICITY,
                     "Electric Bike",
                     "myDescription",
@@ -71,7 +67,7 @@ public class CompanyTest {
         try {
             Coupon couponToAdd = new Coupon(
                     0,
-                    1,
+                    company.getId(),
                     Category.VACATION,
                     "Hotel California",
                     "Vacation",
@@ -88,23 +84,6 @@ public class CompanyTest {
         }
     }
 
-    @Test(expected = CouponSystemException.class)
-    public void exceptionAddCoupon() throws CouponSystemException {
-        Coupon couponToAdd = new Coupon(
-                0,
-                4,
-                Category.ELECTRICITY,
-                "Electric Bike",
-                "myDescription",
-                Date.valueOf(LocalDate.now()),
-                Date.valueOf(LocalDate.now().plusDays(12)),
-                20,
-                99.99,
-                "image");
-
-        companyFacade.addCoupon(couponToAdd);
-    }
-
     @Test
     public void UpdateCoupon() {
         try {
@@ -117,13 +96,6 @@ public class CompanyTest {
         }
     }
 
-    @Test(expected = CouponSystemException.class)
-    public void exceptionUpdateCoupon() throws CouponSystemException{
-        Coupon existsCoupons = companyFacade.getCompanyCoupons().get(1);
-        existsCoupons.setAmount(-5);
-        companyFacade.updateCoupon(existsCoupons);
-    }
-
     @Test
     public void DeleteCoupon() {
         try {
@@ -132,11 +104,6 @@ public class CompanyTest {
             assert (true);
             System.out.println(e.getMessage());
         }
-    }
-
-    @Test(expected = CouponSystemException.class)
-    public void exceptionDeleteCoupon() throws CouponSystemException{
-        companyFacade.deleteCoupon(23);
     }
 
     @Test
@@ -149,15 +116,18 @@ public class CompanyTest {
         }
     }
 
-    @Test(expected = CouponSystemException.class)
-    public void exceptionGetOneCoupon() throws CouponSystemException {
-        TablePrinter.print(companyFacade.getOneCoupon(4));
+    @Test
+    public void getCompanyCoupons() {
+        TablePrinter.print(companyFacade.getCompanyCoupons());
     }
 
     @Test
-    public void getCompanyCoupons() {
-        //takes arguments
-        TablePrinter.print(companyFacade.getCompanyCoupons());
+    public void getCompanyCouponsCategory() {
+        TablePrinter.print(companyFacade.getCompanyCoupons(Category.FOOD));
+    }
+    @Test
+    public void getCompanyCouponsMaxPrice() {
+        TablePrinter.print(companyFacade.getCompanyCoupons(20));
     }
 
     @Test

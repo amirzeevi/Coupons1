@@ -1,8 +1,8 @@
-
 import dbdao.CategoryDBDAO;
 import beans.Category;
 import dao.CategoryDAO;
 import org.junit.Test;
+
 
 public class CategoryTest {
 
@@ -21,7 +21,7 @@ public class CategoryTest {
 
     @Test
     public void deleteCategory() {
-        Category categoryToDelete = Category.values()[(int) (Math.random() * Category.values().length)];
+        Category categoryToDelete = Category.HOLIDAY;
         this.categoryDAO.deleteCategory(categoryToDelete);
     }
 }

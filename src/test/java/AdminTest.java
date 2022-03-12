@@ -1,10 +1,6 @@
 import beans.ClientType;
 import beans.Company;
 import beans.Customer;
-
-import exceptions.NotAllowedValueChange;
-import exceptions.CouponSystemException;
-import exceptions.LogInException;
 import facade.AdminFacade;
 import facade.LoginManager;
 import org.junit.After;
@@ -30,7 +26,6 @@ public class AdminTest {
         adminFacade = null;
     }
 
-
     @Test
     public void Login() {
         try {
@@ -39,11 +34,6 @@ public class AdminTest {
             assert (true);
             System.out.println(e.getMessage());
         }
-    }
-
-    @Test(expected = LogInException.class)
-    public void exceptionLogin() throws LogInException {
-        LoginManager.getInstance().login("not@true", "2022", ClientType.ADMINISTRATOR);
     }
 
     @Test
@@ -78,17 +68,6 @@ public class AdminTest {
         }
     }
 
-    @Test(expected = CouponSystemException.class)
-    public void exceptionAddCompany() throws CouponSystemException {
-        Company companyToAdd = new Company(
-                0,
-                "Company3",
-                "company@com",
-                "1234",
-                new ArrayList<>());
-        adminFacade.addCompany(companyToAdd);
-    }
-
     @Test
     public void UpdateCompany() {
         try {
@@ -101,21 +80,6 @@ public class AdminTest {
         }
     }
 
-    @Test(expected = NotAllowedValueChange.class)
-    public void exceptionUpdateCompany() throws NotAllowedValueChange, CouponSystemException {
-        Company companyExists = adminFacade.getOneCompany(1);
-        companyExists.setId(1);
-        adminFacade.updateCompany(companyExists);
-
-    }
-
-    @Test(expected = CouponSystemException.class)
-    public void exceptionUpdateCompany2() throws CouponSystemException {
-        Company companyExists = adminFacade.getOneCompany(1);
-        companyExists.setEmail("company2@com");
-        adminFacade.updateCompany(companyExists);
-    }
-
     @Test
     public void DeleteCompany() {
         try {
@@ -124,11 +88,6 @@ public class AdminTest {
             assert (true);
             System.out.println(e.getMessage());
         }
-    }
-
-    @Test(expected = CouponSystemException.class)
-    public void exceptionDeleteCompany() throws CouponSystemException{
-        adminFacade.deleteCompany(2);
     }
 
     @Test
@@ -144,11 +103,6 @@ public class AdminTest {
             assert (true);
             System.out.println(e.getMessage());
         }
-    }
-
-    @Test(expected = CouponSystemException.class)
-    public void exceptionGetOneCompany() throws CouponSystemException{
-        TablePrinter.print(adminFacade.getOneCompany(2));
     }
 
     @Test
@@ -167,6 +121,7 @@ public class AdminTest {
             System.out.println(e.getMessage());
         }
     }
+
     @Test
     public void AddCustomer2() {
         try {
@@ -184,18 +139,6 @@ public class AdminTest {
         }
     }
 
-    @Test(expected = CouponSystemException.class)
-    public void exceptionAddCustomer() throws CouponSystemException {
-        Customer customerToAdd = new Customer(
-                0,
-                "Almoni",
-                "Israeli",
-                "my.email@com",
-                "1234",
-                new ArrayList<>());
-        adminFacade.addCustomer(customerToAdd);
-    }
-
     @Test
     public void UpdateCustomer() {
         try {
@@ -208,15 +151,6 @@ public class AdminTest {
         }
     }
 
-    @Test(expected = NotAllowedValueChange.class)
-    public void exceptionUpdateCustomer() throws CouponSystemException, NotAllowedValueChange {
-
-        Customer customerExists = adminFacade.getAllCustomers().get(0);
-        customerExists.setId(14);
-        adminFacade.updateCustomer(customerExists);
-
-    }
-
     @Test
     public void DeleteCustomer() {
         try {
@@ -225,11 +159,6 @@ public class AdminTest {
             assert (true);
             System.out.println(e.getMessage());
         }
-    }
-
-    @Test(expected = CouponSystemException.class)
-    public void exceptionDeleteCustomer() throws CouponSystemException {
-        adminFacade.deleteCustomer(2);
     }
 
     @Test
@@ -245,10 +174,5 @@ public class AdminTest {
             assert (true);
             System.out.println(e.getMessage());
         }
-    }
-
-    @Test(expected = CouponSystemException.class)
-    public void exceptionGetOneCustomer() throws CouponSystemException{
-        TablePrinter.print(adminFacade.getOneCustomer(123));
     }
 }

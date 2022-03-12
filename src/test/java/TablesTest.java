@@ -2,7 +2,7 @@ import db.DBmanager;
 import db.DBrunQuery;
 import org.junit.Test;
 
-public class CreateTablesTest {
+public class TablesTest {
 
     @Test
     public void createAll() {
@@ -13,7 +13,7 @@ public class CreateTablesTest {
         DBrunQuery.runQuery(DBmanager.CREATE_COUPONS_TABLE);
         DBrunQuery.runQuery(DBmanager.CREATE_CUSTOMERS_COUPONS_TABLE);
         DBrunQuery.runQuery(DBmanager.SET_TIME_ZONE);
-        DBrunQuery.runQuery(DBmanager.CREATE_COUPON_PURCHASE_TRIGGER);
+        DBrunQuery.runQuery(DBmanager.CREATE_TRIGGER_COUPON_PURCHASE);
     }
 
     @Test

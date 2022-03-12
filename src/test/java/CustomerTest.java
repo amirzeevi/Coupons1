@@ -1,10 +1,7 @@
-
 import beans.Category;
 import beans.ClientType;
 import beans.Coupon;
-import exceptions.CouponSystemException;
-import exceptions.LogInException;
-import facade.CompanyFacade;
+import dbdao.CouponDBDAO;
 import facade.CustomerFacade;
 import facade.LoginManager;
 import org.junit.After;
@@ -19,7 +16,7 @@ public class CustomerTest {
     @Before
     public void setUp() {
         customerFacade = new CustomerFacade();
-        customerFacade.login("my.email@com", "12345678");
+        customerFacade.login("my.email@com", "1234");
     }
 
     @After
@@ -37,17 +34,11 @@ public class CustomerTest {
         }
     }
 
-    @Test(expected = LogInException.class)
-    public void exceptionLogin() throws LogInException {
-        LoginManager.getInstance().login("not.my.email@com", "password", ClientType.COSTUMER);
-    }
 
     @Test
     public void Purchase() {
-        CompanyFacade companyFacade = new CompanyFacade();
-        companyFacade.login("company@com", "password");
         try {
-            Coupon coupon = companyFacade.getCompanyCoupons().get(0);
+            Coupon coupon = new CouponDBDAO().getOneCoupon(3);
             customerFacade.purchaseCoupon(coupon);
         } catch (Exception e) {
             assert (true);
@@ -55,23 +46,23 @@ public class CustomerTest {
         }
     }
 
-    @Test(expected = CouponSystemException.class)
-    public void exceptionPurchase() throws CouponSystemException {
-        CompanyFacade companyFacade = new CompanyFacade();
-        companyFacade.login("company@com", "password");
-        Coupon coupon = companyFacade.getCompanyCoupons().get(0);
-        customerFacade.purchaseCoupon(coupon);
+    @Test
+    public void GetAllPurchased() {
+        TablePrinter.print(customerFacade.getCustomerCoupons());
     }
 
     @Test
-    public void GetAllPurchased() {
-        //takes arguments
-        TablePrinter.print(customerFacade.getCustomerCoupons());
+    public void GetAllPurchasedCategory() {
+        TablePrinter.print(customerFacade.getCustomerCoupons(Category.ELECTRICITY));
+    }
+
+    @Test
+    public void GetAllPurchasedMaxPrice() {
+        TablePrinter.print(customerFacade.getCustomerCoupons(20));
     }
 
     @Test
     public void GetCostumerDetails() {
         TablePrinter.print(customerFacade.getCustomerDetails());
     }
-
 }
