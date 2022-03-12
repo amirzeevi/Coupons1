@@ -3,14 +3,14 @@ package dbdao;
 import db.DBmanager;
 import db.DBrunQuery;
 import beans.Category;
-import dao.CategoryDAO;
+import dao.CategoriesDAO;
 
 import java.util.Arrays;
 import java.util.Map;
 /**
  * The CategoryDBDAO is the class that should access the database and update the category table.
  */
-public class CategoryDBDAO implements CategoryDAO {
+public class CategoriesDBDAO implements CategoriesDAO {
     /**
      * Will add all existing categories to the category table.
      */

@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * The CouponDBDAO is the class that should access the database and update the company table.
  */
-public class CouponDBDAO implements CouponsDAO {
+public class CouponsDBDAO implements CouponsDAO {
     /**
      * Will return true if the specified coupon exist based on its title and company id
      */
@@ -241,11 +241,11 @@ public class CouponDBDAO implements CouponsDAO {
     @Override
     public boolean updateCouponTitleExist(Coupon coupon) {
         try {
-            ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.UPDATE_COUPON_TITLE_EXIST, Map.of(
+            return DBrunQuery.getResultSet(DBmanager.UPDATE_COUPON_TITLE_EXIST, Map.of(
                     1, coupon.getId(),
                     2, coupon.getCompanyID(),
-                    3, coupon.getTitle()));
-            return resultSet.next();
+                    3, coupon.getTitle()))
+                    .next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

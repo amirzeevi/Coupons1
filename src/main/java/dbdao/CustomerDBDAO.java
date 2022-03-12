@@ -37,9 +37,9 @@ public class CustomerDBDAO implements CustomersDAO {
     @Override
     public boolean UpdateCustomerEmailExist(Customer customer) {
         try {
-            ResultSet resultSet = DBrunQuery.getResultSet
-                    (DBmanager.UPDATE_CUSTOMER_EMAIL_EXIST, Map.of(1, customer.getId(), 2, customer.getEmail()));
-            return resultSet.next();
+            return DBrunQuery.getResultSet
+                    (DBmanager.UPDATE_CUSTOMER_EMAIL_EXIST, Map.of(1, customer.getId(), 2, customer.getEmail()))
+                    .next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -128,6 +128,6 @@ public class CustomerDBDAO implements CustomersDAO {
                 resultSet.getString("last_name"),
                 resultSet.getString("email"),
                 resultSet.getString("password"),
-                new CouponDBDAO().getCostumerCoupons(customerID));
+                new CouponsDBDAO().getCostumerCoupons(customerID));
     }
 }

@@ -1,6 +1,6 @@
 import beans.Category;
 import beans.Coupon;
-import dbdao.CouponDBDAO;
+import dbdao.CouponsDBDAO;
 import jobs.CouponExpirationDailyJob;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +24,7 @@ public class JobsTest {
                 1.99,
                 "book"
         );
-        new CouponDBDAO().addCoupon(expiredCoupon);
+        new CouponsDBDAO().addCoupon(expiredCoupon);
     }
 
     @Test

@@ -1,7 +1,7 @@
 import beans.Category;
 import beans.ClientType;
 import beans.Coupon;
-import dbdao.CouponDBDAO;
+import dbdao.CouponsDBDAO;
 import facade.CustomerFacade;
 import facade.LoginManager;
 import org.junit.After;
@@ -38,7 +38,7 @@ public class CustomerTest {
     @Test
     public void Purchase() {
         try {
-            Coupon coupon = new CouponDBDAO().getOneCoupon(3);
+            Coupon coupon = new CouponsDBDAO().getOneCoupon(3);
             customerFacade.purchaseCoupon(coupon);
         } catch (Exception e) {
             assert (true);

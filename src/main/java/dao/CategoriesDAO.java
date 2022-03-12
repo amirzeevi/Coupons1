@@ -6,7 +6,7 @@ import beans.Category;
  * The CategoryDAO interface is to be implemented by the class
  * that should access the database and update the category table.
  */
-public interface CategoryDAO {
+public interface CategoriesDAO {
     /**
      * Will add all existing categories to the category table.
      */

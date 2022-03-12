@@ -1,27 +1,27 @@
-import dbdao.CategoryDBDAO;
+import dbdao.CategoriesDBDAO;
 import beans.Category;
-import dao.CategoryDAO;
+import dao.CategoriesDAO;
 import org.junit.Test;
 
 
 public class CategoryTest {
 
-    CategoryDAO categoryDAO = new CategoryDBDAO();
+    CategoriesDAO categoriesDAO = new CategoriesDBDAO();
 
     @Test
     public void addAllCategories() {
-        this.categoryDAO.addAllCategories();
+        this.categoriesDAO.addAllCategories();
     }
 
     @Test
     public void addOneCategory() {
         Category categoryToAdd = Category.values()[(int) (Math.random() * Category.values().length)];
-        this.categoryDAO.addOneCategory(categoryToAdd);
+        this.categoriesDAO.addOneCategory(categoryToAdd);
     }
 
     @Test
     public void deleteCategory() {
         Category categoryToDelete = Category.HOLIDAY;
-        this.categoryDAO.deleteCategory(categoryToDelete);
+        this.categoriesDAO.deleteCategory(categoryToDelete);
     }
 }

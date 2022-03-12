@@ -1,6 +1,6 @@
 package facade;
 
-import dbdao.CouponDBDAO;
+import dbdao.CouponsDBDAO;
 import dbdao.CustomerDBDAO;
 import beans.Category;
 import beans.Customer;
@@ -21,7 +21,7 @@ public class CustomerFacade extends ClientFacade {
         if (this.customerID == 0) {
             return false;
         }
-        this.couponDAO = new CouponDBDAO();
+        this.couponsDAO = new CouponsDBDAO();
         this.customerDAO = new CustomerDBDAO();
         return true;
     }
@@ -36,25 +36,25 @@ public class CustomerFacade extends ClientFacade {
         if (coupon.getAmount() == 0) {
             throw new CouponSystemException("Can not make purchase - coupon is out of stock");
         }
-        if (this.couponDAO.isCostumerCouponExist(customerID, coupon.getId())) {
+        if (this.couponsDAO.isCostumerCouponExist(customerID, coupon.getId())) {
             throw new CouponSystemException("Can not make purchase - you already own this coupon");
         }
         getCustomerDetails().getCoupons().add(coupon);
 
-        this.couponDAO.addCouponsPurchase(this.customerID, coupon.getId());
+        this.couponsDAO.addCouponsPurchase(this.customerID, coupon.getId());
         System.out.println("Coupon purchased");
     }
 
     public List<Coupon> getCustomerCoupons() {
-        return this.couponDAO.getCostumerCoupons(customerID);
+        return this.couponsDAO.getCostumerCoupons(customerID);
     }
 
     public List<Coupon> getCustomerCoupons(Category category) {
-        return this.couponDAO.getCustomerCouponsByCategory(category, customerID);
+        return this.couponsDAO.getCustomerCouponsByCategory(category, customerID);
     }
 
     public List<Coupon> getCustomerCoupons(double maxPrice) {
-        return this.couponDAO.getCustomerCouponsByMaxPrice(maxPrice, customerID);
+        return this.couponsDAO.getCustomerCouponsByMaxPrice(maxPrice, customerID);
 
     }
 

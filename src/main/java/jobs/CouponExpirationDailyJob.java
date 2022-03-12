@@ -1,6 +1,6 @@
 package jobs;
 
-import dbdao.CouponDBDAO;
+import dbdao.CouponsDBDAO;
 import dao.CouponsDAO;
 
 
@@ -10,7 +10,7 @@ public class CouponExpirationDailyJob implements Runnable {
     private boolean quit;
 
     public CouponExpirationDailyJob() {
-        this.couponDAO = new CouponDBDAO();
+        this.couponDAO = new CouponsDBDAO();
         this.quit = false;
     }
 

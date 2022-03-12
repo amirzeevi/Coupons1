@@ -8,7 +8,7 @@ import dao.CouponsDAO;
 
 public abstract class ClientFacade {
 
-    protected CouponsDAO couponDAO;
+    protected CouponsDAO couponsDAO;
     protected CompaniesDAO companiesDAO;
     protected CustomersDAO customerDAO;
 
