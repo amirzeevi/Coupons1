@@ -17,14 +17,13 @@ public class CustomerFacade extends ClientFacade {
 
     @Override
     public boolean login(String email, String password) {
-        int customerId = new CustomerDBDAO().getCustomerId(email, password);
+       this.customerID = new CustomerDBDAO().getCustomerId(email, password);
 
-        if (customerId == 0) {
+        if (this.customerID == 0) {
             return false;
         }
         this.couponDAO = new CouponDBDAO();
         this.customerDAO = new CustomerDBDAO();
-        this.customerID = customerId;
         return true;
     }
 

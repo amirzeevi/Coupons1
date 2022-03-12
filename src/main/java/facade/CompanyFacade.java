@@ -1,5 +1,6 @@
 package facade;
 
+import dao.CompaniesDAO;
 import dbdao.CompaniesDBDAO;
 import dbdao.CouponDBDAO;
 import beans.Category;
@@ -16,14 +17,13 @@ public class CompanyFacade extends ClientFacade {
 
     @Override
     public boolean login(String email, String password) {
-        int companyId = new CompaniesDBDAO().getCompanyId(email, password);
+        this.companyID = new CompaniesDBDAO().getCompanyId(email, password);
 
-        if (companyId == 0) {
+        if (this.companyID == 0) {
             return false;
         }
         this.couponDAO = new CouponDBDAO();
         this.companiesDAO = new CompaniesDBDAO();
-        this.companyID = companyId;
         return true;
     }
 
