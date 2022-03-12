@@ -23,9 +23,7 @@ public class CouponsDBDAO implements CouponsDAO {
     public boolean isCompanyCouponExist(Coupon coupon) {
         try {
             return DBrunQuery.getResultSet(DBmanager.IS_COUPON_COMPANY_EXISTS, Map.of(
-                            1, coupon.getCompanyID(),
-                            2, coupon.getTitle()))
-                    .next();
+                    1, coupon.getCompanyID(), 2, coupon.getTitle())).next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -39,11 +37,8 @@ public class CouponsDBDAO implements CouponsDAO {
     @Override
     public boolean isCostumerCouponExist(int costumerID, int couponID) {
         try {
-            return DBrunQuery.getResultSet
-                            (DBmanager.IS_CUSTOMER_COUPON_EXISTS, Map.of(
-                                    1, costumerID,
-                                    2, couponID))
-                    .next();
+            return DBrunQuery.getResultSet(
+                    DBmanager.IS_CUSTOMER_COUPON_EXISTS, Map.of(1, costumerID, 2, couponID)).next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -98,8 +93,8 @@ public class CouponsDBDAO implements CouponsDAO {
     @Override
     public List<Coupon> getCompanyCouponsByCategory(Category category, int companyId) {
         List<Coupon> categoryCoupons = new ArrayList<>();
-        ResultSet resultSet = DBrunQuery.getResultSet
-                (DBmanager.GET_COMPANY_COUPON_CATEGORY, Map.of(1, category.value, 2, companyId));
+        ResultSet resultSet = DBrunQuery.getResultSet(
+                DBmanager.GET_COMPANY_COUPON_CATEGORY, Map.of(1, category.value, 2, companyId));
         try {
             while (resultSet.next()) {
                 categoryCoupons.add(resultSetToCoupon(resultSet));
@@ -117,8 +112,8 @@ public class CouponsDBDAO implements CouponsDAO {
     @Override
     public List<Coupon> getCompanyCouponsByMaxPrice(double maxPrice, int companyId) {
         List<Coupon> maxPriceCoupons = new ArrayList<>();
-        ResultSet resultSet = DBrunQuery.getResultSet
-                (DBmanager.GET_COMPANY_COUPON_MAX_PRICE, Map.of(1, maxPrice, 2, companyId));
+        ResultSet resultSet = DBrunQuery.getResultSet(
+                DBmanager.GET_COMPANY_COUPON_MAX_PRICE, Map.of(1, maxPrice, 2, companyId));
         try {
             while (resultSet.next()) {
                 maxPriceCoupons.add(resultSetToCoupon(resultSet));
@@ -135,8 +130,8 @@ public class CouponsDBDAO implements CouponsDAO {
     @Override
     public List<Coupon> getCustomerCouponsByCategory(Category category, int customerId) {
         List<Coupon> categoryCoupons = new ArrayList<>();
-        ResultSet resultSet = DBrunQuery.getResultSet
-                (DBmanager.GET_CUSTOMER_COUPON_CATEGORY, Map.of(1, category.value, 2, customerId));
+        ResultSet resultSet = DBrunQuery.getResultSet(
+                DBmanager.GET_CUSTOMER_COUPON_CATEGORY, Map.of(1, category.value, 2, customerId));
         try {
             while (resultSet.next()) {
                 categoryCoupons.add(resultSetToCoupon(resultSet));
@@ -154,8 +149,8 @@ public class CouponsDBDAO implements CouponsDAO {
     @Override
     public List<Coupon> getCustomerCouponsByMaxPrice(double maxPrice, int customerId) {
         List<Coupon> maxPriceCoupons = new ArrayList<>();
-        ResultSet resultSet = DBrunQuery.getResultSet
-                (DBmanager.GET_CUSTOMER_COUPON_MAX_PRICE, Map.of(1, maxPrice, 2, customerId));
+        ResultSet resultSet = DBrunQuery.getResultSet(
+                DBmanager.GET_CUSTOMER_COUPON_MAX_PRICE, Map.of(1, maxPrice, 2, customerId));
         try {
             while (resultSet.next()) {
                 maxPriceCoupons.add(resultSetToCoupon(resultSet));
@@ -242,10 +237,9 @@ public class CouponsDBDAO implements CouponsDAO {
     public boolean updateCouponTitleExist(Coupon coupon) {
         try {
             return DBrunQuery.getResultSet(DBmanager.UPDATE_COUPON_TITLE_EXIST, Map.of(
-                    1, coupon.getId(),
-                    2, coupon.getCompanyID(),
-                    3, coupon.getTitle()))
-                    .next();
+                            1, coupon.getId(),
+                            2, coupon.getCompanyID(),
+                            3, coupon.getTitle())).next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

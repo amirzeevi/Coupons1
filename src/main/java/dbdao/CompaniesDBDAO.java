@@ -36,8 +36,8 @@ public class CompaniesDBDAO implements CompaniesDAO {
     @Override
     public boolean isCompanyExist(Company company) {
         try {
-            return DBrunQuery.getResultSet
-                    (DBmanager.IS_COMPANY_EXIST, Map.of(1, company.getName(), 2, company.getEmail())).next();
+            return DBrunQuery.getResultSet(
+                    DBmanager.IS_COMPANY_EXIST, Map.of(1, company.getName(), 2, company.getEmail())).next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -73,8 +73,8 @@ public class CompaniesDBDAO implements CompaniesDAO {
     @Override
     public boolean UpdateCompanyEmailExist(Company company) {
         try {
-            return DBrunQuery.getResultSet
-                    (DBmanager.UPDATE_COMPANY_EMAIL_EXIST, Map.of(1, company.getId(), 2, company.getEmail()))
+            return DBrunQuery.getResultSet(
+                    DBmanager.UPDATE_COMPANY_EMAIL_EXIST, Map.of(1, company.getId(), 2, company.getEmail()))
                     .next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
