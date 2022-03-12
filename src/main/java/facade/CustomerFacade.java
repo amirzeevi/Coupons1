@@ -17,8 +17,7 @@ public class CustomerFacade extends ClientFacade {
 
     @Override
     public boolean login(String email, String password) {
-       this.customerID = new CustomerDBDAO().getCustomerId(email, password);
-
+        this.customerID = new CustomerDBDAO().getCustomerId(email, password);
         if (this.customerID == 0) {
             return false;
         }

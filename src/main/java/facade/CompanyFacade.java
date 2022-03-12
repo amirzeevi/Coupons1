@@ -18,7 +18,6 @@ public class CompanyFacade extends ClientFacade {
     @Override
     public boolean login(String email, String password) {
         this.companyID = new CompaniesDBDAO().getCompanyId(email, password);
-
         if (this.companyID == 0) {
             return false;
         }
