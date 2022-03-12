@@ -93,7 +93,7 @@ public class DBmanager {
     public static final String ADD_COMPANY = "INSERT INTO `coupons_database`.`companies` (`name`, `email`, `password`) VALUES (?,?,?) ";
     public static final String DELETE_COMPANY = "DELETE FROM `coupons_database`.`companies` WHERE id = ? ";
     public static final String UPDATE_COMPANY = "UPDATE `coupons_database`.`companies` SET email = ?, password = ? WHERE id = ? ";
-    public static final String CAN_NOT_UPDATE_COMPANY = "SELECT * FROM `coupons_database`.`companies` WHERE id = ? AND email != ? UNION SELECT * FROM `coupons_database`.`companies` WHERE email = ?";
+    public static final String UPDATE_COMPANY_EMAIL_EXIST = "SELECT * FROM `coupons_database`.`companies` WHERE id != ? AND email = ?";
     public static final String GET_ALL_COMPANIES = "SELECT*FROM `coupons_database`.`companies` ";
     public static final String GET_ONE_COMPANY = "SELECT*FROM `coupons_database`.`companies` WHERE id = ?";
     public static final String GET_COMPANY_COUPON_CATEGORY = "SELECT * FROM `coupons_database`.`coupons` WHERE category_id = ? AND company_id = ? ";
@@ -111,13 +111,12 @@ public class DBmanager {
     public static final String GET_CUSTOMER_COUPON_MAX_PRICE = "SELECT * FROM `coupons_database`.`coupons` WHERE `price` <= ? AND id IN (SELECT `coupon_id` FROM `coupons_database`.`customers_coupons` WHERE `customer_id` = ?)";
 
     public static final String IS_COUPON_COMPANY_EXISTS = "SELECT * FROM `coupons_database`.`coupons` WHERE company_id = ? AND title = ? ";
+    public static final String UPDATE_COUPON_TITLE_EXIST = "SELECT * FROM `coupons_database`.`coupons` WHERE id != ? AND company_id = ? AND title = ? ";
     public static final String IS_CUSTOMER_COUPON_EXISTS = "SELECT * FROM `coupons_database`.`customers_coupons` WHERE customer_id = ? AND coupon_id = ? ";
     public static final String ADD_COUPON = "INSERT INTO `coupons_database`.`coupons` (`company_id`, `category_id`, `title`, `description`, `start_date`, `end_date`, `amount`, `price`, `image`) VALUES (?,?,?,?,?,?,?,?,?) ";
     public static final String DELETE_COUPON = "DELETE FROM `coupons_database`.`coupons` WHERE id = ? ";
     public static final String DELETE_EXPIRED_COUPONS = "DELETE FROM `coupons_database`.`coupons` WHERE end_date < now()";
     public static final String UPDATE_COUPON = "UPDATE `coupons_database`.`coupons` SET category_id = ?, title = ?, description = ?, start_date = ?, end_date = ?, amount = ?, price = ?, image = ? WHERE id = ? ";
-    public static final String CAN_NOT_UPDATE_COUPON = "SELECT * FROM `coupons_database`.`coupons` WHERE id = ? AND company_id = ? AND title != ? " +
-            "UNION SELECT * FROM `coupons_database`.`coupons` WHERE title = ? AND company_id = ? ";
     public static final String GET_ONE_COUPON = "SELECT*FROM `coupons_database`.`coupons` WHERE id = ?";
     public static final String GET_COMPANY_COUPONS = "SELECT*FROM `coupons_database`.`coupons` WHERE  company_id = ?";
     public static final String ADD_COUPON_PURCHASE = "INSERT INTO `coupons_database`.`customers_coupons` (`customer_id`, `coupon_id`) VALUES (?, ?) ";

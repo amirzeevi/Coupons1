@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 /**
  * The CompanyDBDAO is the class that should access the database and update the company table.
  */
@@ -28,6 +29,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
         }
         return 0;
     }
+
     /**
      * This will return true if the company exist in the database based on its email, or name.
      */
@@ -41,6 +43,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
         }
         return false;
     }
+
     /**
      * When updating a company's name we need to make sure the name does not already exist.
      * Will return true if it finds another company with the same name.
@@ -52,6 +55,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
                 2, company.getEmail(),
                 3, company.getPassword()));
     }
+
     /**
      * Adds the specified company to the companies table.
      */
@@ -62,22 +66,22 @@ public class CompaniesDBDAO implements CompaniesDAO {
                 2, company.getPassword(),
                 3, company.getId()));
     }
+
     /**
      * Updates the specified company to the companies table.
      */
     @Override
-    public boolean canNotUpdateCompany(Company company) {
+    public boolean UpdateCompanyEmailExist(Company company) {
         try {
-            String email = company.getEmail();
             ResultSet resultSet = DBrunQuery.getResultSet
-                    (DBmanager.CAN_NOT_UPDATE_COMPANY, Map.of(1, company.getId(), 2, email, 3, email));
-            resultSet.next();
+                    (DBmanager.UPDATE_COMPANY_EMAIL_EXIST, Map.of(1, company.getId(), 2, company.getEmail()));
             return resultSet.next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return false;
     }
+
     /**
      * Deletes the specified company from the companies table and also
      * will delete any coupon that the company owns
@@ -86,6 +90,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
     public void deleteCompany(int companyID) {
         DBrunQuery.runQuery(DBmanager.DELETE_COMPANY, Map.of(1, companyID));
     }
+
     /**
      * Retrieves all companies from the database and returns a list.
      */
@@ -103,6 +108,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
 
         return companiesList;
     }
+
     /**
      * Retrieves the specified company from the database.
      */
@@ -116,8 +122,9 @@ public class CompaniesDBDAO implements CompaniesDAO {
         }
         return null;
     }
+
     /**
-     *A private service method to be used in multiple methods. will convert the result set into a company.
+     * A private service method to be used in multiple methods. will convert the result set into a company.
      */
     private static Company resultSetToCompany(ResultSet resultSet) throws SQLException {
         int companyID = resultSet.getInt("id");

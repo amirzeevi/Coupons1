@@ -88,7 +88,7 @@ public class CompanyTest {
     public void UpdateCoupon() {
         try {
             Coupon existsCoupons = companyFacade.getCompanyCoupons().get(0);
-            existsCoupons.setTitle("City Bike");
+            existsCoupons.setTitle("Hotel California");
             companyFacade.updateCoupon(existsCoupons);
         } catch (Exception e) {
             assert (true);

@@ -239,17 +239,12 @@ public class CouponDBDAO implements CouponsDAO {
      * Adds the specified coupon to the coupons table.
      */
     @Override
-    public boolean canNotUpdateCoupon(Coupon coupon) {
+    public boolean updateCouponTitleExist(Coupon coupon) {
         try {
-            String couponTitle = coupon.getTitle();
-            int companyID = coupon.getCompanyID();
-            ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.CAN_NOT_UPDATE_COUPON, Map.of(
+            ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.UPDATE_COUPON_TITLE_EXIST, Map.of(
                     1, coupon.getId(),
-                    2, companyID,
-                    3, couponTitle,
-                    4, couponTitle,
-                    5, companyID));
-            resultSet.next();
+                    2, coupon.getCompanyID(),
+                    3, coupon.getTitle()));
             return resultSet.next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

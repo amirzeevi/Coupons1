@@ -21,7 +21,7 @@ public interface CouponsDAO {
      * When updating a coupon's title we need to make sure the title does not already exist for the same company.
      * Will return true if it finds another coupon with the same title.
      */
-    boolean canNotUpdateCoupon(Coupon coupon);
+    boolean updateCouponTitleExist(Coupon coupon);
     /**
      * Adds the specified coupon to the coupons table.
      */

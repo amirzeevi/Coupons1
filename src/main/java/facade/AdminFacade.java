@@ -5,7 +5,6 @@ import dbdao.CustomerDBDAO;
 import beans.Company;
 import beans.Customer;
 import exceptions.CouponSystemException;
-import exceptions.LogInException;
 
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class AdminFacade extends ClientFacade {
     }
 
     public void updateCompany(Company company) throws CouponSystemException {
-        if (this.companiesDAO.canNotUpdateCompany(company)) {
+        if (this.companiesDAO.UpdateCompanyEmailExist(company)) {
             throw new CouponSystemException("Can not update - Email already exists");
         }
         this.companiesDAO.updateCompany(company);

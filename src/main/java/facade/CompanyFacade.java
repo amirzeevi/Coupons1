@@ -6,7 +6,6 @@ import beans.Category;
 import beans.Company;
 import beans.Coupon;
 import exceptions.CouponSystemException;
-import exceptions.LogInException;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -41,7 +40,7 @@ public class CompanyFacade extends ClientFacade {
 
     public void updateCoupon(Coupon coupon) throws CouponSystemException {
         checkCouponInfo(coupon);
-        if (this.couponDAO.canNotUpdateCoupon(coupon)) {
+        if (this.couponDAO.updateCouponTitleExist(coupon)) {
             throw new CouponSystemException("Can not update coupon to existing title");
         }
         getCompanyDetails().getCoupons().stream().
