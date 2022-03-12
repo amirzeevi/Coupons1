@@ -64,7 +64,7 @@ public class AdminFacade extends ClientFacade {
     }
 
     public void updateCustomer(Customer customer) throws CouponSystemException{
-        if (this.customerDAO.canNotUpdateCustomer(customer)) {
+        if (this.customerDAO.UpdateCustomerEmailExist(customer)) {
             throw new CouponSystemException("Can not update customer email already exists");
         }
         this.customerDAO.updateCustomer(customer);

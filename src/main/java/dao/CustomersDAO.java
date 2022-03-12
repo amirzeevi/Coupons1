@@ -17,7 +17,7 @@ public interface CustomersDAO {
      * When updating a customer's email we need to make sure the email does not already exist.
      * Will return true if it finds another customer with the same email.
      */
-    boolean canNotUpdateCustomer(Customer customer);
+    boolean UpdateCustomerEmailExist(Customer customer);
     /**
      * This will return true if the specified email exist in the database.
      */

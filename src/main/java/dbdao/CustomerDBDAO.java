@@ -35,12 +35,10 @@ public class CustomerDBDAO implements CustomersDAO {
      * Will return true if it finds another customer with the same email.
      */
     @Override
-    public boolean canNotUpdateCustomer(Customer customer) {
+    public boolean UpdateCustomerEmailExist(Customer customer) {
         try {
-            String email = customer.getEmail();
             ResultSet resultSet = DBrunQuery.getResultSet
-                    (DBmanager.CAN_NOT_UPDATE_CUSTOMER, Map.of(1, customer.getId(), 2, email, 3, email));
-            resultSet.next();
+                    (DBmanager.UPDATE_CUSTOMER_EMAIL_EXIST, Map.of(1, customer.getId(), 2, customer.getEmail()));
             return resultSet.next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
