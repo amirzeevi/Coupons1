@@ -62,6 +62,7 @@ public class CouponsDBDAO implements CouponsDAO {
                 8, coupon.getPrice(),
                 9, coupon.getImage()));
     }
+
     /**
      * Updates the specified coupon in the coupons table.
      */
@@ -86,6 +87,7 @@ public class CouponsDBDAO implements CouponsDAO {
     public void deleteCoupon(int couponID) {
         DBrunQuery.runQuery(DBmanager.DELETE_COUPON, Map.of(1, couponID));
     }
+
     /**
      * Returns all the company's coupons that has the specified maximum price as a list.
      */
@@ -112,7 +114,7 @@ public class CouponsDBDAO implements CouponsDAO {
     public List<Coupon> getCompanyCouponsByMaxPrice(double maxPrice, int companyId) {
         List<Coupon> maxPriceCoupons = new ArrayList<>();
         ResultSet resultSet = DBrunQuery.getResultSet(
-                DBmanager.GET_COMPANY_COUPON_MAX_PRICE, Map.of(1, maxPrice, 2, companyId));
+                DBmanager.GET_COMPANY_COUPON_MAX_PRICE, Map.of(1, companyId, 2, maxPrice));
         try {
             while (resultSet.next()) {
                 maxPriceCoupons.add(resultSetToCoupon(resultSet));
@@ -160,6 +162,7 @@ public class CouponsDBDAO implements CouponsDAO {
 
         return maxPriceCoupons;
     }
+
     /**
      * Deletes all expired coupons from the coupons table.
      */
@@ -208,7 +211,7 @@ public class CouponsDBDAO implements CouponsDAO {
      * Will also decrease the coupon's amount by 1.
      */
     @Override
-    public void addCouponsPurchase(int costumerID, int couponID) {
+    public void addCouponPurchase(int costumerID, int couponID) {
         DBrunQuery.runQuery(DBmanager.ADD_COUPON_PURCHASE, Map.of(1, costumerID, 2, couponID));
     }
 
@@ -235,9 +238,9 @@ public class CouponsDBDAO implements CouponsDAO {
      * Will return true if it finds another coupon with the same title.
      */
     @Override
-    public boolean updateCouponTitleExist(Coupon coupon) {
+    public boolean updateCouponIsTitleExist(Coupon coupon) {
         try {
-            ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.UPDATE_COUPON_TITLE_EXIST, Map.of(
+            ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.UPDATE_COUPON_IS_TITLE_EXIST, Map.of(
                     1, coupon.getId(),
                     2, coupon.getCompanyID(),
                     3, coupon.getTitle()));

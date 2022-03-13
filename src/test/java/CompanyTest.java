@@ -3,7 +3,6 @@ import beans.ClientType;
 import beans.Company;
 import beans.Coupon;
 import dbdao.CompaniesDBDAO;
-import exceptions.CouponSystemException;
 import facade.CompanyFacade;
 import facade.LoginManager;
 import org.junit.After;
@@ -101,16 +100,6 @@ public class CompanyTest {
         try {
             companyFacade.deleteCoupon(2);
         } catch (Exception e) {
-            assert (true);
-            System.out.println(e.getMessage());
-        }
-    }
-
-    @Test
-    public void getOneCoupon() {
-        try {
-            TablePrinter.print(companyFacade.getOneCoupon(1));
-        } catch (CouponSystemException e) {
             assert (true);
             System.out.println(e.getMessage());
         }

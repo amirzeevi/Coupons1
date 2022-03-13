@@ -4,12 +4,23 @@ import dbdao.CompaniesDBDAO;
 import dbdao.CustomersDBDAO;
 import beans.Company;
 import beans.Customer;
-import exceptions.CouponSystemException;
+import exceptions.CouponsSystemException;
 
 import java.util.List;
 
+/**
+ * This class is a facade as in the facade design pattern. It is to be used by the administrator client.
+ * It encapsulates all required internal connections to perform operations
+ * for {@link Company} and {@link Customer} to the database.
+ * In any case an operation can not be made by the administrator,
+ * an {@link CouponsSystemException} exception will be thrown.
+ */
 public class AdminFacade extends ClientFacade {
-
+    /**
+     * This method should be called first when the administrator client wants to use the class.
+     * if the email and password put in are matched, it initiates the {@link dao.CompaniesDAO}
+     * and {@link dao.CustomersDAO} so that operations can be made.
+     */
     @Override
     public boolean login(String email, String password) {
         if (email.equals("admin@admin") && password.equals("admin")) {
@@ -20,84 +31,122 @@ public class AdminFacade extends ClientFacade {
         return false;
     }
 
-    public void addCompany(Company company) throws CouponSystemException {
+    /**
+     * This method will add the specified company to the database. If any condition does not meet with requirements
+     * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
+     */
+    public void addCompany(Company company) throws CouponsSystemException {
         if (company == null) {
-            throw new CouponSystemException("Invalid company");
+            throw new CouponsSystemException("Invalid company");
         }
         if (this.companiesDAO.isCompanyExist(company)) {
-            throw new CouponSystemException("Can not add company with existing name or email");
+            throw new CouponsSystemException("Can not add company with existing name or email");
         }
         this.companiesDAO.addCompany(company);
         System.out.println("Company added");
     }
 
-    public void deleteCompany(int companyID) throws CouponSystemException {
+    /**
+     * This method will delete the specified company from the database. If it does not find the company in the database
+     * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
+     */
+    public void deleteCompany(int companyID) throws CouponsSystemException {
         // check company id
         getOneCompany(companyID);
         this.companiesDAO.deleteCompany(companyID);
         System.out.println("Company Deleted");
     }
 
-    public void updateCompany(Company company) throws CouponSystemException {
+    /**
+     * This method will update the specified company to the database. If any condition does not meet with requirements
+     * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
+     */
+    public void updateCompany(Company company) throws CouponsSystemException {
         if (company == null) {
-            throw new CouponSystemException("Invalid company");
+            throw new CouponsSystemException("Invalid company");
         }
         if (this.companiesDAO.UpdateCompanyIsEmailExist(company)) {
-            throw new CouponSystemException("Can not update - Email already exists");
+            throw new CouponsSystemException("Can not update - Email already exists");
         }
         this.companiesDAO.updateCompany(company);
         System.out.println("Company updated");
     }
 
+    /**
+     * This method returns a list of all companies from the database.
+     */
     public List<Company> getAllCompanies() {
         return this.companiesDAO.getAllCompanies();
     }
 
-    public Company getOneCompany(int companyID) throws CouponSystemException {
+    /**
+     * This method returns the specified company from the database. if it does not find, will throw
+     * an {@link CouponsSystemException} exception.
+     */
+    public Company getOneCompany(int companyID) throws CouponsSystemException {
         Company companyFromDB = this.companiesDAO.getOneCompany(companyID);
         if (companyFromDB == null) {
-            throw new CouponSystemException("Company not found");
+            throw new CouponsSystemException("Company not found");
         }
         return companyFromDB;
     }
 
-    public void addCustomer(Customer customer) throws CouponSystemException {
+    /**
+     * This method will add the specified customer to the database. If any condition does not meet with requirements
+     * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
+     */
+    public void addCustomer(Customer customer) throws CouponsSystemException {
         if (customer == null) {
-            throw new CouponSystemException("Invalid customer");
+            throw new CouponsSystemException("Invalid customer");
         }
         if (this.customerDAO.isCustomerEmailExists(customer)) {
-            throw new CouponSystemException("Can not add customer with existing email");
+            throw new CouponsSystemException("Can not add customer with existing email");
         }
         this.customerDAO.addCustomer(customer);
         System.out.println("Customer added");
     }
 
-    public void updateCustomer(Customer customer) throws CouponSystemException {
+    /**
+     * This method will update the specified customer to the database. If any condition does not meet with requirements
+     * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
+     */
+    public void updateCustomer(Customer customer) throws CouponsSystemException {
         if (customer == null) {
-            throw new CouponSystemException("Invalid customer");
+            throw new CouponsSystemException("Invalid customer");
         }
         if (this.customerDAO.UpdateCustomerIsEmailExist(customer)) {
-            throw new CouponSystemException("Can not update customer email already exists");
+            throw new CouponsSystemException("Can not update customer email already exists");
         }
         this.customerDAO.updateCustomer(customer);
         System.out.println("Customer updated");
     }
 
-    public void deleteCustomer(int customerID) throws CouponSystemException {
+    /**
+     * This method will delete the specified customer from the database. If it does not find the customer in the database
+     * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
+     */
+    public void deleteCustomer(int customerID) throws CouponsSystemException {
         // check customer id
         getOneCustomer(customerID);
         this.customerDAO.deleteCustomer(customerID);
         System.out.println("Customer deleted");
     }
 
+    /**
+     * This method returns a list of customer from the database.
+     */
     public List<Customer> getAllCustomers() {
         return this.customerDAO.getAllCustomers();
     }
 
-    public Customer getOneCustomer(int customerID) throws CouponSystemException {
+    /**
+     * This method returns the specified customer from the database. if it does not find, will throw
+     * an {@link CouponsSystemException} exception.
+     */
+    public Customer getOneCustomer(int customerID) throws CouponsSystemException {
         Customer customerFromDB = this.customerDAO.getOneCustomer(customerID);
         if (customerFromDB == null) {
-            throw new CouponSystemException("Customer not found");
+            throw new CouponsSystemException("Customer not found");
         }
         return customerFromDB;
     }

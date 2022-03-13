@@ -102,7 +102,7 @@ public class DBmanager {
     public static final String GET_ALL_COMPANIES = "SELECT*FROM `coupons_database`.`companies` ";
     public static final String GET_ONE_COMPANY = "SELECT*FROM `coupons_database`.`companies` WHERE id = ?";
     public static final String GET_COMPANY_COUPON_CATEGORY = "SELECT * FROM `coupons_database`.`coupons` WHERE category_id = ? AND company_id = ? ";
-    public static final String GET_COMPANY_COUPON_MAX_PRICE = "SELECT * FROM `coupons_database`.`coupons` WHERE price <= ? AND company_id = ? ";
+    public static final String GET_COMPANY_COUPON_MAX_PRICE = "SELECT * FROM `coupons_database`.`coupons` WHERE company_id = ? AND price <= ? ";
 
     public static final String GET_CUSTOMER_ID = "SELECT id FROM `coupons_database`.`customers` WHERE email = ? AND password = ?";
     public static final String IS_CUSTOMER_EMAIL_EXISTS = "SELECT * FROM `coupons_database`.`customers` WHERE email = ?";
@@ -120,7 +120,7 @@ public class DBmanager {
     public static final String ADD_COUPON = "INSERT INTO `coupons_database`.`coupons` (`company_id`, `category_id`, `title`, `description`, `start_date`, `end_date`, `amount`, `price`, `image`) VALUES (?,?,?,?,?,?,?,?,?) ";
     public static final String DELETE_COUPON = "DELETE FROM `coupons_database`.`coupons` WHERE id = ? ";
     public static final String DELETE_EXPIRED_COUPONS = "DELETE FROM `coupons_database`.`coupons` WHERE end_date < now()";
-    public static final String UPDATE_COUPON_TITLE_EXIST = "SELECT * FROM `coupons_database`.`coupons` WHERE id != ? AND company_id = ? AND title = ? ";
+    public static final String UPDATE_COUPON_IS_TITLE_EXIST = "SELECT * FROM `coupons_database`.`coupons` WHERE id != ? AND company_id = ? AND title = ? ";
     public static final String UPDATE_COUPON = "UPDATE `coupons_database`.`coupons` SET category_id = ?, title = ?, description = ?, start_date = ?, end_date = ?, amount = ?, price = ?, image = ? WHERE id = ? ";
     public static final String GET_ONE_COUPON = "SELECT*FROM `coupons_database`.`coupons` WHERE id = ?";
     public static final String GET_COMPANY_COUPONS = "SELECT*FROM `coupons_database`.`coupons` WHERE  company_id = ?";

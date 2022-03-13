@@ -21,7 +21,7 @@ public interface CouponsDAO {
      * When updating a coupon's title we need to make sure the title does not already exist for the same company.
      * Will return true if it finds another coupon with the same title.
      */
-    boolean updateCouponTitleExist(Coupon coupon);
+    boolean updateCouponIsTitleExist(Coupon coupon);
     /**
      * Adds the specified coupon to the coupons table.
      */
@@ -39,7 +39,7 @@ public interface CouponsDAO {
      * if it is in stock and did not expire.
      * Will also decrease the coupon's amount by 1.
      */
-    void addCouponsPurchase(int costumerID, int couponID);
+    void addCouponPurchase(int costumerID, int couponID);
     /**
      * Deletes all expired coupons from the coupons table.
      */

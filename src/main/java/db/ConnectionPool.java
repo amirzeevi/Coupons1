@@ -64,7 +64,8 @@ public class ConnectionPool {
     }
 
     /**
-     * Checks in a synchronized way, so no two entities can access at the same time, if there is a connection in the connections Stack and
+     * Checks in a synchronized way, so no two entities can access at the same time,
+     * if there is a connection in the connections Stack and
      * Returns it. Else, will wait until it is notified a connection is present in the Stack.
      */
     public Connection getConnection() throws InterruptedException {
