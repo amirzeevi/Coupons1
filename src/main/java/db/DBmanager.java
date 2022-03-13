@@ -1,5 +1,10 @@
 package db;
 
+/**
+ * Class that contains all queries for the database to be executed.
+ * Also contains url and the database port and authorization credentials, to be used by
+ * the connection pool for getting a connection from the driver manager.
+ */
 public class DBmanager {
 
     public static final String URL = "jdbc:mysql://localhost:3306/";
@@ -93,7 +98,7 @@ public class DBmanager {
     public static final String ADD_COMPANY = "INSERT INTO `coupons_database`.`companies` (`name`, `email`, `password`) VALUES (?,?,?) ";
     public static final String DELETE_COMPANY = "DELETE FROM `coupons_database`.`companies` WHERE id = ? ";
     public static final String UPDATE_COMPANY = "UPDATE `coupons_database`.`companies` SET email = ?, password = ? WHERE id = ? ";
-    public static final String UPDATE_COMPANY_EMAIL_EXIST = "SELECT * FROM `coupons_database`.`companies` WHERE id != ? AND email = ?";
+    public static final String UPDATE_COMPANY_IS_EMAIL_EXIST = "SELECT * FROM `coupons_database`.`companies` WHERE id != ? AND email = ?";
     public static final String GET_ALL_COMPANIES = "SELECT*FROM `coupons_database`.`companies` ";
     public static final String GET_ONE_COMPANY = "SELECT*FROM `coupons_database`.`companies` WHERE id = ?";
     public static final String GET_COMPANY_COUPON_CATEGORY = "SELECT * FROM `coupons_database`.`coupons` WHERE category_id = ? AND company_id = ? ";
@@ -103,7 +108,7 @@ public class DBmanager {
     public static final String IS_CUSTOMER_EMAIL_EXISTS = "SELECT * FROM `coupons_database`.`customers` WHERE email = ?";
     public static final String ADD_CUSTOMER = "INSERT INTO `coupons_database`.`customers` (`first_name`,`last_name`, `email`, `password`) VALUES (?,?,?,?) ";
     public static final String DELETE_CUSTOMER = "DELETE FROM `coupons_database`.`customers` WHERE id = ? ";
-    public static final String UPDATE_CUSTOMER_EMAIL_EXIST = "SELECT * FROM `coupons_database`.`customers` WHERE id != ? AND email = ?";
+    public static final String UPDATE_CUSTOMER_IS_EMAIL_EXIST = "SELECT * FROM `coupons_database`.`customers` WHERE id != ? AND email = ?";
     public static final String UPDATE_CUSTOMER = "UPDATE `coupons_database`.`customers` SET first_name = ? ,last_name = ?, email = ?, password = ? WHERE id = ? ";
     public static final String GET_ALL_CUSTOMERS = "SELECT*FROM `coupons_database`.`customers` ";
     public static final String GET_ONE_CUSTOMER = "SELECT*FROM `coupons_database`.`customers` WHERE id = ?";

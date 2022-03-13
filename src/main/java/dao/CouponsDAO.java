@@ -5,8 +5,8 @@ import beans.Coupon;
 
 import java.util.List;
 /**
- * The CustomerDAO interface is to be implemented by the class
- * that should access the database and update the company table.
+ * The CouponDAO interface is to be implemented by the class
+ * that should access the database and update the coupons table.
  */
 public interface CouponsDAO {
     /**
@@ -27,7 +27,7 @@ public interface CouponsDAO {
      */
     void addCoupon(Coupon coupon);
     /**
-     * Updates the specified coupon to the coupons table.
+     * Updates the specified coupon in the coupons table.
      */
     void updateCoupon(Coupon coupon);
     /**
@@ -35,7 +35,7 @@ public interface CouponsDAO {
      */
     void deleteCoupon(int couponID);
     /**
-     * Adds to the coupon vs customers table if the customer does not already own this coupon, and
+     * Adds the purchase to the coupon vs customers table if the customer does not already own this coupon, and
      * if it is in stock and did not expire.
      * Will also decrease the coupon's amount by 1.
      */
@@ -45,31 +45,31 @@ public interface CouponsDAO {
      */
     void deleteExpiredCoupons();
     /**
-     * Retrieves the specified coupon from the database based on its id.
+     * Returns a coupon from the database based on its id.
      */
     Coupon getOneCoupon(int couponID);
     /**
-     * Retrieves all the specified company's coupons from the database and returns a list.
+     * Returns all the company's coupons based on its company id as a list.
      */
     List<Coupon> getCompanyCoupons(int companyID);
     /**
-     * Retrieves all the specified customer's coupons from the database and returns a list.
+     * Returns all the customer's coupons based on the customer id as a list.
      */
     List<Coupon> getCostumerCoupons(int customerId);
     /**
-     * Retrieves all the specified company's coupons that are from the specified category and returns a list.
+     * Returns all the company's coupons that are from the specified category as a list.
      */
     List<Coupon> getCompanyCouponsByCategory(Category category, int companyId);
     /**
-     * Retrieves all the specified company's coupons that are from the specified maximum price and returns a list.
+     * Returns all the company's coupons that has the specified maximum price as a list.
      */
     List<Coupon> getCompanyCouponsByMaxPrice(double maxPrice, int companyId);
     /**
-     * Retrieves all the specified customer's coupons that are from the specified category and returns a list.
+     * Returns all the customer's coupons that are from the specified category as a list.
      */
     List<Coupon> getCustomerCouponsByCategory(Category category, int customerId);
     /**
-     * Retrieves all the specified customer's coupons that are from the specified maximum price and returns a list.
+     * Returns all the customer's coupons that has the specified maximum price as a list.
      */
     List<Coupon> getCustomerCouponsByMaxPrice(double maxPrice, int customerId);
 }

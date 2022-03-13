@@ -1,6 +1,6 @@
 package beans;
 
-import exceptions.NotAllowedValueChange;
+import exceptions.ValueSetNotAllowed;
 
 import java.util.List;
 
@@ -41,8 +41,8 @@ public class Company {
     /**
      * Can not change company name. will throw an exception
      */
-    public void setName(String name) throws NotAllowedValueChange {
-        throw new NotAllowedValueChange("You can not change company name");
+    public void setName(String name) throws ValueSetNotAllowed {
+        throw new ValueSetNotAllowed("You can not change company name");
     }
 
     /**
@@ -92,10 +92,10 @@ public class Company {
 
     /**
      * * Can not change company id. will throw exception
-     * @throws NotAllowedValueChange
+     * @throws ValueSetNotAllowed
      */
-    public void setId(int id) throws NotAllowedValueChange {
-        throw new NotAllowedValueChange("You can not change company id");
+    public void setId(int id) throws ValueSetNotAllowed {
+        throw new ValueSetNotAllowed("You can not change company id");
     }
 
     /**

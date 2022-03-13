@@ -16,12 +16,13 @@ public class CompanyFacade extends ClientFacade {
 
     @Override
     public boolean login(String email, String password) {
-        this.companyID = new CompaniesDBDAO().getCompanyId(email, password);
+        this.companiesDAO = new CompaniesDBDAO();
+        this.companyID = this.companiesDAO.getCompanyId(email, password);
         if (this.companyID == 0) {
+            this.companiesDAO = null;
             return false;
         }
         this.couponsDAO = new CouponsDBDAO();
-        this.companiesDAO = new CompaniesDBDAO();
         return true;
     }
 

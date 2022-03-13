@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The CouponDBDAO is the class that should access the database and update the company table.
+ * The CouponsDBDAO is the class that should access the database and update the coupons table.
  */
 public class CouponsDBDAO implements CouponsDAO {
     /**
@@ -22,8 +22,9 @@ public class CouponsDBDAO implements CouponsDAO {
     @Override
     public boolean isCompanyCouponExist(Coupon coupon) {
         try {
-            return DBrunQuery.getResultSet(DBmanager.IS_COUPON_COMPANY_EXISTS, Map.of(
-                    1, coupon.getCompanyID(), 2, coupon.getTitle())).next();
+            ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_COUPON_COMPANY_EXISTS, Map.of(
+                    1, coupon.getCompanyID(), 2, coupon.getTitle()));
+            return resultSet.next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -31,14 +32,14 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * When updating a coupon's title we need to make sure the title does not already exist for the same company.
-     * Will return true if it finds another coupon with the same title.
+     * Will return true if the specified coupon exist based on its title and customer id
      */
     @Override
     public boolean isCostumerCouponExist(int costumerID, int couponID) {
         try {
-            return DBrunQuery.getResultSet(
-                    DBmanager.IS_CUSTOMER_COUPON_EXISTS, Map.of(1, costumerID, 2, couponID)).next();
+            ResultSet resultSet = DBrunQuery.getResultSet(
+                    DBmanager.IS_CUSTOMER_COUPON_EXISTS, Map.of(1, costumerID, 2, couponID));
+            return resultSet.next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -61,9 +62,8 @@ public class CouponsDBDAO implements CouponsDAO {
                 8, coupon.getPrice(),
                 9, coupon.getImage()));
     }
-
     /**
-     * Updates the specified coupon to the coupons table.
+     * Updates the specified coupon in the coupons table.
      */
     @Override
     public void updateCoupon(Coupon coupon) {
@@ -86,9 +86,8 @@ public class CouponsDBDAO implements CouponsDAO {
     public void deleteCoupon(int couponID) {
         DBrunQuery.runQuery(DBmanager.DELETE_COUPON, Map.of(1, couponID));
     }
-
     /**
-     * Retrieves all the specified company's coupons that are from the specified category and returns a list.
+     * Returns all the company's coupons that has the specified maximum price as a list.
      */
     @Override
     public List<Coupon> getCompanyCouponsByCategory(Category category, int companyId) {
@@ -107,7 +106,7 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * Retrieves all the specified company's coupons that are from the specified maximum price and returns a list.
+     * Returns all the specified company coupons that are of the specified maximum price as a list.
      */
     @Override
     public List<Coupon> getCompanyCouponsByMaxPrice(double maxPrice, int companyId) {
@@ -125,7 +124,7 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * Retrieves all the specified customer's coupons that are from the specified category and returns a list.
+     * Returns all the customer's coupons that are from the specified category as a list.
      */
     @Override
     public List<Coupon> getCustomerCouponsByCategory(Category category, int customerId) {
@@ -144,7 +143,7 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * Retrieves all the specified customer's coupons that are from the specified maximum price and returns a list.
+     * Returns all the customer's coupons that has the specified maximum price as a list.
      */
     @Override
     public List<Coupon> getCustomerCouponsByMaxPrice(double maxPrice, int customerId) {
@@ -161,7 +160,6 @@ public class CouponsDBDAO implements CouponsDAO {
 
         return maxPriceCoupons;
     }
-
     /**
      * Deletes all expired coupons from the coupons table.
      */
@@ -171,7 +169,7 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * Retrieves all the specified customer's coupons from the database and returns a list.
+     * Returns all the customer's coupons based on the customer id as a list.
      */
     @Override
     public List<Coupon> getCostumerCoupons(int customerId) {
@@ -189,13 +187,15 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * Retrieves the specified coupon from the database based on its id.
+     * Returns a coupon from the database based on its id.
      */
     @Override
     public Coupon getOneCoupon(int couponID) {
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ONE_COUPON, Map.of(1, couponID));
         try {
-            return resultSet.next() ? resultSetToCoupon(resultSet) : null;
+            if (resultSet.next()) {
+                return resultSetToCoupon(resultSet);
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -203,7 +203,7 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * Adds to the coupon vs customers table if the customer does not already own this coupon, and
+     * Adds the purchase to the coupon vs customers table if the customer does not already own this coupon, and
      * if it is in stock and did not expire.
      * Will also decrease the coupon's amount by 1.
      */
@@ -213,7 +213,7 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * Retrieves all the specified company's coupons from the database and returns a list.
+     * Returns all the company's coupons based on its company id as a list.
      */
     @Override
     public List<Coupon> getCompanyCoupons(int companyID) {
@@ -231,15 +231,17 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * Adds the specified coupon to the coupons table.
+     * When updating a coupon's title we need to make sure the title does not already exist for the same company.
+     * Will return true if it finds another coupon with the same title.
      */
     @Override
     public boolean updateCouponTitleExist(Coupon coupon) {
         try {
-            return DBrunQuery.getResultSet(DBmanager.UPDATE_COUPON_TITLE_EXIST, Map.of(
-                            1, coupon.getId(),
-                            2, coupon.getCompanyID(),
-                            3, coupon.getTitle())).next();
+            ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.UPDATE_COUPON_TITLE_EXIST, Map.of(
+                    1, coupon.getId(),
+                    2, coupon.getCompanyID(),
+                    3, coupon.getTitle()));
+            return resultSet.next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -247,7 +249,7 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * A private service method to be used in multiple method that will convert the result set into a coupon.
+     * A private service method to be used in multiple methods that will convert the result set to a coupon.
      */
     private Coupon resultSetToCoupon(ResultSet resultSet) throws SQLException {
         return new Coupon(

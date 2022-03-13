@@ -8,11 +8,11 @@ import dao.CategoriesDAO;
 import java.util.Arrays;
 import java.util.Map;
 /**
- * The CategoryDBDAO is the class that should access the database and update the category table.
+ * The CategoriesDBDAO is the class that should access the database and update the categories table.
  */
 public class CategoriesDBDAO implements CategoriesDAO {
     /**
-     * Will add all existing categories to the category table.
+     * Will add all existing categories to the categories table.
      */
     @Override
     public void addAllCategories() {

@@ -4,12 +4,12 @@ import beans.Customer;
 
 import java.util.List;
 /**
- * The CustomerDAO interface is to be implemented by the class
- * that should access the database and update the company table.
+ * The CustomersDAO interface is to be implemented by the class
+ * that should access the database and update the customers table.
  */
 public interface CustomersDAO {
     /**
-     * Retrieves from the date base the custmer's id, based on the specified email and password.
+     * Returns from the database the customer's id, based on the specified email and password.
      * if it does not find a match, will return the id 0
      */
     int getCustomerId(String email, String password);
@@ -17,9 +17,9 @@ public interface CustomersDAO {
      * When updating a customer's email we need to make sure the email does not already exist.
      * Will return true if it finds another customer with the same email.
      */
-    boolean UpdateCustomerEmailExist(Customer customer);
+    boolean UpdateCustomerIsEmailExist(Customer customer);
     /**
-     * This will return true if the specified email exist in the database.
+     * This will return true if the specified email exist in the customers table.
      */
     boolean isCustomerEmailExists(Customer customer);
     /**
@@ -27,7 +27,7 @@ public interface CustomersDAO {
      */
     void addCustomer(Customer customer);
     /**
-     * Updates the specified customer to the customers table.
+     * Updates the specified customer in the customers table.
      */
     void updateCustomer(Customer customer);
     /**
@@ -35,11 +35,11 @@ public interface CustomersDAO {
      */
     void deleteCustomer(int costumerId);
     /**
-     * Retrieves all customers from the database and returns a list.
+     * Returns all customers from the database as a list.
      */
     List<Customer> getAllCustomers();
     /**
-     * Retrieves the specified customer from the database based on its id.
+     * Returns the customer from the database based on its id.
      */
     Customer getOneCustomer(int costumerId);
 

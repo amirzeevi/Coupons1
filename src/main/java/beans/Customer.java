@@ -1,6 +1,6 @@
 package beans;
 
-import exceptions.NotAllowedValueChange;
+import exceptions.ValueSetNotAllowed;
 
 import java.util.List;
 
@@ -38,10 +38,10 @@ public class Customer {
     /**
      * Can not change customer id.
      * will throw an exception.
-     * @throws NotAllowedValueChange
+     * @throws ValueSetNotAllowed
      */
-    public void setId(int id) throws NotAllowedValueChange {
-        throw new NotAllowedValueChange("You can not change customer id");
+    public void setId(int id) throws ValueSetNotAllowed {
+        throw new ValueSetNotAllowed("You can not change customer id");
     }
 
     /**

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The CompanyDBDAO is the class that should access the database and update the company table.
+ * The CompanyDBDAO is the class that should access the database and update the companies table.
  */
 public class CompaniesDBDAO implements CompaniesDAO {
     /**
@@ -23,7 +23,9 @@ public class CompaniesDBDAO implements CompaniesDAO {
     public int getCompanyId(String email, String password) {
         try {
             ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_COMPANY_ID, Map.of(1, email, 2, password));
-            return resultSet.next() ? resultSet.getInt("id") : 0;
+            if (resultSet.next()) {
+                return resultSet.getInt("id");
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -36,17 +38,18 @@ public class CompaniesDBDAO implements CompaniesDAO {
     @Override
     public boolean isCompanyExist(Company company) {
         try {
-            return DBrunQuery.getResultSet(
-                    DBmanager.IS_COMPANY_EXIST, Map.of(1, company.getName(), 2, company.getEmail())).next();
+            ResultSet resultSet = DBrunQuery.getResultSet(
+                    DBmanager.IS_COMPANY_EXIST, Map.of(1, company.getName(), 2, company.getEmail()));
+            return resultSet.next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return false;
     }
 
+
     /**
-     * When updating a company's name we need to make sure the name does not already exist.
-     * Will return true if it finds another company with the same name.
+     * Adds the specified company to the companies table.
      */
     @Override
     public void addCompany(Company company) {
@@ -55,9 +58,8 @@ public class CompaniesDBDAO implements CompaniesDAO {
                 2, company.getEmail(),
                 3, company.getPassword()));
     }
-
     /**
-     * Adds the specified company to the companies table.
+     * Updates the specified company in the companies table.
      */
     @Override
     public void updateCompany(Company company) {
@@ -68,14 +70,15 @@ public class CompaniesDBDAO implements CompaniesDAO {
     }
 
     /**
-     * Updates the specified company to the companies table.
+     * When updating a company's name we need to make sure the name does not already exist.
+     * Will return true if it finds another company with the same name.
      */
     @Override
-    public boolean UpdateCompanyEmailExist(Company company) {
+    public boolean UpdateCompanyIsEmailExist(Company company) {
         try {
-            return DBrunQuery.getResultSet(
-                    DBmanager.UPDATE_COMPANY_EMAIL_EXIST, Map.of(1, company.getId(), 2, company.getEmail()))
-                    .next();
+            ResultSet resultSet = DBrunQuery.getResultSet(
+                    DBmanager.UPDATE_COMPANY_IS_EMAIL_EXIST, Map.of(1, company.getId(), 2, company.getEmail()));
+            return resultSet.next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -83,16 +86,15 @@ public class CompaniesDBDAO implements CompaniesDAO {
     }
 
     /**
-     * Deletes the specified company from the companies table and also
+     * Deletes the specified company from the companies table, also
      * will delete any coupon that the company owns
      */
     @Override
     public void deleteCompany(int companyID) {
         DBrunQuery.runQuery(DBmanager.DELETE_COMPANY, Map.of(1, companyID));
     }
-
     /**
-     * Retrieves all companies from the database and returns a list.
+     * Returns all companies from the database as list.
      */
     @Override
     public List<Company> getAllCompanies() {
@@ -110,13 +112,15 @@ public class CompaniesDBDAO implements CompaniesDAO {
     }
 
     /**
-     * Retrieves the specified company from the database.
+     * Returns the specified company from the database.
      */
     @Override
     public Company getOneCompany(int companyID) {
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ONE_COMPANY, Map.of(1, companyID));
         try {
-            return resultSet.next() ? resultSetToCompany(resultSet) : null;
+            if (resultSet.next()) {
+                return resultSetToCompany(resultSet);
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -124,7 +128,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
     }
 
     /**
-     * A private service method to be used in multiple methods. will convert the result set into a company.
+     * A private service method to be used in multiple methods. will convert the result set to a company.
      */
     private static Company resultSetToCompany(ResultSet resultSet) throws SQLException {
         int companyID = resultSet.getInt("id");

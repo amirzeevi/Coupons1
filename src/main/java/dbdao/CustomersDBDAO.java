@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * The CustomerDBDAO is the class that should access the database and update the company table.
+ * The CustomersDBDAO is the class that should access the database and update the customers table.
  */
 
-public class CustomerDBDAO implements CustomersDAO {
+public class CustomersDBDAO implements CustomersDAO {
     /**
-     * Retrieves from the date base the custmer's id, based on the specified email and password.
+     * Returns from the database the customer's id, based on the specified email and password.
      * if it does not find a match, will return the id 0
      */
     @Override
@@ -36,12 +36,13 @@ public class CustomerDBDAO implements CustomersDAO {
      * Will return true if it finds another customer with the same email.
      */
     @Override
-    public boolean UpdateCustomerEmailExist(Customer customer) {
+    public boolean UpdateCustomerIsEmailExist(Customer customer) {
         try {
-            return DBrunQuery.getResultSet(
-                    DBmanager.UPDATE_CUSTOMER_EMAIL_EXIST, Map.of(
+            ResultSet resultSet = DBrunQuery.getResultSet(
+                    DBmanager.UPDATE_CUSTOMER_IS_EMAIL_EXIST, Map.of(
                             1, customer.getId(),
-                            2, customer.getEmail())).next();
+                            2, customer.getEmail()));
+            return resultSet.next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -49,13 +50,14 @@ public class CustomerDBDAO implements CustomersDAO {
     }
 
     /**
-     * This will return true if the specified email exist in the database.
+     * This will return true if the specified email exist in the customers table.
      */
     @Override
     public boolean isCustomerEmailExists(Customer customer) {
         try {
-            return DBrunQuery.getResultSet(
-                    DBmanager.IS_CUSTOMER_EMAIL_EXISTS, Map.of(1, customer.getEmail())).next();
+            ResultSet resultSet = DBrunQuery.getResultSet(
+                    DBmanager.IS_CUSTOMER_EMAIL_EXISTS, Map.of(1, customer.getEmail()));
+            return resultSet.next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -75,7 +77,7 @@ public class CustomerDBDAO implements CustomersDAO {
     }
 
     /**
-     * Updates the specified customer to the customers table.
+     * Updates the specified customer in the customers table.
      */
     @Override
     public void updateCustomer(Customer customer) {
@@ -94,9 +96,8 @@ public class CustomerDBDAO implements CustomersDAO {
     public void deleteCustomer(int costumerId) {
         DBrunQuery.runQuery(DBmanager.DELETE_CUSTOMER, Map.of(1, costumerId));
     }
-
     /**
-     * Retrieves all customers from the database and returns a list.
+     * Returns all customers from the database as a list.
      */
     @Override
     public ArrayList<Customer> getAllCustomers() {
@@ -111,9 +112,8 @@ public class CustomerDBDAO implements CustomersDAO {
         }
         return customers;
     }
-
     /**
-     * Retrieves the specified customer from the database based on its id.
+     * Returns the customer from the database based on its id.
      */
     @Override
     public Customer getOneCustomer(int costumerId) {
@@ -128,7 +128,7 @@ public class CustomerDBDAO implements CustomersDAO {
     }
 
     /**
-     * A private service method to be used in multiple method that will convert the result set into a customer.
+     * A private service method to be used in multiple methods that will convert the result set to a customer.
      */
     private static Customer resultSetToCustomer(ResultSet resultSet) throws SQLException {
         int customerID = resultSet.getInt("id");

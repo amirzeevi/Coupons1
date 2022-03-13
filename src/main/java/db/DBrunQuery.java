@@ -9,9 +9,18 @@ import java.sql.SQLException;
 import java.sql.Date;
 import java.util.Map;
 
+/**
+ * This class executes the queries to the database.
+ * Also gets the result if there is one.
+ * Using a connection from the Connection pool class, it prepares its statement
+ * containing the query from the DBmanager class and changes its parameters if needed.
+ */
 public class DBrunQuery {
 
-
+    /**
+     * Executes the specified SQL statement by getting a connection and preparing its statement.
+     * If an error occurs, throws an exception and finally returns the connection to the Connection Pool class.
+     */
     public static void runQuery(String sql) {
         Connection connection = null;
         PreparedStatement stmt;
@@ -20,12 +29,17 @@ public class DBrunQuery {
             stmt = connection.prepareStatement(sql);
             stmt.execute();
         } catch (InterruptedException | SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             ConnectionPool.getInstance().returnConnection(connection);
         }
     }
 
+    /**
+     * Executes the specified SQL statement by getting a connection and preparing its statement and sets its parameters
+     * to the specified Map containing them.
+     * If an error occurs, throws exception and finally returns the connection to the Connection Pool class.
+     */
     public static void runQuery(String sql, Map<Integer, Object> map) {
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -66,6 +80,11 @@ public class DBrunQuery {
         }
     }
 
+    /**
+     * Executes the specified SQL statement, and sets its parameters to the specified contained in the Map.
+     * Returns the Result set retrieved from the database.
+     * If an error occurs, throws exception and finally returns the connection to the Connection Pool class.
+     */
     public static ResultSet getResultSet(String sql, Map<Integer, Object> map) {
         Connection connection = null;
         try {
@@ -100,6 +119,10 @@ public class DBrunQuery {
         }
     }
 
+    /**
+     * Executes the specified SQL statement and returns the Result set.
+     * If an error occurs, throws exception and finally returns the connection to the Connection Pool class.
+     */
     public static ResultSet getResultSet(String sql) {
         Connection connection = null;
         try {

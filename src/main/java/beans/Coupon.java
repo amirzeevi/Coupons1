@@ -1,6 +1,6 @@
 package beans;
 
-import exceptions.NotAllowedValueChange;
+import exceptions.ValueSetNotAllowed;
 
 
 import java.util.Date;
@@ -47,10 +47,10 @@ public class Coupon {
     /**
      * Can not change coupon id will throw exception
      *
-     * @throws NotAllowedValueChange
+     * @throws ValueSetNotAllowed
      */
-    public void setId(int id) throws NotAllowedValueChange {
-        throw new NotAllowedValueChange("You can not change coupon id");
+    public void setId(int id) throws ValueSetNotAllowed {
+        throw new ValueSetNotAllowed("You can not change coupon id");
     }
 
     /**
@@ -63,10 +63,10 @@ public class Coupon {
     /**
      * Can not change the company id. will throw exception
      *
-     * @throws NotAllowedValueChange
+     * @throws ValueSetNotAllowed
      */
-    public void setCompanyID(int companyID) throws NotAllowedValueChange {
-        throw new NotAllowedValueChange("You can not change coupon company id");
+    public void setCompanyID(int companyID) throws ValueSetNotAllowed {
+        throw new ValueSetNotAllowed("You can not change coupon company id");
     }
 
     /**

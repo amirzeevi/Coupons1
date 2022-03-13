@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface CompaniesDAO {
     /**
-     * Retrieves from the date base the company's id, based on the specified email and password.
+     * Returns from the database the company's id, based on the specified email and password.
      * if it does not find a match, will return the id 0
      */
     int getCompanyId(String email, String password);
@@ -24,7 +24,7 @@ public interface CompaniesDAO {
      * When updating a company's name we need to make sure the name does not already exist.
      * Will return true if it finds another company with the same name.
      */
-    boolean UpdateCompanyEmailExist(Company company);
+    boolean UpdateCompanyIsEmailExist(Company company);
 
     /**
      * Adds the specified company to the companies table.
@@ -32,23 +32,23 @@ public interface CompaniesDAO {
     void addCompany(Company company);
 
     /**
-     * Updates the specified company to the companies table.
+     * Updates the specified company in the companies table.
      */
     void updateCompany(Company company);
 
     /**
-     * Deletes the specified company from the companies table and also
+     * Deletes the specified company from the companies table, also
      * will delete any coupon that the company owns
      */
     void deleteCompany(int companyID);
 
     /**
-     * Retrieves all companies from the database and returns a list.
+     * Returns all companies from the database as list.
      */
     List<Company> getAllCompanies();
 
     /**
-     * Retrieves the specified company from the database.
+     * Returns the specified company from the database.
      */
     Company getOneCompany(int companyID);
 }
