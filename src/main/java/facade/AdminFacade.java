@@ -25,7 +25,7 @@ public class AdminFacade extends ClientFacade {
     public boolean login(String email, String password) {
         if (email.equals("admin@admin") && password.equals("admin")) {
             this.companiesDAO = new CompaniesDBDAO();
-            this.customerDAO = new CustomersDBDAO();
+            this.customersDAO = new CustomersDBDAO();
             return true;
         }
         return false;
@@ -65,6 +65,9 @@ public class AdminFacade extends ClientFacade {
         if (company == null) {
             throw new CouponsSystemException("Invalid company");
         }
+        if (!companiesDAO.isCompanyExist(company)) {
+            throw new CouponsSystemException("Company not found");
+        }
         if (this.companiesDAO.UpdateCompanyIsEmailExist(company)) {
             throw new CouponsSystemException("Can not update - Email already exists");
         }
@@ -75,8 +78,12 @@ public class AdminFacade extends ClientFacade {
     /**
      * This method returns a list of all companies from the database.
      */
-    public List<Company> getAllCompanies() {
-        return this.companiesDAO.getAllCompanies();
+    public List<Company> getAllCompanies() throws CouponsSystemException {
+        List<Company> companies = this.companiesDAO.getAllCompanies();
+        if (companies.isEmpty()) {
+            throw new CouponsSystemException("No companies in the system");
+        }
+        return companies;
     }
 
     /**
@@ -99,10 +106,10 @@ public class AdminFacade extends ClientFacade {
         if (customer == null) {
             throw new CouponsSystemException("Invalid customer");
         }
-        if (this.customerDAO.isCustomerEmailExists(customer)) {
+        if (this.customersDAO.isCustomerEmailExists(customer)) {
             throw new CouponsSystemException("Can not add customer with existing email");
         }
-        this.customerDAO.addCustomer(customer);
+        this.customersDAO.addCustomer(customer);
         System.out.println("Customer added");
     }
 
@@ -114,10 +121,13 @@ public class AdminFacade extends ClientFacade {
         if (customer == null) {
             throw new CouponsSystemException("Invalid customer");
         }
-        if (this.customerDAO.UpdateCustomerIsEmailExist(customer)) {
-            throw new CouponsSystemException("Can not update customer email already exists");
+        if (this.customersDAO.getOneCustomer(customer.getId()) == null) {
+            throw new CouponsSystemException("Customer not exist");
         }
-        this.customerDAO.updateCustomer(customer);
+        if (this.customersDAO.UpdateCustomerIsEmailExist(customer)) {
+            throw new CouponsSystemException("Can not update customer email already exist");
+        }
+        this.customersDAO.updateCustomer(customer);
         System.out.println("Customer updated");
     }
 
@@ -128,15 +138,19 @@ public class AdminFacade extends ClientFacade {
     public void deleteCustomer(int customerID) throws CouponsSystemException {
         // check customer id
         getOneCustomer(customerID);
-        this.customerDAO.deleteCustomer(customerID);
+        this.customersDAO.deleteCustomer(customerID);
         System.out.println("Customer deleted");
     }
 
     /**
      * This method returns a list of customer from the database.
      */
-    public List<Customer> getAllCustomers() {
-        return this.customerDAO.getAllCustomers();
+    public List<Customer> getAllCustomers() throws CouponsSystemException {
+        List<Customer> customers = this.customersDAO.getAllCustomers();
+        if (customers.isEmpty()) {
+            throw new CouponsSystemException("No customers in the system");
+        }
+        return customers;
     }
 
     /**
@@ -144,7 +158,7 @@ public class AdminFacade extends ClientFacade {
      * an {@link CouponsSystemException} exception.
      */
     public Customer getOneCustomer(int customerID) throws CouponsSystemException {
-        Customer customerFromDB = this.customerDAO.getOneCustomer(customerID);
+        Customer customerFromDB = this.customersDAO.getOneCustomer(customerID);
         if (customerFromDB == null) {
             throw new CouponsSystemException("Customer not found");
         }

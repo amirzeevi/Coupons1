@@ -1,6 +1,7 @@
 import beans.ClientType;
 import beans.Company;
 import beans.Customer;
+import exceptions.CouponsSystemException;
 import facade.AdminFacade;
 import facade.LoginManager;
 import org.junit.After;
@@ -10,7 +11,10 @@ import utils.TablePrinter;
 
 import java.util.ArrayList;
 
-
+/**
+ * Test class for the {@link AdminFacade} class methods. Before testing make sure the schema and tables are created
+ * in the {@link TablesTest} test class.
+ */
 public class AdminTest {
 
     AdminFacade adminFacade;
@@ -40,7 +44,6 @@ public class AdminTest {
     public void AddCompany() {
         try {
             Company companyToAdd = new Company(
-                    0,
                     "Company",
                     "company@com",
                     "1234",
@@ -56,7 +59,6 @@ public class AdminTest {
     public void AddCompany2() {
         try {
             Company companyToAdd = new Company(
-                    0,
                     "Company2",
                     "company2@com",
                     "1234",
@@ -72,7 +74,7 @@ public class AdminTest {
     public void UpdateCompany() {
         try {
             Company companyExists = adminFacade.getAllCompanies().get(0);
-            companyExists.setEmail("company@com");
+            companyExists.setEmail("njnjnj");
             adminFacade.updateCompany(companyExists);
         } catch (Exception e) {
             assert (true);
@@ -92,7 +94,12 @@ public class AdminTest {
 
     @Test
     public void GetAllCompanies() {
-        TablePrinter.print(adminFacade.getAllCompanies());
+        try {
+            TablePrinter.print(adminFacade.getAllCompanies());
+        } catch (CouponsSystemException e) {
+            assert (true);
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
@@ -109,12 +116,10 @@ public class AdminTest {
     public void AddCustomer() {
         try {
             Customer customerToAdd = new Customer(
-                    0,
                     "Ploni",
                     "Israeli",
                     "my.email@com",
-                    "1234",
-                    new ArrayList<>());
+                    "1234");
             adminFacade.addCustomer(customerToAdd);
         } catch (Exception e) {
             assert (true);
@@ -126,12 +131,10 @@ public class AdminTest {
     public void AddCustomer2() {
         try {
             Customer customerToAdd = new Customer(
-                    0,
                     "Almoni",
                     "Israeli",
                     "my.email2@com",
-                    "1234",
-                    new ArrayList<>());
+                    "1234");
             adminFacade.addCustomer(customerToAdd);
         } catch (Exception e) {
             assert (true);
@@ -142,7 +145,7 @@ public class AdminTest {
     @Test
     public void UpdateCustomer() {
         try {
-            Customer customerExists = adminFacade.getAllCustomers().get(0);
+            Customer customerExists = adminFacade.getOneCustomer(1);
             customerExists.setPassword("12345678");
             adminFacade.updateCustomer(customerExists);
         } catch (Exception e) {
@@ -154,7 +157,7 @@ public class AdminTest {
     @Test
     public void DeleteCustomer() {
         try {
-            adminFacade.deleteCustomer(2);
+            adminFacade.deleteCustomer(3);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -163,7 +166,12 @@ public class AdminTest {
 
     @Test
     public void GetAllCustomers() {
-        TablePrinter.print(adminFacade.getAllCustomers());
+        try {
+            TablePrinter.print(adminFacade.getAllCustomers());
+        } catch (CouponsSystemException e) {
+            assert (true);
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test

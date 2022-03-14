@@ -3,6 +3,8 @@ import beans.ClientType;
 import beans.Company;
 import beans.Coupon;
 import dbdao.CompaniesDBDAO;
+import exceptions.CouponsSystemException;
+import facade.AdminFacade;
 import facade.CompanyFacade;
 import facade.LoginManager;
 import org.junit.After;
@@ -12,7 +14,11 @@ import utils.TablePrinter;
 
 import java.sql.Date;
 import java.time.LocalDate;
-
+/**
+ * Test class for the {@link CompanyFacade} class methods. Before testing make sure the schema and all
+ * tables are created in the {@link TablesTest} test class and to fill the categories table
+ * using the {@link CategoryTest} test class.
+ */
 public class CompanyTest {
     Company company;
     CompanyFacade companyFacade;
@@ -27,6 +33,7 @@ public class CompanyTest {
     @After
     public void tearDown() {
         companyFacade = null;
+        company = null;
     }
 
     @Test
@@ -43,7 +50,6 @@ public class CompanyTest {
     public void AddCoupon() {
         try {
             Coupon couponToAdd = new Coupon(
-                    0,
                     company.getId(),
                     Category.ELECTRICITY,
                     "Electric Bike",
@@ -65,7 +71,6 @@ public class CompanyTest {
     public void AddCoupon2() {
         try {
             Coupon couponToAdd = new Coupon(
-                    0,
                     company.getId(),
                     Category.VACATION,
                     "Hotel California",
@@ -86,9 +91,9 @@ public class CompanyTest {
     @Test
     public void UpdateCoupon() {
         try {
-            Coupon existsCoupons = companyFacade.getCompanyCoupons().get(0);
-            existsCoupons.setTitle("Hotel California");
-            companyFacade.updateCoupon(existsCoupons);
+            Coupon existsCoupon = companyFacade.getCompanyCoupons().get(0);
+            existsCoupon.setTitle("Hotel California");
+            companyFacade.updateCoupon(existsCoupon);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -107,16 +112,32 @@ public class CompanyTest {
 
     @Test
     public void getCompanyCoupons() {
-        TablePrinter.print(companyFacade.getCompanyCoupons());
+        try {
+            TablePrinter.print(companyFacade.getCompanyCoupons());
+        } catch (CouponsSystemException e) {
+            assert (true);
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
     public void getCompanyCouponsCategory() {
-        TablePrinter.print(companyFacade.getCompanyCoupons(Category.FOOD));
+        try {
+            TablePrinter.print(companyFacade.getCompanyCoupons(Category.FOOD));
+        } catch (CouponsSystemException e) {
+            assert (true);
+            System.out.println(e.getMessage());
+        }
     }
+
     @Test
     public void getCompanyCouponsMaxPrice() {
-        TablePrinter.print(companyFacade.getCompanyCoupons(20));
+        try {
+            TablePrinter.print(companyFacade.getCompanyCoupons(20));
+        } catch (CouponsSystemException e) {
+            assert (true);
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test

@@ -29,10 +29,10 @@ public class CustomerFacade extends ClientFacade {
      */
     @Override
     public boolean login(String email, String password) {
-        this.customerDAO = new CustomersDBDAO();
-        this.customerID = this.customerDAO.getCustomerId(email, password);
+        this.customersDAO = new CustomersDBDAO();
+        this.customerID = this.customersDAO.getCustomerId(email, password);
         if (this.customerID == 0) {
-            this.customerDAO = null;
+            this.customersDAO = null;
             return false;
         }
         this.couponsDAO = new CouponsDBDAO();
@@ -40,21 +40,26 @@ public class CustomerFacade extends ClientFacade {
     }
 
     /**
-     * This method will add the specified coupon purchase to tha custmers_coupons table containing the coupon id
+     * This method will add the specified coupon purchase to tha customers_coupons table containing the coupon id
      * and the customer id. If any condition does not meet with requirements for purchase
      * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void purchaseCoupon(Coupon coupon) throws CouponsSystemException {
         if (coupon == null) {
-            throw new CouponsSystemException("Coupon does not exist");
+            throw new CouponsSystemException("Invalid coupon");
         }
-        if (coupon.getEndDate().before(Date.valueOf(LocalDate.now()))) {
+        Coupon couponFromDB = this.couponsDAO.getOneCoupon(coupon.getId());
+
+        if (couponFromDB == null) {
+            throw new CouponsSystemException("Coupon not exist");
+        }
+        if (couponFromDB.getEndDate().before(Date.valueOf(LocalDate.now()))) {
             throw new CouponsSystemException("Can not make purchase - coupon is out of date");
         }
-        if (coupon.getAmount() == 0) {
+        if (couponFromDB.getAmount() == 0) {
             throw new CouponsSystemException("Can not make purchase - coupon is out of stock");
         }
-        if (this.couponsDAO.isCostumerCouponExist(customerID, coupon.getId())) {
+        if (this.couponsDAO.isCostumerCouponExist(customerID, couponFromDB.getId())) {
             throw new CouponsSystemException("Can not make purchase - you already own this coupon");
         }
         this.couponsDAO.addCouponPurchase(this.customerID, coupon.getId());
@@ -64,28 +69,40 @@ public class CustomerFacade extends ClientFacade {
     /**
      * This method returns a list of all the coupons the customer owns.
      */
-    public List<Coupon> getCustomerCoupons() {
-        return this.couponsDAO.getCostumerCoupons(customerID);
+    public List<Coupon> getCustomerCoupons() throws CouponsSystemException {
+        List<Coupon> coupons = this.couponsDAO.getCostumerCoupons(customerID);
+        if(coupons.isEmpty()){
+            throw new CouponsSystemException("No coupon found");
+        }
+        return coupons;
     }
 
     /**
      * This method returns a list of all the coupons that are from the specified category that the customer owns.
      */
-    public List<Coupon> getCustomerCoupons(Category category) {
-        return this.couponsDAO.getCustomerCouponsByCategory(category, customerID);
+    public List<Coupon> getCustomerCoupons(Category category) throws CouponsSystemException {
+        List<Coupon> categoryCoupons = this.couponsDAO.getCustomerCouponsByCategory(category, customerID);
+        if(categoryCoupons.isEmpty()){
+            throw new CouponsSystemException("No coupons found");
+        }
+        return categoryCoupons;
     }
 
     /**
      * This method returns a list of all the coupons that are of the specified maximum price that the customer owns.
      */
-    public List<Coupon> getCustomerCoupons(double maxPrice) {
-        return this.couponsDAO.getCustomerCouponsByMaxPrice(maxPrice, customerID);
+    public List<Coupon> getCustomerCoupons(double maxPrice) throws CouponsSystemException {
+        List<Coupon> maxPriceCoupons = this.couponsDAO.getCustomerCouponsByMaxPrice(maxPrice, customerID);
+        if(maxPriceCoupons.isEmpty()){
+            throw new CouponsSystemException("No coupons found");
+        }
+        return maxPriceCoupons;
     }
 
     /**
      * This method returns the customer from the database.
      */
     public Customer getCustomerDetails() {
-        return this.customerDAO.getOneCustomer(customerID);
+        return this.customersDAO.getOneCustomer(customerID);
     }
 }

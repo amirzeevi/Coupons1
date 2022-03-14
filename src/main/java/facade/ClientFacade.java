@@ -12,7 +12,7 @@ public abstract class ClientFacade {
 
     protected CouponsDAO couponsDAO;
     protected CompaniesDAO companiesDAO;
-    protected CustomersDAO customerDAO;
+    protected CustomersDAO customersDAO;
 
     /**
      * An abstract login method to be overridden by the facades. for the company and customer facade

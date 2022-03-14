@@ -8,7 +8,7 @@ import java.util.List;
  * Customer bean to specify any costumer that should log in
  */
 public class Customer {
-    private final int id;
+    private int id;
     private String firstName;
     private String lastName;
     private String email;
@@ -28,6 +28,13 @@ public class Customer {
         this.coupons = coupons;
     }
 
+    public Customer(String firstName, String lastName, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+    }
+
     /**
      * Returns the customer id
      */
@@ -38,6 +45,7 @@ public class Customer {
     /**
      * Can not change customer id.
      * will throw an exception.
+     *
      * @throws ValueSetNotAllowed
      */
     public void setId(int id) throws ValueSetNotAllowed {
@@ -73,7 +81,7 @@ public class Customer {
     }
 
     /**
-     *  Returns the customer email
+     * Returns the customer email
      */
     public String getEmail() {
         return email;

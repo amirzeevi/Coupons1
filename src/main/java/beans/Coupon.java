@@ -9,7 +9,7 @@ import java.util.Date;
  * Coupon bean to specify attributes and set and toString operations
  */
 public class Coupon {
-    private final int id;
+    private int id;
     private final int companyID;
     private Category category;
     private String title;
@@ -26,6 +26,19 @@ public class Coupon {
     public Coupon(int id, int companyID, Category category, String title,
                   String description, Date startDate, Date endDate, int amount, double price, String image) {
         this.id = id;
+        this.companyID = companyID;
+        this.category = category;
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.amount = amount;
+        this.price = price;
+        this.image = image;
+    }
+
+    public Coupon(int companyID, Category category, String title,
+                  String description, Date startDate, Date endDate, int amount, double price, String image) {
         this.companyID = companyID;
         this.category = category;
         this.title = title;

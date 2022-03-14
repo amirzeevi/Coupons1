@@ -1,7 +1,11 @@
 import beans.Category;
 import beans.ClientType;
 import beans.Coupon;
+import beans.Customer;
 import dbdao.CouponsDBDAO;
+import dbdao.CustomersDBDAO;
+import exceptions.CouponsSystemException;
+import facade.CompanyFacade;
 import facade.CustomerFacade;
 import facade.LoginManager;
 import org.junit.After;
@@ -9,19 +13,29 @@ import org.junit.Before;
 import org.junit.Test;
 import utils.TablePrinter;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
+/**
+ * Test class for the {@link CompanyFacade} class methods. Before testing make sure to fill the categories table
+ * using the {@link CategoryTest} test class.
+ */
 public class CustomerTest {
 
     CustomerFacade customerFacade;
+    Customer customer;
 
     @Before
     public void setUp() {
+        customer = new CustomersDBDAO().getAllCustomers().get(0);
         customerFacade = new CustomerFacade();
-        customerFacade.login("my.email@com", "1234");
+        customerFacade.login(customer.getEmail(), customer.getPassword());
     }
 
     @After
     public void tearDown() {
         customerFacade = null;
+        customer = null;
     }
 
     @Test
@@ -38,7 +52,7 @@ public class CustomerTest {
     @Test
     public void Purchase() {
         try {
-            Coupon coupon = new CouponsDBDAO().getOneCoupon(3);
+            Coupon coupon = new CouponsDBDAO().getOneCoupon(1);
             customerFacade.purchaseCoupon(coupon);
         } catch (Exception e) {
             assert (true);
@@ -48,17 +62,32 @@ public class CustomerTest {
 
     @Test
     public void GetAllPurchased() {
-        TablePrinter.print(customerFacade.getCustomerCoupons());
+        try {
+            TablePrinter.print(customerFacade.getCustomerCoupons());
+        } catch (CouponsSystemException e) {
+            assert (true);
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
     public void GetAllPurchasedCategory() {
-        TablePrinter.print(customerFacade.getCustomerCoupons(Category.ELECTRICITY));
+        try {
+            TablePrinter.print(customerFacade.getCustomerCoupons(Category.ELECTRICITY));
+        } catch (CouponsSystemException e) {
+            assert (true);
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
     public void GetAllPurchasedMaxPrice() {
-        TablePrinter.print(customerFacade.getCustomerCoupons(20));
+        try {
+            TablePrinter.print(customerFacade.getCustomerCoupons(20));
+        } catch (CouponsSystemException e) {
+            assert (true);
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test

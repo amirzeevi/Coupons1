@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Company {
 
-    private final int id;
+    private int id;
     private final String name;
     private String email;
     private String password;
@@ -23,6 +23,13 @@ public class Company {
 
     public Company(int id, String name, String email, String password, List<Coupon> coupons) {
         this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.coupons = coupons;
+    }
+
+    public Company(String name, String email, String password, List<Coupon> coupons) {
         this.name = name;
         this.email = email;
         this.password = password;
