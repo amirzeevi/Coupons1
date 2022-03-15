@@ -45,9 +45,7 @@ public class CustomerFacade extends ClientFacade {
      * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void purchaseCoupon(Coupon coupon) throws CouponsSystemException {
-        if (coupon == null) {
-            throw new CouponsSystemException("Invalid coupon");
-        }
+
         Coupon couponFromDB = this.couponsDAO.getOneCoupon(coupon.getId());
 
         if (couponFromDB == null) {
@@ -69,34 +67,22 @@ public class CustomerFacade extends ClientFacade {
     /**
      * This method returns a list of all the coupons the customer owns.
      */
-    public List<Coupon> getCustomerCoupons() throws CouponsSystemException {
-        List<Coupon> coupons = this.couponsDAO.getCostumerCoupons(customerID);
-        if(coupons.isEmpty()){
-            throw new CouponsSystemException("No coupon found");
-        }
-        return coupons;
+    public List<Coupon> getCustomerCoupons(){
+        return this.couponsDAO.getCostumerCoupons(customerID);
     }
 
     /**
      * This method returns a list of all the coupons that are from the specified category that the customer owns.
      */
-    public List<Coupon> getCustomerCoupons(Category category) throws CouponsSystemException {
-        List<Coupon> categoryCoupons = this.couponsDAO.getCustomerCouponsByCategory(category, customerID);
-        if(categoryCoupons.isEmpty()){
-            throw new CouponsSystemException("No coupons found");
-        }
-        return categoryCoupons;
+    public List<Coupon> getCustomerCoupons(Category category) {
+        return this.couponsDAO.getCustomerCouponsByCategory(category, customerID);
     }
 
     /**
      * This method returns a list of all the coupons that are of the specified maximum price that the customer owns.
      */
-    public List<Coupon> getCustomerCoupons(double maxPrice) throws CouponsSystemException {
-        List<Coupon> maxPriceCoupons = this.couponsDAO.getCustomerCouponsByMaxPrice(maxPrice, customerID);
-        if(maxPriceCoupons.isEmpty()){
-            throw new CouponsSystemException("No coupons found");
-        }
-        return maxPriceCoupons;
+    public List<Coupon> getCustomerCoupons(double maxPrice) {
+        return this.couponsDAO.getCustomerCouponsByMaxPrice(maxPrice, customerID);
     }
 
     /**

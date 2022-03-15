@@ -112,32 +112,17 @@ public class CompanyTest {
 
     @Test
     public void getCompanyCoupons() {
-        try {
-            TablePrinter.print(companyFacade.getCompanyCoupons());
-        } catch (CouponsSystemException e) {
-            assert (true);
-            System.out.println(e.getMessage());
-        }
+        TablePrinter.print(companyFacade.getCompanyCoupons());
     }
 
     @Test
     public void getCompanyCouponsCategory() {
-        try {
-            TablePrinter.print(companyFacade.getCompanyCoupons(Category.FOOD));
-        } catch (CouponsSystemException e) {
-            assert (true);
-            System.out.println(e.getMessage());
-        }
+        TablePrinter.print(companyFacade.getCompanyCoupons(Category.FOOD));
     }
 
     @Test
     public void getCompanyCouponsMaxPrice() {
-        try {
-            TablePrinter.print(companyFacade.getCompanyCoupons(20));
-        } catch (CouponsSystemException e) {
-            assert (true);
-            System.out.println(e.getMessage());
-        }
+        TablePrinter.print(companyFacade.getCompanyCoupons(20));
     }
 
     @Test

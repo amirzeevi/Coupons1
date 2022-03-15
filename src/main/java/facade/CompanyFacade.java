@@ -87,34 +87,22 @@ public class CompanyFacade extends ClientFacade {
     /**
      * This method returns all the company coupons from the database as a list.
      */
-    public List<Coupon> getCompanyCoupons() throws CouponsSystemException {
-        List<Coupon> coupons = this.couponsDAO.getCompanyCoupons(companyID);
-        if(coupons.isEmpty()){
-            throw new CouponsSystemException("No coupons found");
-        }
-        return coupons;
+    public List<Coupon> getCompanyCoupons()  {
+        return this.couponsDAO.getCompanyCoupons(companyID);
     }
 
     /**
      * This method returns all the company coupons that are of the specified category as a list.
      */
-    public List<Coupon> getCompanyCoupons(Category category) throws CouponsSystemException {
-        List<Coupon> categoryCoupons = this.couponsDAO.getCompanyCouponsByCategory(category, companyID);
-        if(categoryCoupons.isEmpty()){
-            throw new CouponsSystemException("No coupon found");
-        }
-        return categoryCoupons;
+    public List<Coupon> getCompanyCoupons(Category category) {
+        return this.couponsDAO.getCompanyCouponsByCategory(category, companyID);
     }
 
     /**
      * This method returns all the company coupons that are of the specified maximum price as a list.
      */
-    public List<Coupon> getCompanyCoupons(double maxPrice) throws CouponsSystemException {
-        List<Coupon> maxPriceCoupons = this.couponsDAO.getCompanyCouponsByMaxPrice(maxPrice, companyID);
-        if (maxPriceCoupons.isEmpty()) {
-            throw new CouponsSystemException("No coupons found");
-        }
-        return maxPriceCoupons;
+    public List<Coupon> getCompanyCoupons(double maxPrice) {
+        return this.couponsDAO.getCompanyCouponsByMaxPrice(maxPrice, companyID);
     }
 
     /**
@@ -129,9 +117,6 @@ public class CompanyFacade extends ClientFacade {
      * methods in this facade.
      */
     private void checkCouponData(Coupon coupon) throws CouponsSystemException {
-        if (coupon == null) {
-            throw new CouponsSystemException("Invalid coupon");
-        }
         if (coupon.getCompanyID() != companyID) {
             throw new CouponsSystemException("Coupon company id incorrect");
         }

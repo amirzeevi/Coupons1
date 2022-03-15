@@ -1,7 +1,6 @@
 import beans.ClientType;
 import beans.Company;
 import beans.Customer;
-import exceptions.CouponsSystemException;
 import facade.AdminFacade;
 import facade.LoginManager;
 import org.junit.After;
@@ -73,7 +72,7 @@ public class AdminTest {
     @Test
     public void UpdateCompany() {
         try {
-            Company companyExists = adminFacade.getAllCompanies().get(0);
+            Company companyExists = adminFacade.getOneCompany(1);
             companyExists.setEmail("njnjnj");
             adminFacade.updateCompany(companyExists);
         } catch (Exception e) {
@@ -94,12 +93,7 @@ public class AdminTest {
 
     @Test
     public void GetAllCompanies() {
-        try {
-            TablePrinter.print(adminFacade.getAllCompanies());
-        } catch (CouponsSystemException e) {
-            assert (true);
-            System.out.println(e.getMessage());
-        }
+        TablePrinter.print(adminFacade.getAllCompanies());
     }
 
     @Test
@@ -166,12 +160,7 @@ public class AdminTest {
 
     @Test
     public void GetAllCustomers() {
-        try {
-            TablePrinter.print(adminFacade.getAllCustomers());
-        } catch (CouponsSystemException e) {
-            assert (true);
-            System.out.println(e.getMessage());
-        }
+        TablePrinter.print(adminFacade.getAllCustomers());
     }
 
     @Test

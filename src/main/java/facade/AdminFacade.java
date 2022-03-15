@@ -36,9 +36,6 @@ public class AdminFacade extends ClientFacade {
      * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void addCompany(Company company) throws CouponsSystemException {
-        if (company == null) {
-            throw new CouponsSystemException("Invalid company");
-        }
         if (this.companiesDAO.isCompanyExist(company)) {
             throw new CouponsSystemException("Can not add company with existing name or email");
         }
@@ -62,9 +59,6 @@ public class AdminFacade extends ClientFacade {
      * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void updateCompany(Company company) throws CouponsSystemException {
-        if (company == null) {
-            throw new CouponsSystemException("Invalid company");
-        }
         if (!companiesDAO.isCompanyExist(company)) {
             throw new CouponsSystemException("Company not found");
         }
@@ -78,12 +72,8 @@ public class AdminFacade extends ClientFacade {
     /**
      * This method returns a list of all companies from the database.
      */
-    public List<Company> getAllCompanies() throws CouponsSystemException {
-        List<Company> companies = this.companiesDAO.getAllCompanies();
-        if (companies.isEmpty()) {
-            throw new CouponsSystemException("No companies in the system");
-        }
-        return companies;
+    public List<Company> getAllCompanies(){
+        return this.companiesDAO.getAllCompanies();
     }
 
     /**
@@ -103,9 +93,6 @@ public class AdminFacade extends ClientFacade {
      * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void addCustomer(Customer customer) throws CouponsSystemException {
-        if (customer == null) {
-            throw new CouponsSystemException("Invalid customer");
-        }
         if (this.customersDAO.isCustomerEmailExists(customer)) {
             throw new CouponsSystemException("Can not add customer with existing email");
         }
@@ -118,9 +105,6 @@ public class AdminFacade extends ClientFacade {
      * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void updateCustomer(Customer customer) throws CouponsSystemException {
-        if (customer == null) {
-            throw new CouponsSystemException("Invalid customer");
-        }
         if (this.customersDAO.getOneCustomer(customer.getId()) == null) {
             throw new CouponsSystemException("Customer not exist");
         }
@@ -145,12 +129,8 @@ public class AdminFacade extends ClientFacade {
     /**
      * This method returns a list of customer from the database.
      */
-    public List<Customer> getAllCustomers() throws CouponsSystemException {
-        List<Customer> customers = this.customersDAO.getAllCustomers();
-        if (customers.isEmpty()) {
-            throw new CouponsSystemException("No customers in the system");
-        }
-        return customers;
+    public List<Customer> getAllCustomers() {
+        return this.customersDAO.getAllCustomers();
     }
 
     /**

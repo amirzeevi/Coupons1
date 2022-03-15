@@ -62,32 +62,17 @@ public class CustomerTest {
 
     @Test
     public void GetAllPurchased() {
-        try {
-            TablePrinter.print(customerFacade.getCustomerCoupons());
-        } catch (CouponsSystemException e) {
-            assert (true);
-            System.out.println(e.getMessage());
-        }
+        TablePrinter.print(customerFacade.getCustomerCoupons());
     }
 
     @Test
     public void GetAllPurchasedCategory() {
-        try {
-            TablePrinter.print(customerFacade.getCustomerCoupons(Category.ELECTRICITY));
-        } catch (CouponsSystemException e) {
-            assert (true);
-            System.out.println(e.getMessage());
-        }
+        TablePrinter.print(customerFacade.getCustomerCoupons(Category.ELECTRICITY));
     }
 
     @Test
     public void GetAllPurchasedMaxPrice() {
-        try {
-            TablePrinter.print(customerFacade.getCustomerCoupons(20));
-        } catch (CouponsSystemException e) {
-            assert (true);
-            System.out.println(e.getMessage());
-        }
+        TablePrinter.print(customerFacade.getCustomerCoupons(20));
     }
 
     @Test
