@@ -13,18 +13,18 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * This class is a facade as in the facade design pattern. it is to be used by the customer client.
+ * This class is a facade to be used by the customer client.
  * It encapsulates all required internal connections to perform operations
  * for {@link Customer} and {@link Coupon} to the database.
- * In any case an operation can not be successfully made by the customer,
- * an {@link CouponsSystemException} exception will be thrown.
+ * In any case an operation can not be made by the customer,
+ * a {@link CouponsSystemException} exception will be thrown.
  */
 public class CustomerFacade extends ClientFacade {
     private int customerID;
 
     /**
-     * This method should be called first when the company client wishes to use the class.
-     * if the email and password put in are matched with the database, it sets the company id and initiates
+     * This method should be called first when the company client wants to use this class.
+     * if the email and password put in match with the database, it sets the company id and initiates
      * the {@link dao.CustomersDAO} and {@link dao.CouponsDAO}.
      */
     @Override
@@ -42,7 +42,7 @@ public class CustomerFacade extends ClientFacade {
     /**
      * This method will add the specified coupon purchase to tha customers_coupons table containing the coupon id
      * and the customer id. If any condition does not meet with requirements for purchase
-     * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
+     * it will throw a {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void purchaseCoupon(Coupon coupon) throws CouponsSystemException {
 

@@ -35,7 +35,7 @@ public interface CustomersDAO {
      */
     void deleteCustomer(int costumerId);
     /**
-     * Returns all customers from the database as a list.
+     * Returns a list of all customers from the database.
      */
     List<Customer> getAllCustomers();
     /**

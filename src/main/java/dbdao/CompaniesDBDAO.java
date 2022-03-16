@@ -94,7 +94,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
         DBrunQuery.runQuery(DBmanager.DELETE_COMPANY, Map.of(1, companyID));
     }
     /**
-     * Returns all companies from the database as list.
+     * Returns a list of all companies from the database.
      */
     @Override
     public List<Company> getAllCompanies() {

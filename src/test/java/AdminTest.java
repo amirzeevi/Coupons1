@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 /**
  * Test class for the {@link AdminFacade} class methods. Before testing make sure the schema and tables are created
- * in the {@link TablesTest} test class.
+ * in the {@link TablesTest} class.
  */
 public class AdminTest {
 
@@ -73,7 +73,7 @@ public class AdminTest {
     public void UpdateCompany() {
         try {
             Company companyExists = adminFacade.getOneCompany(1);
-            companyExists.setEmail("njnjnj");
+            companyExists.setEmail("company2@com");
             adminFacade.updateCompany(companyExists);
         } catch (Exception e) {
             assert (true);

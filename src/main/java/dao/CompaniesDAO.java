@@ -43,7 +43,7 @@ public interface CompaniesDAO {
     void deleteCompany(int companyID);
 
     /**
-     * Returns all companies from the database as list.
+     * Returns a list of all companies from the database.
      */
     List<Company> getAllCompanies();
 

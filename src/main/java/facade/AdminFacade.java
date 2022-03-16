@@ -9,17 +9,17 @@ import exceptions.CouponsSystemException;
 import java.util.List;
 
 /**
- * This class is a facade as in the facade design pattern. It is to be used by the administrator client.
+ * This class is a facade to be used by the administrator client.
  * It encapsulates all required internal connections to perform operations
  * for {@link Company} and {@link Customer} to the database.
  * In any case an operation can not be made by the administrator,
- * an {@link CouponsSystemException} exception will be thrown.
+ * a {@link CouponsSystemException} exception will be thrown.
  */
 public class AdminFacade extends ClientFacade {
     /**
-     * This method should be called first when the administrator client wants to use the class.
-     * if the email and password put in are matched, it initiates the {@link dao.CompaniesDAO}
-     * and {@link dao.CustomersDAO} so that operations can be made.
+     * This method should be called first when the administrator client wants to use this class.
+     * if the email and password put in match, it will initiate the {@link dao.CompaniesDAO}
+     * and {@link dao.CustomersDAO}.
      */
     @Override
     public boolean login(String email, String password) {
@@ -32,8 +32,8 @@ public class AdminFacade extends ClientFacade {
     }
 
     /**
-     * This method will add the specified company to the database. If any condition does not meet with requirements
-     * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
+     * This method will add the specified company to the database. If any condition does not meet with system
+     * requirements it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void addCompany(Company company) throws CouponsSystemException {
         if (this.companiesDAO.isCompanyExist(company)) {
@@ -44,7 +44,7 @@ public class AdminFacade extends ClientFacade {
     }
 
     /**
-     * This method will delete the specified company from the database. If it does not find the company in the database
+     * This method will delete the specified company from the database. If it does not find the company
      * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void deleteCompany(int companyID) throws CouponsSystemException {
@@ -55,8 +55,8 @@ public class AdminFacade extends ClientFacade {
     }
 
     /**
-     * This method will update the specified company to the database. If any condition does not meet with requirements
-     * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
+     * This method will update the specified company to the database. If any condition does not meet with
+      system requirements it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void updateCompany(Company company) throws CouponsSystemException {
         if (!companiesDAO.isCompanyExist(company)) {
@@ -77,7 +77,7 @@ public class AdminFacade extends ClientFacade {
     }
 
     /**
-     * This method returns the specified company from the database. if it does not find, will throw
+     * This method returns the specified company from the database. if it does not find it, will throw
      * an {@link CouponsSystemException} exception.
      */
     public Company getOneCompany(int companyID) throws CouponsSystemException {
@@ -89,8 +89,8 @@ public class AdminFacade extends ClientFacade {
     }
 
     /**
-     * This method will add the specified customer to the database. If any condition does not meet with requirements
-     * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
+     * This method will add the specified customer to the database. If any condition does not meet with
+     * system requirements it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void addCustomer(Customer customer) throws CouponsSystemException {
         if (this.customersDAO.isCustomerEmailExists(customer)) {
@@ -101,8 +101,8 @@ public class AdminFacade extends ClientFacade {
     }
 
     /**
-     * This method will update the specified customer to the database. If any condition does not meet with requirements
-     * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
+     * This method will update the specified customer to the database. If any condition does not meet with system
+     * requirements it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void updateCustomer(Customer customer) throws CouponsSystemException {
         if (this.customersDAO.getOneCustomer(customer.getId()) == null) {
@@ -116,8 +116,8 @@ public class AdminFacade extends ClientFacade {
     }
 
     /**
-     * This method will delete the specified customer from the database. If it does not find the customer in the database
-     * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
+     * This method will delete the specified customer from the database. If it does not find the customer
+     * it will throw an {@link CouponsSystemException} exception.
      */
     public void deleteCustomer(int customerID) throws CouponsSystemException {
         // check customer id
@@ -127,14 +127,14 @@ public class AdminFacade extends ClientFacade {
     }
 
     /**
-     * This method returns a list of customer from the database.
+     * This method returns a list of customers from the database.
      */
     public List<Customer> getAllCustomers() {
         return this.customersDAO.getAllCustomers();
     }
 
     /**
-     * This method returns the specified customer from the database. if it does not find, will throw
+     * This method returns the specified customer from the database. if it does not find the customer, will throw
      * an {@link CouponsSystemException} exception.
      */
     public Customer getOneCustomer(int customerID) throws CouponsSystemException {

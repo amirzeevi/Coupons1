@@ -89,7 +89,7 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * Returns all the company's coupons that has the specified maximum price as a list.
+     * Returns a list of all the company's coupons that has the specified maximum price.
      */
     @Override
     public List<Coupon> getCompanyCouponsByCategory(Category category, int companyId) {
@@ -108,7 +108,7 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * Returns all the specified company coupons that are of the specified maximum price as a list.
+     * Returns a list of all the specified company coupons that are of the specified maximum price.
      */
     @Override
     public List<Coupon> getCompanyCouponsByMaxPrice(double maxPrice, int companyId) {
@@ -126,7 +126,7 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * Returns all the customer's coupons that are from the specified category as a list.
+     * Returns a list of all the customer's coupons that are from the specified category.
      */
     @Override
     public List<Coupon> getCustomerCouponsByCategory(Category category, int customerId) {
@@ -145,7 +145,7 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * Returns all the customer's coupons that has the specified maximum price as a list.
+     * Returns a list of all the customer's coupons that has the specified maximum price.
      */
     @Override
     public List<Coupon> getCustomerCouponsByMaxPrice(double maxPrice, int customerId) {
@@ -172,7 +172,7 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * Returns all the customer's coupons based on the customer id as a list.
+     * Returns a list of all the customer's coupons based on the customer id.
      */
     @Override
     public List<Coupon> getCostumerCoupons(int customerId) {
@@ -216,7 +216,7 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * Returns all the company's coupons based on its company id as a list.
+     * Returns a list of all the company's coupons based on its company id.
      */
     @Override
     public List<Coupon> getCompanyCoupons(int companyID) {

@@ -4,7 +4,6 @@ import beans.Coupon;
 import beans.Customer;
 import dbdao.CouponsDBDAO;
 import dbdao.CustomersDBDAO;
-import exceptions.CouponsSystemException;
 import facade.CompanyFacade;
 import facade.CustomerFacade;
 import facade.LoginManager;
@@ -12,9 +11,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import utils.TablePrinter;
-
-import java.sql.Date;
-import java.time.LocalDate;
 
 /**
  * Test class for the {@link CompanyFacade} class methods. Before testing make sure to fill the categories table

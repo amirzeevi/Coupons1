@@ -8,6 +8,10 @@ import org.junit.Test;
 import java.sql.Date;
 import java.time.LocalDate;
 
+/**
+ * Test class for the {@link CouponExpirationDailyJob} class. Will test add an expired coupon to database,
+ * and creating the thread that scans and deletes them.
+ */
 public class JobsTest {
 
     @Before

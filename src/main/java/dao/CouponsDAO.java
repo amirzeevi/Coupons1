@@ -49,27 +49,27 @@ public interface CouponsDAO {
      */
     Coupon getOneCoupon(int couponID);
     /**
-     * Returns all the company's coupons based on its company id as a list.
+     * Returns a list of all the company's coupons based on its company id.
      */
     List<Coupon> getCompanyCoupons(int companyID);
     /**
-     * Returns all the customer's coupons based on the customer id as a list.
+     * Returns a list of all the customer's coupons based on the customer id.
      */
     List<Coupon> getCostumerCoupons(int customerId);
     /**
-     * Returns all the company's coupons that are from the specified category as a list.
+     * Returns a list of all the company's coupons that are from the specified category.
      */
     List<Coupon> getCompanyCouponsByCategory(Category category, int companyId);
     /**
-     * Returns all the company's coupons that has the specified maximum price as a list.
+     * Returns a list of all the company's coupons that has the specified maximum price.
      */
     List<Coupon> getCompanyCouponsByMaxPrice(double maxPrice, int companyId);
     /**
-     * Returns all the customer's coupons that are from the specified category as a list.
+     * Returns a list of all the customer's coupons that are from the specified category.
      */
     List<Coupon> getCustomerCouponsByCategory(Category category, int customerId);
     /**
-     * Returns all the customer's coupons that has the specified maximum price as a list.
+     * Returns a list of all the customer's coupons that has the specified maximum price.
      */
     List<Coupon> getCustomerCouponsByMaxPrice(double maxPrice, int customerId);
 }

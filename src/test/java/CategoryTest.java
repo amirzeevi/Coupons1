@@ -3,7 +3,9 @@ import beans.Category;
 import dao.CategoriesDAO;
 import org.junit.Test;
 
-
+/**
+ * Test class for the categories table
+ */
 public class CategoryTest {
 
     CategoriesDAO categoriesDAO = new CategoriesDBDAO();

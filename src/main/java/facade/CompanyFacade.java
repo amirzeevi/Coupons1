@@ -12,18 +12,18 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * This class is a facade as in the facade design pattern. it is to be used by the company client.
+ * This class is a facade to be used by the company client.
  * It encapsulates all required internal connections to perform operations
  * for {@link Company} and {@link Coupon} to the database.
- * In any case an operation can not be successfully made by the company,
- * an {@link CouponsSystemException} exception will be thrown.
+ * In any case an operation can not be made by the company,
+ * a {@link CouponsSystemException} exception will be thrown.
  */
 public class CompanyFacade extends ClientFacade {
     private int companyID;
 
     /**
-     * This method should be called first when the company client wishes to use the class.
-     * if the email and password put in are matched with the database, it sets the company id and initiates
+     * This method should be called first when the company client wants to use this class.
+     * if the email and password put in match with the database, it sets the company id and initiates
      * the {@link dao.CompaniesDAO} and {@link dao.CouponsDAO}.
      */
     @Override
@@ -39,8 +39,8 @@ public class CompanyFacade extends ClientFacade {
     }
 
     /**
-     * This method will add the specified Coupon to the database. If any condition does not meet with requirements
-     * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
+     * This method will add the specified Coupon to the database. If any condition does not meet with system
+     * requirements it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void addCoupon(Coupon coupon) throws CouponsSystemException {
         checkCouponData(coupon);
@@ -52,7 +52,7 @@ public class CompanyFacade extends ClientFacade {
     }
 
     /**
-     * This method will update the specified Coupon in the database. If any condition does not meet with requirements
+     * This method will update the specified Coupon in the database. If any condition does not meet with system requirements
      * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void updateCoupon(Coupon coupon) throws CouponsSystemException {
@@ -69,8 +69,8 @@ public class CompanyFacade extends ClientFacade {
 
     /**
      * This method will delete the specified Coupon in the database.
-     * If it does not find the coupon in the database or the coupon does not belong to this company,
-     * will throw an {@link CouponsSystemException} exception with a specific message.
+     * If it does not find the coupon or the coupon does not belong to this company,
+     * it will throw an {@link CouponsSystemException} exception with a specific message.
      */
     public void deleteCoupon(int couponID) throws CouponsSystemException {
         Coupon couponFromDB = this.couponsDAO.getOneCoupon(couponID);
@@ -85,21 +85,21 @@ public class CompanyFacade extends ClientFacade {
     }
 
     /**
-     * This method returns all the company coupons from the database as a list.
+     * This method returns a list of all the company coupons from the database.
      */
     public List<Coupon> getCompanyCoupons()  {
         return this.couponsDAO.getCompanyCoupons(companyID);
     }
 
     /**
-     * This method returns all the company coupons that are of the specified category as a list.
+     * This method returns a list of all the company coupons that are of the specified category.
      */
     public List<Coupon> getCompanyCoupons(Category category) {
         return this.couponsDAO.getCompanyCouponsByCategory(category, companyID);
     }
 
     /**
-     * This method returns all the company coupons that are of the specified maximum price as a list.
+     * This method returns a list of all the company coupons that are of the specified maximum price.
      */
     public List<Coupon> getCompanyCoupons(double maxPrice) {
         return this.couponsDAO.getCompanyCouponsByMaxPrice(maxPrice, companyID);

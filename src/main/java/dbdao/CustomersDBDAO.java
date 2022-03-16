@@ -97,7 +97,7 @@ public class CustomersDBDAO implements CustomersDAO {
         DBrunQuery.runQuery(DBmanager.DELETE_CUSTOMER, Map.of(1, costumerId));
     }
     /**
-     * Returns all customers from the database as a list.
+     * Returns a list of all customers from the database.
      */
     @Override
     public ArrayList<Customer> getAllCustomers() {
