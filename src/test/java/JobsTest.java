@@ -1,8 +1,10 @@
 import beans.Category;
+import beans.Company;
 import beans.Coupon;
 import db.DBmanager;
 import db.DBrunQuery;
 import dbdao.CategoriesDBDAO;
+import dbdao.CompaniesDBDAO;
 import dbdao.CouponsDBDAO;
 import jobs.CouponExpirationDailyJob;
 
@@ -30,12 +32,11 @@ public class JobsTest {
         DBrunQuery.runQuery(DBmanager.SET_TIME_ZONE);
         DBrunQuery.runQuery(DBmanager.CREATE_TRIGGER_COUPON_PURCHASE);
         new CategoriesDBDAO().addAllCategories();
-    }
-
-    @BeforeEach
-    public void setUp() {
+        new CompaniesDBDAO().addCompany(new Company(
+                "Company",
+                "company@com",
+                "1234"));
         Coupon expiredCoupon = new Coupon(
-                0,
                 1,
                 Category.FOOD,
                 "Expired",
