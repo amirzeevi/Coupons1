@@ -17,7 +17,6 @@ import utils.TablePrinter;
  * using the {@link CategoryTest} test class.
  */
 public class CustomerTest {
-
     CustomerFacade customerFacade;
     Customer customer;
 
@@ -37,7 +36,7 @@ public class CustomerTest {
     @Test
     public void Login() {
         try {
-            LoginManager.getInstance().login("my.email@com", "12345678", ClientType.COSTUMER);
+            LoginManager.getInstance().login("my.email@com", "012345678", ClientType.CUSTOMER);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());

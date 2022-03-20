@@ -48,6 +48,19 @@ public class CustomersDBDAO implements CustomersDAO {
         }
         return false;
     }
+    /**
+     * This will return true if the customer id exist in the database.
+     */
+    @Override
+    public boolean isCustomerExist(int customerId) {
+        try {
+            ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_CUSTOMER_EXIST, Map.of(1, customerId));
+            return resultSet.next();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
 
     /**
      * This will return true if the specified email exist in the customers table.
@@ -96,6 +109,7 @@ public class CustomersDBDAO implements CustomersDAO {
     public void deleteCustomer(int costumerId) {
         DBrunQuery.runQuery(DBmanager.DELETE_CUSTOMER, Map.of(1, costumerId));
     }
+
     /**
      * Returns a list of all customers from the database.
      */
@@ -112,6 +126,7 @@ public class CustomersDBDAO implements CustomersDAO {
         }
         return customers;
     }
+
     /**
      * Returns the customer from the database based on its id.
      */

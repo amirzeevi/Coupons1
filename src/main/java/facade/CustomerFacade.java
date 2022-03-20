@@ -57,7 +57,7 @@ public class CustomerFacade extends ClientFacade {
         if (couponFromDB.getAmount() == 0) {
             throw new CouponsSystemException("Can not make purchase - coupon is out of stock");
         }
-        if (this.couponsDAO.isCostumerCouponExist(customerID, couponFromDB.getId())) {
+        if (this.couponsDAO.isCustomerCouponExist(customerID, couponFromDB.getId())) {
             throw new CouponsSystemException("Can not make purchase - you already own this coupon");
         }
         this.couponsDAO.addCouponPurchase(this.customerID, coupon.getId());

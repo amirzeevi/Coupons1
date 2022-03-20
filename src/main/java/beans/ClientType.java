@@ -6,5 +6,5 @@ package beans;
 public enum ClientType {
     ADMINISTRATOR,
     COMPANY,
-    COSTUMER;
+    CUSTOMER;
 }

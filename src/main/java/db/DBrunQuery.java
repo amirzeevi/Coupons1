@@ -19,7 +19,7 @@ public class DBrunQuery {
 
     /**
      * Executes the specified SQL statement by getting a connection and preparing its statement.
-     * If an error occurs, throws an exception and finally returns the connection to the Connection Pool class.
+     * If an error occurs, throws an {@link SQLException} and finally returns the connection to the {@link ConnectionPool}
      */
     public static void runQuery(String sql) {
         Connection connection = null;
@@ -36,9 +36,10 @@ public class DBrunQuery {
     }
 
     /**
-     * Executes the specified SQL statement by getting a connection and preparing its statement and sets its parameters
+     * Executes the specified SQL statement by getting a connection from the {@link ConnectionPool} class
+     * and preparing its statement by setting its parameters
      * to the specified Map containing them.
-     * If an error occurs, throws exception and finally returns the connection to the Connection Pool class.
+     * If an error occurs, throws an {@link SQLException} and finally returns the connection.
      */
     public static void runQuery(String sql, Map<Integer, Object> map) {
         Connection connection = null;
@@ -83,14 +84,13 @@ public class DBrunQuery {
     /**
      * Executes the specified SQL statement, and sets its parameters to the specified contained in the Map.
      * Returns the Result set retrieved from the database.
-     * If an error occurs, throws exception and finally returns the connection to the Connection Pool class.
+     * If an error occurs, throws {@link SQLException} and finally returns the connection.
      */
     public static ResultSet getResultSet(String sql, Map<Integer, Object> map) {
         Connection connection = null;
         try {
             connection = ConnectionPool.getInstance().getConnection();
             PreparedStatement stmt = connection.prepareStatement(sql);
-
             map.forEach((key, value) -> {
                 try {
                     if (value instanceof Integer) {
@@ -121,7 +121,7 @@ public class DBrunQuery {
 
     /**
      * Executes the specified SQL statement and returns the Result set.
-     * If an error occurs, throws exception and finally returns the connection to the Connection Pool class.
+     * If an error occurs, throws {@link SQLException} and finally returns the connection to the Connection Pool class.
      */
     public static ResultSet getResultSet(String sql) {
         Connection connection = null;

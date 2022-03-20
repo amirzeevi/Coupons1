@@ -8,14 +8,11 @@ import org.junit.Before;
 import org.junit.Test;
 import utils.TablePrinter;
 
-import java.util.ArrayList;
-
 /**
  * Test class for the {@link AdminFacade} class methods. Before testing make sure the schema and tables are created
  * in the {@link TablesTest} class.
  */
 public class AdminTest {
-
     AdminFacade adminFacade;
 
     @Before
@@ -32,7 +29,7 @@ public class AdminTest {
     @Test
     public void Login() {
         try {
-            LoginManager.getInstance().login("admin@admin", "admin", ClientType.ADMINISTRATOR);
+            LoginManager.getInstance().login("Xadmin@admin", "admin", ClientType.ADMINISTRATOR);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -45,8 +42,7 @@ public class AdminTest {
             Company companyToAdd = new Company(
                     "Company",
                     "company@com",
-                    "1234",
-                    new ArrayList<>());
+                    "1234");
             adminFacade.addCompany(companyToAdd);
         } catch (Exception e) {
             assert (true);
@@ -60,8 +56,7 @@ public class AdminTest {
             Company companyToAdd = new Company(
                     "Company2",
                     "company2@com",
-                    "1234",
-                    new ArrayList<>());
+                    "1234");
             adminFacade.addCompany(companyToAdd);
         } catch (Exception e) {
             assert (true);
@@ -84,7 +79,7 @@ public class AdminTest {
     @Test
     public void DeleteCompany() {
         try {
-            adminFacade.deleteCompany(2);
+            adminFacade.deleteCompany(15);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());

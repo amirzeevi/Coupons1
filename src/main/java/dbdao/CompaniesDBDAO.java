@@ -33,13 +33,12 @@ public class CompaniesDBDAO implements CompaniesDAO {
     }
 
     /**
-     * This will return true if the company exist in the database based on its email, or name.
+     * Returns true if the company id exists in the database.
      */
     @Override
-    public boolean isCompanyExist(Company company) {
+    public boolean isCompanyExist(int companyId) {
         try {
-            ResultSet resultSet = DBrunQuery.getResultSet(
-                    DBmanager.IS_COMPANY_EXIST, Map.of(1, company.getName(), 2, company.getEmail()));
+            ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_COMPANY_EXIST, Map.of(1, companyId));
             return resultSet.next();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -47,6 +46,20 @@ public class CompaniesDBDAO implements CompaniesDAO {
         return false;
     }
 
+    /**
+     * This will return true if the company exist in the database based on its email, or name.
+     */
+    @Override
+    public boolean isCompanyNameOrEmailExist(Company company) {
+        try {
+            ResultSet resultSet = DBrunQuery.getResultSet(
+                    DBmanager.IS_COMPANY_NAME_OR_EMAIL_EXIST, Map.of(1, company.getName(), 2, company.getEmail()));
+            return resultSet.next();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
 
     /**
      * Adds the specified company to the companies table.
@@ -58,6 +71,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
                 2, company.getEmail(),
                 3, company.getPassword()));
     }
+
     /**
      * Updates the specified company in the companies table.
      */
@@ -93,22 +107,23 @@ public class CompaniesDBDAO implements CompaniesDAO {
     public void deleteCompany(int companyID) {
         DBrunQuery.runQuery(DBmanager.DELETE_COMPANY, Map.of(1, companyID));
     }
+
     /**
      * Returns a list of all companies from the database.
      */
     @Override
     public List<Company> getAllCompanies() {
-        ArrayList<Company> companiesList = new ArrayList<>();
+        ArrayList<Company> companies = new ArrayList<>();
         ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.GET_ALL_COMPANIES);
         try {
             while (resultSet.next()) {
-                companiesList.add(resultSetToCompany(resultSet));
+                companies.add(resultSetToCompany(resultSet));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
-        return companiesList;
+        return companies;
     }
 
     /**

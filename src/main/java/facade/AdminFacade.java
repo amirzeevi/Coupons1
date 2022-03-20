@@ -36,7 +36,7 @@ public class AdminFacade extends ClientFacade {
      * requirements it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void addCompany(Company company) throws CouponsSystemException {
-        if (this.companiesDAO.isCompanyExist(company)) {
+        if (this.companiesDAO.isCompanyNameOrEmailExist(company)) {
             throw new CouponsSystemException("Can not add company with existing name or email");
         }
         this.companiesDAO.addCompany(company);
@@ -48,20 +48,17 @@ public class AdminFacade extends ClientFacade {
      * it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void deleteCompany(int companyID) throws CouponsSystemException {
-        // check company id
-        getOneCompany(companyID);
+        isCompanyExist(companyID);
         this.companiesDAO.deleteCompany(companyID);
-        System.out.println("Company Deleted");
+        System.out.println("Company deleted");
     }
 
     /**
      * This method will update the specified company to the database. If any condition does not meet with
-      system requirements it will throw an {@link CouponsSystemException} exception with a specific message describing it.
+     * system requirements it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void updateCompany(Company company) throws CouponsSystemException {
-        if (!companiesDAO.isCompanyExist(company)) {
-            throw new CouponsSystemException("Company not found");
-        }
+        isCompanyExist(company.getId());
         if (this.companiesDAO.UpdateCompanyIsEmailExist(company)) {
             throw new CouponsSystemException("Can not update - Email already exists");
         }
@@ -72,7 +69,7 @@ public class AdminFacade extends ClientFacade {
     /**
      * This method returns a list of all companies from the database.
      */
-    public List<Company> getAllCompanies(){
+    public List<Company> getAllCompanies() {
         return this.companiesDAO.getAllCompanies();
     }
 
@@ -105,9 +102,7 @@ public class AdminFacade extends ClientFacade {
      * requirements it will throw an {@link CouponsSystemException} exception with a specific message describing it.
      */
     public void updateCustomer(Customer customer) throws CouponsSystemException {
-        if (this.customersDAO.getOneCustomer(customer.getId()) == null) {
-            throw new CouponsSystemException("Customer not exist");
-        }
+        isCustomerExist(customer.getId());
         if (this.customersDAO.UpdateCustomerIsEmailExist(customer)) {
             throw new CouponsSystemException("Can not update customer email already exist");
         }
@@ -120,8 +115,7 @@ public class AdminFacade extends ClientFacade {
      * it will throw an {@link CouponsSystemException} exception.
      */
     public void deleteCustomer(int customerID) throws CouponsSystemException {
-        // check customer id
-        getOneCustomer(customerID);
+        isCustomerExist(customerID);
         this.customersDAO.deleteCustomer(customerID);
         System.out.println("Customer deleted");
     }
@@ -143,5 +137,24 @@ public class AdminFacade extends ClientFacade {
             throw new CouponsSystemException("Customer not found");
         }
         return customerFromDB;
+    }
+
+    /**
+     * This method will throw a {@link CouponsSystemException} exception if the company id does not
+     * exist in the database
+     */
+    public void isCompanyExist(int companyId) throws CouponsSystemException {
+        if (!this.companiesDAO.isCompanyExist(companyId)) {
+            throw new CouponsSystemException("Company not found");
+        }
+    }
+    /**
+     * This method will throw a {@link CouponsSystemException} exception if the customer id does not
+     * exist in the database
+     */
+    public void isCustomerExist(int customerId) throws CouponsSystemException {
+        if (!this.customersDAO.isCustomerExist(customerId)) {
+            throw new CouponsSystemException("Customer not found");
+        }
     }
 }

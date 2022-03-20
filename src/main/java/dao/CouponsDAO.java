@@ -16,7 +16,7 @@ public interface CouponsDAO {
     /**
      * Will return true if the specified coupon exist based on its title and customer id
      */
-    boolean isCostumerCouponExist(int costumerID, int couponID);
+    boolean isCustomerCouponExist(int costumerID, int couponID);
     /**
      * When updating a coupon's title we need to make sure the title does not already exist for the same company.
      * Will return true if it finds another coupon with the same title.

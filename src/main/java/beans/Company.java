@@ -13,12 +13,11 @@ public class Company {
     private final String name;
     private String email;
     private String password;
-    private final List<Coupon> coupons;
+    private List<Coupon> coupons;
 
 
     /**
-     * Constructs the company by name, email and password.
-     * id is included for when retrieving from database.
+     * Constructs the company attributes when retrieving from database.
      */
 
     public Company(int id, String name, String email, String password, List<Coupon> coupons) {
@@ -29,11 +28,13 @@ public class Company {
         this.coupons = coupons;
     }
 
-    public Company(String name, String email, String password, List<Coupon> coupons) {
+    /**
+     * Required constructor for when initializing a new company.
+     */
+    public Company(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.coupons = coupons;
     }
 
     /**
@@ -99,6 +100,7 @@ public class Company {
 
     /**
      * * Can not change company id. will throw exception
+     *
      * @throws ValueSetNotAllowed
      */
     public void setId(int id) throws ValueSetNotAllowed {

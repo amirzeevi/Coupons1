@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.Stack;
 
 /**
- * A singleton class to manage all connections to tha database.
+ * A singleton class to manage all connections to the database.
  */
 public class ConnectionPool {
     private static final int NUMBER_OF_CONNECTIONS = 10;
@@ -14,8 +14,8 @@ public class ConnectionPool {
     private final Stack<Connection> connections = new Stack<>();
 
     /**
-     * private constructor so that the class can not be accessed publicly.
-     * opens all connections.
+     * private constructor so that the class can not be instantiated.
+     * Opens all connections.
      */
     private ConnectionPool() throws SQLException {
         openAllConnections();

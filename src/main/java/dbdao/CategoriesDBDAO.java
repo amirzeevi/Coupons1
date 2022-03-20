@@ -16,8 +16,7 @@ public class CategoriesDBDAO implements CategoriesDAO {
      */
     @Override
     public void addAllCategories() {
-        Arrays.stream(Category.values()).forEach(category ->
-            DBrunQuery.runQuery(DBmanager.ADD_CATEGORY, Map.of(1, category)));
+        Arrays.stream(Category.values()).forEach(this::addOneCategory);
     }
     /**
      * Will add the specified category only if it does not already exist

@@ -22,7 +22,7 @@ public class CouponsDBDAO implements CouponsDAO {
     @Override
     public boolean isCompanyCouponExist(Coupon coupon) {
         try {
-            ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_COUPON_COMPANY_EXISTS, Map.of(
+            ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_COMPANY_COUPON_EXISTS, Map.of(
                     1, coupon.getCompanyID(), 2, coupon.getTitle()));
             return resultSet.next();
         } catch (SQLException e) {
@@ -35,7 +35,7 @@ public class CouponsDBDAO implements CouponsDAO {
      * Will return true if the specified coupon exist based on its title and customer id
      */
     @Override
-    public boolean isCostumerCouponExist(int costumerID, int couponID) {
+    public boolean isCustomerCouponExist(int costumerID, int couponID) {
         try {
             ResultSet resultSet = DBrunQuery.getResultSet(
                     DBmanager.IS_CUSTOMER_COUPON_EXISTS, Map.of(1, costumerID, 2, couponID));
@@ -252,7 +252,7 @@ public class CouponsDBDAO implements CouponsDAO {
     }
 
     /**
-     * A private service method to be used in multiple methods that will convert the result set to a coupon.
+     * A private method to be used in multiple methods that will convert the result set to a coupon.
      */
     private Coupon resultSetToCoupon(ResultSet resultSet) throws SQLException {
         return new Coupon(

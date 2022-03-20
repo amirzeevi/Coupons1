@@ -10,7 +10,7 @@ public class LoginManager {
     private static LoginManager instance = null;
 
     /**
-     * A private constructor so that this class can not be instantiated independently.
+     * A private constructor so that this class can not be instantiated.
      */
     private LoginManager() {
     }
@@ -29,7 +29,7 @@ public class LoginManager {
             case COMPANY:
                 facade = new CompanyFacade();
                 break;
-            case COSTUMER:
+            case CUSTOMER:
                 facade = new CustomerFacade();
                 break;
             default:

@@ -94,7 +94,8 @@ public class DBmanager {
     public static final String DELETE_CATEGORY = "DELETE FROM `coupons_database`.`categories` WHERE name = ? ";
 
     public static final String GET_COMPANY_ID = "SELECT id FROM `coupons_database`.`companies` WHERE  email = ? AND password = ? ";
-    public static final String IS_COMPANY_EXIST = "SELECT * FROM `coupons_database`.`companies` WHERE  name = ? OR email = ? ";
+    public static final String IS_COMPANY_EXIST = "SELECT * from `coupons_database`.`companies` WHERE id = ?";
+    public static final String IS_COMPANY_NAME_OR_EMAIL_EXIST = "SELECT * FROM `coupons_database`.`companies` WHERE  name = ? OR email = ? ";
     public static final String ADD_COMPANY = "INSERT INTO `coupons_database`.`companies` (`name`, `email`, `password`) VALUES (?,?,?) ";
     public static final String DELETE_COMPANY = "DELETE FROM `coupons_database`.`companies` WHERE id = ? ";
     public static final String UPDATE_COMPANY = "UPDATE `coupons_database`.`companies` SET email = ?, password = ? WHERE id = ? ";
@@ -105,6 +106,7 @@ public class DBmanager {
     public static final String GET_COMPANY_COUPON_MAX_PRICE = "SELECT * FROM `coupons_database`.`coupons` WHERE company_id = ? AND price <= ? ";
 
     public static final String GET_CUSTOMER_ID = "SELECT id FROM `coupons_database`.`customers` WHERE email = ? AND password = ?";
+    public static final String IS_CUSTOMER_EXIST = "SELECT*FROM `coupons_database`.`customers` WHERE id = ?";
     public static final String IS_CUSTOMER_EMAIL_EXISTS = "SELECT * FROM `coupons_database`.`customers` WHERE email = ?";
     public static final String ADD_CUSTOMER = "INSERT INTO `coupons_database`.`customers` (`first_name`,`last_name`, `email`, `password`) VALUES (?,?,?,?) ";
     public static final String DELETE_CUSTOMER = "DELETE FROM `coupons_database`.`customers` WHERE id = ? ";
@@ -115,7 +117,7 @@ public class DBmanager {
     public static final String GET_CUSTOMER_COUPON_CATEGORY = "SELECT * FROM `coupons_database`.`coupons` WHERE `category_id` = ? AND id IN (SELECT `coupon_id` FROM `coupons_database`.`customers_coupons` WHERE `customer_id` = ?)";
     public static final String GET_CUSTOMER_COUPON_MAX_PRICE = "SELECT * FROM `coupons_database`.`coupons` WHERE `price` <= ? AND id IN (SELECT `coupon_id` FROM `coupons_database`.`customers_coupons` WHERE `customer_id` = ?)";
 
-    public static final String IS_COUPON_COMPANY_EXISTS = "SELECT * FROM `coupons_database`.`coupons` WHERE company_id = ? AND title = ? ";
+    public static final String IS_COMPANY_COUPON_EXISTS = "SELECT * FROM `coupons_database`.`coupons` WHERE company_id = ? AND title = ? ";
     public static final String IS_CUSTOMER_COUPON_EXISTS = "SELECT * FROM `coupons_database`.`customers_coupons` WHERE customer_id = ? AND coupon_id = ? ";
     public static final String ADD_COUPON = "INSERT INTO `coupons_database`.`coupons` (`company_id`, `category_id`, `title`, `description`, `start_date`, `end_date`, `amount`, `price`, `image`) VALUES (?,?,?,?,?,?,?,?,?) ";
     public static final String DELETE_COUPON = "DELETE FROM `coupons_database`.`coupons` WHERE id = ? ";

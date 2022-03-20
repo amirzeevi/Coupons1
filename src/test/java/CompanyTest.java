@@ -12,6 +12,7 @@ import utils.TablePrinter;
 
 import java.sql.Date;
 import java.time.LocalDate;
+
 /**
  * Test class for the {@link CompanyFacade} class methods. Before testing make sure the schema and all
  * tables are created in the {@link TablesTest}  class, and to fill the categories table
@@ -37,7 +38,7 @@ public class CompanyTest {
     @Test
     public void Login() {
         try {
-            LoginManager.getInstance().login("company2@com", "password", ClientType.COMPANY);
+            LoginManager.getInstance().login("company2@com", "Xpassword", ClientType.COMPANY);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -76,7 +77,7 @@ public class CompanyTest {
                     Date.valueOf(LocalDate.now()),
                     Date.valueOf(LocalDate.now().plusDays(12)),
                     20,
-                    99.99,
+                    199.99,
                     "image");
 
             companyFacade.addCoupon(couponToAdd);
@@ -89,8 +90,8 @@ public class CompanyTest {
     @Test
     public void UpdateCoupon() {
         try {
-            Coupon existsCoupon = companyFacade.getCompanyCoupons().get(0);
-            existsCoupon.setTitle("Hotel California");
+            Coupon existsCoupon = companyFacade.getCompanyCoupons().get(1);
+            existsCoupon.setEndDate(Date.valueOf(LocalDate.now().minusDays(20)));
             companyFacade.updateCoupon(existsCoupon);
         } catch (Exception e) {
             assert (true);
@@ -101,7 +102,7 @@ public class CompanyTest {
     @Test
     public void DeleteCoupon() {
         try {
-            companyFacade.deleteCoupon(2);
+            companyFacade.deleteCoupon(17);
         } catch (Exception e) {
             assert (true);
             System.out.println(e.getMessage());
@@ -115,12 +116,12 @@ public class CompanyTest {
 
     @Test
     public void getCompanyCouponsCategory() {
-        TablePrinter.print(companyFacade.getCompanyCoupons(Category.FOOD));
+        TablePrinter.print(companyFacade.getCompanyCoupons(Category.ELECTRICITY));
     }
 
     @Test
     public void getCompanyCouponsMaxPrice() {
-        TablePrinter.print(companyFacade.getCompanyCoupons(20));
+        TablePrinter.print(companyFacade.getCompanyCoupons(100));
     }
 
     @Test

@@ -16,9 +16,13 @@ public interface CompaniesDAO {
     int getCompanyId(String email, String password);
 
     /**
+     * Returns true if the company id exists in the database.
+     */
+    boolean isCompanyExist(int companyId);
+    /**
      * This will return true if the company exist in the database based on its email, or name.
      */
-    boolean isCompanyExist(Company company);
+    boolean isCompanyNameOrEmailExist(Company company);
 
     /**
      * When updating a company's name we need to make sure the name does not already exist.

@@ -37,6 +37,9 @@ public class Coupon {
         this.image = image;
     }
 
+    /**
+     * Required constructor for when initializing a new coupon.
+     */
     public Coupon(int companyID, Category category, String title,
                   String description, Date startDate, Date endDate, int amount, double price, String image) {
         this.companyID = companyID;
