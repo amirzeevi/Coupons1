@@ -24,7 +24,7 @@ public class Art {
                         "╚██████╗╚██████╔╝██║ ╚═╝ ██║██║     ██║  ██║██║ ╚████║   ██║          ██║   ███████╗███████║   ██║   \n" +
                         " ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝          ╚═╝   ╚══════╝╚══════╝   ╚═╝   \n" +
                         " "+
-                "NOTE: PLEASE MAKE SURE YOU HAVE CREATED THE TABLES AND ADDED THE CATEGORIES"
+                "NOTE: PLEASE MAKE SURE YOU HAVE CREATED THE TABLES AND HAVE A COMPANY"
         );
     }
     public static void cutomerArt(){
@@ -36,6 +36,6 @@ public class Art {
                 "╚██████╗╚██████╔╝███████║   ██║   ╚██████╔╝██║ ╚═╝ ██║███████╗██║  ██║       ██║   ███████╗███████║   ██║   \n" +
                 " ╚═════╝ ╚═════╝ ╚══════╝   ╚═╝    ╚═════╝ ╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝       ╚═╝   ╚══════╝╚══════╝   ╚═╝   \n" +
                 "                                                                                                           " +
-                "\nNOTE: PLEASE MAKE SURE YOU HAVE CREATED THE TABLES AND ADDED CATEGORIES");
+                "\nNOTE: PLEASE MAKE SURE YOU HAVE CREATED THE TABLES AND HAVE A COUPON");
     }
 }

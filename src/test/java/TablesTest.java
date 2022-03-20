@@ -1,6 +1,7 @@
 import db.DBmanager;
 import db.DBrunQuery;
 
+import dbdao.CategoriesDBDAO;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 /**
@@ -19,6 +20,7 @@ public class TablesTest {
         DBrunQuery.runQuery(DBmanager.CREATE_CUSTOMERS_COUPONS_TABLE);
         DBrunQuery.runQuery(DBmanager.SET_TIME_ZONE);
         DBrunQuery.runQuery(DBmanager.CREATE_TRIGGER_COUPON_PURCHASE);
+        new CategoriesDBDAO().addAllCategories();
     }
 
     @Test

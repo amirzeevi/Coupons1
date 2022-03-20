@@ -14,8 +14,7 @@ import java.time.LocalDate;
 
 /**
  * Test class for the {@link CompanyFacade} class methods. Before testing make sure the schema and all
- * tables are created in the {@link TablesTest}  class, and to fill the categories table
- * using the {@link CategoryTest} test class.
+ * tables are created in the {@link TablesTest}  class.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CompanyTest {
@@ -51,6 +50,7 @@ public class CompanyTest {
             Assertions.fail();
             System.out.println(e.getMessage());
         }
+        System.out.println();
     }
 
     @Test
