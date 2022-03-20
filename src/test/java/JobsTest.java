@@ -2,8 +2,9 @@ import beans.Category;
 import beans.Coupon;
 import dbdao.CouponsDBDAO;
 import jobs.CouponExpirationDailyJob;
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -14,7 +15,7 @@ import java.time.LocalDate;
  */
 public class JobsTest {
 
-    @Before
+    @BeforeEach
     public void setUp() {
         Coupon expiredCoupon = new Coupon(
                 0,

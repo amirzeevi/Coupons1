@@ -1,11 +1,13 @@
 import dbdao.CategoriesDBDAO;
 import beans.Category;
 import dao.CategoriesDAO;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for the categories table
  */
+
 public class CategoryTest {
 
     CategoriesDAO categoriesDAO = new CategoriesDBDAO();
@@ -16,12 +18,14 @@ public class CategoryTest {
     }
 
     @Test
+    @Disabled
     public void addOneCategory() {
         Category categoryToAdd = Category.values()[(int) (Math.random() * Category.values().length)];
         this.categoriesDAO.addOneCategory(categoryToAdd);
     }
 
     @Test
+    @Disabled
     public void deleteCategory() {
         Category categoryToDelete = Category.HOLIDAY;
         this.categoriesDAO.deleteCategory(categoryToDelete);

@@ -1,10 +1,12 @@
 import db.DBmanager;
 import db.DBrunQuery;
-import org.junit.Test;
 
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 /**
  * Test class for creating and dropping schema and tables in database.
  */
+
 public class TablesTest {
 
     @Test
@@ -20,6 +22,7 @@ public class TablesTest {
     }
 
     @Test
+    @Disabled
     public void dropAll() {
         DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_COUPONS_TABLE);
         DBrunQuery.runQuery(DBmanager.DROP_COUPONS_TABLE);
