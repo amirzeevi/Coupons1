@@ -1,6 +1,9 @@
 import beans.ClientType;
 import beans.Company;
 import beans.Customer;
+import db.DBmanager;
+import db.DBrunQuery;
+import dbdao.CategoriesDBDAO;
 import exceptions.CouponsSystemException;
 import facade.AdminFacade;
 import facade.LoginManager;
@@ -9,8 +12,7 @@ import utils.Art;
 import utils.TablePrinter;
 
 /**
- * Test class for the {@link AdminFacade} class methods. Before testing make sure the schema and tables are created
- * in the {@link TablesTest} class.
+ * Test class for the {@link AdminFacade} class methods.
  */
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -19,6 +21,15 @@ public class AdminTest {
 
     @BeforeAll
     static void beforeAll() {
+        DBrunQuery.runQuery(DBmanager.CREATE_SCHEMA);
+        DBrunQuery.runQuery(DBmanager.CREATE_COMPANIES_TABLE);
+        DBrunQuery.runQuery(DBmanager.CREATE_CUSTOMERS_TABLE);
+        DBrunQuery.runQuery(DBmanager.CREATE_CATEGORIES_TABLE);
+        DBrunQuery.runQuery(DBmanager.CREATE_COUPONS_TABLE);
+        DBrunQuery.runQuery(DBmanager.CREATE_CUSTOMERS_COUPONS_TABLE);
+        DBrunQuery.runQuery(DBmanager.SET_TIME_ZONE);
+        DBrunQuery.runQuery(DBmanager.CREATE_TRIGGER_COUPON_PURCHASE);
+        new CategoriesDBDAO().addAllCategories();
         Art.adminArt();
         System.out.println();
     }
@@ -391,5 +402,15 @@ public class AdminTest {
             System.out.println(e.getMessage());
         }
         System.out.println();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_COUPONS_TABLE);
+        DBrunQuery.runQuery(DBmanager.DROP_COUPONS_TABLE);
+        DBrunQuery.runQuery(DBmanager.DROP_COMPANIES_TABLE);
+        DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_TABLE);
+        DBrunQuery.runQuery(DBmanager.DROP_CATEGORIES_TABLE);
+        DBrunQuery.runQuery(DBmanager.DROP_SCHEMA);
     }
 }

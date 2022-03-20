@@ -18,14 +18,12 @@ public class CategoryTest {
     }
 
     @Test
-    @Disabled
     public void addOneCategory() {
         Category categoryToAdd = Category.values()[(int) (Math.random() * Category.values().length)];
         this.categoriesDAO.addOneCategory(categoryToAdd);
     }
 
     @Test
-    @Disabled
     public void deleteCategory() {
         Category categoryToDelete = Category.HOLIDAY;
         this.categoriesDAO.deleteCategory(categoryToDelete);

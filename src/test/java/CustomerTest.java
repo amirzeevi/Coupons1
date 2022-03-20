@@ -1,7 +1,8 @@
-import beans.Category;
-import beans.ClientType;
-import beans.Coupon;
-import beans.Customer;
+import beans.*;
+import db.DBmanager;
+import db.DBrunQuery;
+import dbdao.CategoriesDBDAO;
+import dbdao.CompaniesDBDAO;
 import dbdao.CouponsDBDAO;
 import dbdao.CustomersDBDAO;
 import facade.CompanyFacade;
@@ -11,16 +12,50 @@ import org.junit.jupiter.api.*;
 import utils.Art;
 import utils.TablePrinter;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 /**
- * Test class for the {@link CompanyFacade} class methods. Before testing make sure to fill the categories table
- * using the {@link CategoryTest} test class.
+ * Test class for the {@link CustomerFacade} class methods.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
 public class CustomerTest {
     CustomerFacade customerFacade;
     Customer customer;
-
+    @BeforeAll
+    static void beforeAll() {
+        DBrunQuery.runQuery(DBmanager.CREATE_SCHEMA);
+        DBrunQuery.runQuery(DBmanager.CREATE_COMPANIES_TABLE);
+        DBrunQuery.runQuery(DBmanager.CREATE_CUSTOMERS_TABLE);
+        DBrunQuery.runQuery(DBmanager.CREATE_CATEGORIES_TABLE);
+        DBrunQuery.runQuery(DBmanager.CREATE_COUPONS_TABLE);
+        DBrunQuery.runQuery(DBmanager.CREATE_CUSTOMERS_COUPONS_TABLE);
+        DBrunQuery.runQuery(DBmanager.SET_TIME_ZONE);
+        DBrunQuery.runQuery(DBmanager.CREATE_TRIGGER_COUPON_PURCHASE);
+        new CategoriesDBDAO().addAllCategories();
+        new CustomersDBDAO().addCustomer(new Customer(
+                "Almoni",
+                "Israeli",
+                "my.email@com",
+                "1234"));
+        new CompaniesDBDAO().addCompany(new Company(
+                "Company",
+                "company@com",
+                "1234"));
+        new CouponsDBDAO().addCoupon(new Coupon(
+                1,
+                Category.ELECTRICITY,
+                "Electric Bike",
+                "myDescription",
+                Date.valueOf(LocalDate.now()),
+                Date.valueOf(LocalDate.now().plusDays(12)),
+                20,
+                99.99,
+                "image"));
+        Art.cutomerArt();
+        System.out.println();
+    }
     @BeforeEach
     public void setUp() {
         customer = new CustomersDBDAO().getAllCustomers().get(0);
@@ -120,9 +155,14 @@ public class CustomerTest {
         System.out.println();
     }
 
-    @BeforeAll
-    static void beforeAll() {
-        Art.cutomerArt();
-        System.out.println();
+    @AfterAll
+    static void afterAll() {
+        DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_COUPONS_TABLE);
+        DBrunQuery.runQuery(DBmanager.DROP_COUPONS_TABLE);
+        DBrunQuery.runQuery(DBmanager.DROP_COMPANIES_TABLE);
+        DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_TABLE);
+        DBrunQuery.runQuery(DBmanager.DROP_CATEGORIES_TABLE);
+        DBrunQuery.runQuery(DBmanager.DROP_SCHEMA);
+
     }
 }

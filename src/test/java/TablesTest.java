@@ -20,11 +20,9 @@ public class TablesTest {
         DBrunQuery.runQuery(DBmanager.CREATE_CUSTOMERS_COUPONS_TABLE);
         DBrunQuery.runQuery(DBmanager.SET_TIME_ZONE);
         DBrunQuery.runQuery(DBmanager.CREATE_TRIGGER_COUPON_PURCHASE);
-        new CategoriesDBDAO().addAllCategories();
     }
 
     @Test
-    @Disabled
     public void dropAll() {
         DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_COUPONS_TABLE);
         DBrunQuery.runQuery(DBmanager.DROP_COUPONS_TABLE);

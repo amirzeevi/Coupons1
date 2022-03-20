@@ -2,6 +2,9 @@ import beans.Category;
 import beans.ClientType;
 import beans.Company;
 import beans.Coupon;
+import db.DBmanager;
+import db.DBrunQuery;
+import dbdao.CategoriesDBDAO;
 import dbdao.CompaniesDBDAO;
 import facade.CompanyFacade;
 import facade.LoginManager;
@@ -13,8 +16,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 /**
- * Test class for the {@link CompanyFacade} class methods. Before testing make sure the schema and all
- * tables are created in the {@link TablesTest}  class.
+ * Test class for the {@link CompanyFacade} class methods.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CompanyTest {
@@ -23,6 +25,20 @@ public class CompanyTest {
 
     @BeforeAll
     static void beforeAll() {
+        DBrunQuery.runQuery(DBmanager.CREATE_SCHEMA);
+        DBrunQuery.runQuery(DBmanager.CREATE_COMPANIES_TABLE);
+        DBrunQuery.runQuery(DBmanager.CREATE_CUSTOMERS_TABLE);
+        DBrunQuery.runQuery(DBmanager.CREATE_CATEGORIES_TABLE);
+        DBrunQuery.runQuery(DBmanager.CREATE_COUPONS_TABLE);
+        DBrunQuery.runQuery(DBmanager.CREATE_CUSTOMERS_COUPONS_TABLE);
+        DBrunQuery.runQuery(DBmanager.SET_TIME_ZONE);
+        DBrunQuery.runQuery(DBmanager.CREATE_TRIGGER_COUPON_PURCHASE);
+        new CategoriesDBDAO().addAllCategories();
+        new CompaniesDBDAO().addCompany(new Company(
+                "company",
+                "company@com",
+                "1234"));
+
         Art.companyArt();
         System.out.println();
     }
@@ -222,6 +238,16 @@ public class CompanyTest {
     public void getCompanyDetails() {
         System.out.println("TESTING GET COMPANY DETAILS");
         TablePrinter.print(companyFacade.getCompanyDetails());
+    }
+
+    @AfterAll
+    static void afterAll() {
+        DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_COUPONS_TABLE);
+        DBrunQuery.runQuery(DBmanager.DROP_COUPONS_TABLE);
+        DBrunQuery.runQuery(DBmanager.DROP_COMPANIES_TABLE);
+        DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_TABLE);
+        DBrunQuery.runQuery(DBmanager.DROP_CATEGORIES_TABLE);
+        DBrunQuery.runQuery(DBmanager.DROP_SCHEMA);
     }
 }
 
