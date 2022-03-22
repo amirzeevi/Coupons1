@@ -7,10 +7,8 @@ import dbdao.CategoriesDBDAO;
 import dbdao.CompaniesDBDAO;
 import dbdao.CouponsDBDAO;
 import jobs.CouponExpirationDailyJob;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Date;
@@ -67,11 +65,6 @@ public class JobsTest {
 
     @AfterAll
     static void afterAll() {
-        DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_COUPONS_TABLE);
-        DBrunQuery.runQuery(DBmanager.DROP_COUPONS_TABLE);
-        DBrunQuery.runQuery(DBmanager.DROP_COMPANIES_TABLE);
-        DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_TABLE);
-        DBrunQuery.runQuery(DBmanager.DROP_CATEGORIES_TABLE);
         DBrunQuery.runQuery(DBmanager.DROP_SCHEMA);
     }
 }

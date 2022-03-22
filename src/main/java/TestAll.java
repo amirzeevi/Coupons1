@@ -10,6 +10,7 @@ import facade.AdminFacade;
 import facade.CompanyFacade;
 import facade.CustomerFacade;
 import facade.LoginManager;
+import jobs.CouponExpirationDailyJob;
 import utils.TablePrinter;
 
 import java.sql.Date;
@@ -30,6 +31,38 @@ public class TestAll {
         DBrunQuery.runQuery(DBmanager.SET_TIME_ZONE);
         DBrunQuery.runQuery(DBmanager.CREATE_TRIGGER_COUPON_PURCHASE);
         System.out.println("CREATED");
+        System.out.println();
+        System.out.println("*********************************************************************");
+        System.out.println("                         DAILY JOB TEST");
+        System.out.println("*********************************************************************");
+        new CategoriesDBDAO().addAllCategories();
+        new CompaniesDBDAO().addCompany(new Company(
+                "Company",
+                "company@com",
+                "1234"));
+        Coupon expiredCoupon = new Coupon(
+                1,
+                Category.FOOD,
+                "Expired",
+                "Description",
+                Date.valueOf(LocalDate.now().minusDays(14)),
+                Date.valueOf(LocalDate.now().minusDays(1)),
+                1,
+                1.99,
+                "book"
+        );
+        new CouponsDBDAO().addCoupon(expiredCoupon);
+        CouponExpirationDailyJob couponExpirationDailyJob = new CouponExpirationDailyJob();
+        Thread t = new Thread(couponExpirationDailyJob);
+        t.start();
+        try {
+            Thread.sleep(5000);
+            couponExpirationDailyJob.stop();
+            t.interrupt();
+        } catch (InterruptedException e) {
+            assert (true);
+            System.out.println(e.getMessage());
+        }
         System.out.println("*********************************************************************");
         System.out.println("                         ADMIN FACADE TEST");
         System.out.println("*********************************************************************");
@@ -295,7 +328,6 @@ public class TestAll {
         company = new CompaniesDBDAO().getAllCompanies().get(0);
         companyFacade = new CompanyFacade();
         companyFacade.login(company.getEmail(), company.getPassword());
-        new CategoriesDBDAO().addAllCategories();
 
         System.out.println("TESTING LOGIN");
         try {

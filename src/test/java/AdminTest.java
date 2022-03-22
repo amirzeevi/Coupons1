@@ -14,7 +14,6 @@ import utils.TablePrinter;
 /**
  * Test class for the {@link AdminFacade} class methods.
  */
-
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AdminTest {
     AdminFacade adminFacade;
@@ -77,8 +76,28 @@ public class AdminTest {
         System.out.println("TESTING ADD COMPANY");
         try {
             Company companyToAdd = new Company(
-                    "Company",
-                    "company@com",
+                    "Fresh Clothing",
+                    "fresh@com",
+                    "1234");
+            adminFacade.addCompany(companyToAdd);
+            companyToAdd = new Company(
+                    "Let's go Sailing Trips",
+                    "sail@com",
+                    "1234");
+            adminFacade.addCompany(companyToAdd);
+            companyToAdd = new Company(
+                    "Macdonald Burger",
+                    "mac@com",
+                    "1234");
+            adminFacade.addCompany(companyToAdd);
+            companyToAdd = new Company(
+                    "Intel Corp",
+                    "intel@com",
+                    "1234");
+            adminFacade.addCompany(companyToAdd);
+            companyToAdd = new Company(
+                    "Dayson Vacuum Cleaner",
+                    "dye@com",
                     "1234");
             adminFacade.addCompany(companyToAdd);
         } catch (Exception e) {
@@ -90,28 +109,11 @@ public class AdminTest {
 
     @Test
     @Order(4)
-    public void addCompany2() {
-        System.out.println("TESTING ADDING SECOND COMPANY");
-        try {
-            Company companyToAdd = new Company(
-                    "Company2",
-                    "company2@com",
-                    "1234");
-            adminFacade.addCompany(companyToAdd);
-        } catch (Exception e) {
-            Assertions.fail();
-            System.out.println(e.getMessage());
-        }
-        System.out.println();
-    }
-
-    @Test
-    @Order(5)
     public void addCompanyFail() {
         System.out.println("TESTING ADD COMPANY NAME FAIL");
         try {
             Company companyToAdd = new Company(
-                    "Company",
+                    "Intel Corp",
                     "company3@com",
                     "1234");
             adminFacade.addCompany(companyToAdd);
@@ -123,14 +125,14 @@ public class AdminTest {
     }
 
     @Test
-    @Order(6)
+    @Order(5)
     public void addCompanyFail2() {
         System.out.println("TESTING ADD COMPANY EMAIL FAIL");
 
         try {
             Company companyToAdd = new Company(
                     "Company3",
-                    "company2@com",
+                    "fresh@com",
                     "1234");
             adminFacade.addCompany(companyToAdd);
             Assertions.fail();
@@ -141,7 +143,7 @@ public class AdminTest {
     }
 
     @Test
-    @Order(7)
+    @Order(6)
     public void updateCompany() {
         System.out.println("TESTING UPDATE COMPANY");
         try {
@@ -157,7 +159,7 @@ public class AdminTest {
     }
 
     @Test
-    @Order(8)
+    @Order(7)
     public void updateCompanyFail() {
         System.out.println("TESTING UPDATE COMPANY NAME FAIL");
         try {
@@ -173,12 +175,12 @@ public class AdminTest {
     }
 
     @Test
-    @Order(9)
+    @Order(8)
     public void updateCompanyFail2() {
         System.out.println("TESTING UPDATE COMPANY EMAIL FAIL");
         try {
             Company companyExists = adminFacade.getOneCompany(1);
-            companyExists.setEmail("company2@com");
+            companyExists.setEmail("sail@com");
             adminFacade.updateCompany(companyExists);
             Assertions.fail();
         } catch (Exception e) {
@@ -189,7 +191,7 @@ public class AdminTest {
     }
 
     @Test
-    @Order(10)
+    @Order(9)
     public void deleteCompany() {
         System.out.println("TESTING DELETE COMPANY");
         try {
@@ -203,7 +205,7 @@ public class AdminTest {
     }
 
     @Test
-    @Order(11)
+    @Order(10)
     public void deleteCompanyFail() {
         System.out.println("TESTING DELETE COMPANY FAIL");
         try {
@@ -217,7 +219,7 @@ public class AdminTest {
     }
 
     @Test
-    @Order(12)
+    @Order(11)
     public void getAllCompanies() {
         System.out.println("TESTING GET ALL COMPANIES");
         TablePrinter.print(adminFacade.getAllCompanies());
@@ -226,7 +228,7 @@ public class AdminTest {
     }
 
     @Test
-    @Order(13)
+    @Order(12)
     public void getOneCompany() {
         System.out.println("TESTING GET ONE COMPANY");
         try {
@@ -240,7 +242,7 @@ public class AdminTest {
     }
 
     @Test
-    @Order(14)
+    @Order(13)
     public void getOneCompanyFail() {
         System.out.println("TESTING GET ONE COMPANY FAIL");
         try {
@@ -254,7 +256,7 @@ public class AdminTest {
     }
 
     @Test
-    @Order(15)
+    @Order(14)
     public void addCustomer() {
         System.out.println("TESTING ADD CUSTOMER");
         try {
@@ -264,23 +266,28 @@ public class AdminTest {
                     "my.email@com",
                     "1234");
             adminFacade.addCustomer(customerToAdd);
-        } catch (Exception e) {
-            Assertions.fail();
-            System.out.println(e.getMessage());
-        }
-        System.out.println();
-
-    }
-
-    @Test
-    @Order(16)
-    public void addCustomer2() {
-        System.out.println("TESTING ADD SECOND CUSTOMER");
-        try {
-            Customer customerToAdd = new Customer(
+            customerToAdd = new Customer(
                     "Almoni",
                     "Israeli",
-                    "my.email2@com",
+                    "israeli.email@com",
+                    "1234");
+            adminFacade.addCustomer(customerToAdd);
+            customerToAdd = new Customer(
+                    "Gilad",
+                    "Armon",
+                    "gilad.email@com",
+                    "1234");
+            adminFacade.addCustomer(customerToAdd);
+            customerToAdd = new Customer(
+                    "Roei",
+                    "Bond",
+                    "roi.mail@com",
+                    "1234");
+            adminFacade.addCustomer(customerToAdd);
+            customerToAdd = new Customer(
+                    "Matan",
+                    "Yael",
+                    "matan.mail@com",
                     "1234");
             adminFacade.addCustomer(customerToAdd);
         } catch (Exception e) {
@@ -292,12 +299,12 @@ public class AdminTest {
     }
 
     @Test
-    @Order(17)
+    @Order(15)
     public void addCustomerFail() {
         System.out.println("TESTING ADD CUSTOMER EMAIL FAIL");
         try {
             Customer customerToAdd = new Customer(
-                    "Gilad",
+                    "Shlomo",
                     "Israeli",
                     "my.email@com",
                     "1234");
@@ -311,7 +318,7 @@ public class AdminTest {
     }
 
     @Test
-    @Order(18)
+    @Order(16)
     public void updateCustomer() {
         System.out.println("TESTING UPDATE CUSTOMER");
         try {
@@ -327,12 +334,12 @@ public class AdminTest {
     }
 
     @Test
-    @Order(19)
+    @Order(17)
     public void updateCustomerFail() {
         System.out.println("TESTING UPDATE CUSTOMER EMAIL FAIL");
         try {
             Customer customerExists = adminFacade.getOneCustomer(1);
-            customerExists.setEmail("my.email2@com");
+            customerExists.setEmail("matan.mail@com");
             adminFacade.updateCustomer(customerExists);
             Assertions.fail();
         } catch (Exception e) {
@@ -343,7 +350,7 @@ public class AdminTest {
     }
 
     @Test
-    @Order(20)
+    @Order(18)
     public void deleteCustomer() {
         System.out.println("TESTING DELETE CUSTOMER");
         try {
@@ -357,7 +364,7 @@ public class AdminTest {
     }
 
     @Test
-    @Order(21)
+    @Order(19)
     public void deleteCustomerFail() {
         System.out.println("TESTING DELETE CUSTOMER FAIL");
         try {
@@ -371,14 +378,14 @@ public class AdminTest {
     }
 
     @Test
-    @Order(22)
+    @Order(20)
     public void getAllCustomers() {
         System.out.println("TESTING GET ALL CUSTOMERS");
         TablePrinter.print(adminFacade.getAllCustomers());
     }
 
     @Test
-    @Order(23)
+    @Order(21)
     public void getOneCustomer() {
         System.out.println("TESTING GET ONE CUSTOMER");
         try {
@@ -392,7 +399,7 @@ public class AdminTest {
     }
 
     @Test
-    @Order(24)
+    @Order(22)
     public void getOneCustomerFail() {
         System.out.println("TESTING GET ONE CUSTOMER FAIL");
         try {
@@ -406,11 +413,6 @@ public class AdminTest {
 
     @AfterAll
     static void afterAll() {
-        DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_COUPONS_TABLE);
-        DBrunQuery.runQuery(DBmanager.DROP_COUPONS_TABLE);
-        DBrunQuery.runQuery(DBmanager.DROP_COMPANIES_TABLE);
-        DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_TABLE);
-        DBrunQuery.runQuery(DBmanager.DROP_CATEGORIES_TABLE);
         DBrunQuery.runQuery(DBmanager.DROP_SCHEMA);
     }
 }

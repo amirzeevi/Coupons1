@@ -39,7 +39,8 @@ public class CompaniesDBDAO implements CompaniesDAO {
     public boolean isCompanyExist(int companyId) {
         try {
             ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_COMPANY_EXIST, Map.of(1, companyId));
-            return resultSet.next();
+            resultSet.next();
+            return resultSet.getInt("counter") == 1;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -54,7 +55,8 @@ public class CompaniesDBDAO implements CompaniesDAO {
         try {
             ResultSet resultSet = DBrunQuery.getResultSet(
                     DBmanager.IS_COMPANY_NAME_OR_EMAIL_EXIST, Map.of(1, company.getName(), 2, company.getEmail()));
-            return resultSet.next();
+            resultSet.next();
+            return resultSet.getInt("counter") > 0;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -85,14 +87,15 @@ public class CompaniesDBDAO implements CompaniesDAO {
 
     /**
      * When updating a company's name we need to make sure the name does not already exist.
-     * Will return true if it finds another company with the same name.
+     * Will return true if it finds another company with the same email.
      */
     @Override
-    public boolean UpdateCompanyIsEmailExist(Company company) {
+    public boolean updateCompanyIsEmailExist(Company company) {
         try {
             ResultSet resultSet = DBrunQuery.getResultSet(
                     DBmanager.UPDATE_COMPANY_IS_EMAIL_EXIST, Map.of(1, company.getId(), 2, company.getEmail()));
-            return resultSet.next();
+            resultSet.next();
+            return resultSet.getInt("counter") == 1;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -145,7 +148,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
     /**
      * A private service method to be used in multiple methods. will convert the result set to a company.
      */
-    private static Company resultSetToCompany(ResultSet resultSet) throws SQLException {
+    private Company resultSetToCompany(ResultSet resultSet) throws SQLException {
         int companyID = resultSet.getInt("id");
         return new Company(
                 companyID,

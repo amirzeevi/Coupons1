@@ -59,7 +59,7 @@ public class AdminFacade extends ClientFacade {
      */
     public void updateCompany(Company company) throws CouponsSystemException {
         isCompanyExist(company.getId());
-        if (this.companiesDAO.UpdateCompanyIsEmailExist(company)) {
+        if (this.companiesDAO.updateCompanyIsEmailExist(company)) {
             throw new CouponsSystemException("Can not update - Email already exists");
         }
         this.companiesDAO.updateCompany(company);
@@ -103,7 +103,7 @@ public class AdminFacade extends ClientFacade {
      */
     public void updateCustomer(Customer customer) throws CouponsSystemException {
         isCustomerExist(customer.getId());
-        if (this.customersDAO.UpdateCustomerIsEmailExist(customer)) {
+        if (this.customersDAO.updateCustomerIsEmailExist(customer)) {
             throw new CouponsSystemException("Can not update customer email already exist");
         }
         this.customersDAO.updateCustomer(customer);

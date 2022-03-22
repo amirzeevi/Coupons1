@@ -36,18 +36,20 @@ public class CustomersDBDAO implements CustomersDAO {
      * Will return true if it finds another customer with the same email.
      */
     @Override
-    public boolean UpdateCustomerIsEmailExist(Customer customer) {
+    public boolean updateCustomerIsEmailExist(Customer customer) {
         try {
             ResultSet resultSet = DBrunQuery.getResultSet(
                     DBmanager.UPDATE_CUSTOMER_IS_EMAIL_EXIST, Map.of(
                             1, customer.getId(),
                             2, customer.getEmail()));
-            return resultSet.next();
+            resultSet.next();
+            return resultSet.getInt("counter") == 1;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return false;
     }
+
     /**
      * This will return true if the customer id exist in the database.
      */
@@ -55,7 +57,8 @@ public class CustomersDBDAO implements CustomersDAO {
     public boolean isCustomerExist(int customerId) {
         try {
             ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_CUSTOMER_EXIST, Map.of(1, customerId));
-            return resultSet.next();
+            resultSet.next();
+            return resultSet.getInt("counter") == 1;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -70,7 +73,8 @@ public class CustomersDBDAO implements CustomersDAO {
         try {
             ResultSet resultSet = DBrunQuery.getResultSet(
                     DBmanager.IS_CUSTOMER_EMAIL_EXISTS, Map.of(1, customer.getEmail()));
-            return resultSet.next();
+            resultSet.next();
+            return resultSet.getInt("counter") == 1;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -145,7 +149,7 @@ public class CustomersDBDAO implements CustomersDAO {
     /**
      * A private service method to be used in multiple methods that will convert the result set to a customer.
      */
-    private static Customer resultSetToCustomer(ResultSet resultSet) throws SQLException {
+    private Customer resultSetToCustomer(ResultSet resultSet) throws SQLException {
         int customerID = resultSet.getInt("id");
         return new Customer(
                 customerID,

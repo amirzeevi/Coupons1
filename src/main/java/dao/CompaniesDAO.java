@@ -28,7 +28,7 @@ public interface CompaniesDAO {
      * When updating a company's name we need to make sure the name does not already exist.
      * Will return true if it finds another company with the same name.
      */
-    boolean UpdateCompanyIsEmailExist(Company company);
+    boolean updateCompanyIsEmailExist(Company company);
 
     /**
      * Adds the specified company to the companies table.

@@ -5,7 +5,6 @@ import dbdao.CategoriesDBDAO;
 import dbdao.CompaniesDBDAO;
 import dbdao.CouponsDBDAO;
 import dbdao.CustomersDBDAO;
-import facade.CompanyFacade;
 import facade.CustomerFacade;
 import facade.LoginManager;
 import org.junit.jupiter.api.*;
@@ -14,15 +13,16 @@ import utils.TablePrinter;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Test class for the {@link CustomerFacade} class methods.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-
 public class CustomerTest {
     CustomerFacade customerFacade;
     Customer customer;
+
     @BeforeAll
     static void beforeAll() {
         DBrunQuery.runQuery(DBmanager.CREATE_SCHEMA);
@@ -43,7 +43,8 @@ public class CustomerTest {
                 "Company",
                 "company@com",
                 "1234"));
-        new CouponsDBDAO().addCoupon(new Coupon(
+        CouponsDBDAO couponsDBDAO = new CouponsDBDAO();
+        couponsDBDAO.addCoupon(new Coupon(
                 1,
                 Category.ELECTRICITY,
                 "Electric Bike",
@@ -53,9 +54,31 @@ public class CustomerTest {
                 20,
                 99.99,
                 "image"));
+        couponsDBDAO.addCoupon(new Coupon(
+                1,
+                Category.VACATION,
+                "Hotel California",
+                "Vacation",
+                Date.valueOf(LocalDate.now()),
+                Date.valueOf(LocalDate.now().plusDays(12)),
+                20,
+                199.99,
+                "image"));
+        couponsDBDAO.addCoupon(new Coupon(
+                1,
+                Category.VACATION,
+                "Cruise sail",
+                "Go on a cruise in beautiful Greece",
+                Date.valueOf(LocalDate.now()),
+                Date.valueOf(LocalDate.now().plusDays(12)),
+                20,
+                299.99,
+                "image"));
+
         Art.cutomerArt();
         System.out.println();
     }
+
     @BeforeEach
     public void setUp() {
         customer = new CustomersDBDAO().getAllCustomers().get(0);
@@ -100,8 +123,10 @@ public class CustomerTest {
     public void purchase() {
         System.out.println("TESTING PURCHASE");
         try {
-            Coupon coupon = new CouponsDBDAO().getOneCoupon(1);
-            customerFacade.purchaseCoupon(coupon);
+            List<Coupon> coupons = new CouponsDBDAO().getCompanyCoupons(1);
+            for (Coupon coupon : coupons) {
+                customerFacade.purchaseCoupon(coupon);
+            }
         } catch (Exception e) {
             Assertions.fail();
             System.out.println(e.getMessage());
@@ -135,7 +160,7 @@ public class CustomerTest {
     @Order(6)
     public void getAllPurchasedCategory() {
         System.out.println("TESTING GET PURCHASED BY CATEGORY");
-        TablePrinter.print(customerFacade.getCustomerCoupons(Category.ELECTRICITY));
+        TablePrinter.print(customerFacade.getCustomerCoupons(Category.VACATION));
         System.out.println();
     }
 
@@ -157,11 +182,6 @@ public class CustomerTest {
 
     @AfterAll
     static void afterAll() {
-        DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_COUPONS_TABLE);
-        DBrunQuery.runQuery(DBmanager.DROP_COUPONS_TABLE);
-        DBrunQuery.runQuery(DBmanager.DROP_COMPANIES_TABLE);
-        DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_TABLE);
-        DBrunQuery.runQuery(DBmanager.DROP_CATEGORIES_TABLE);
         DBrunQuery.runQuery(DBmanager.DROP_SCHEMA);
 
     }

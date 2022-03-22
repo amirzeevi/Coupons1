@@ -35,8 +35,8 @@ public class CompanyTest {
         DBrunQuery.runQuery(DBmanager.CREATE_TRIGGER_COUPON_PURCHASE);
         new CategoriesDBDAO().addAllCategories();
         new CompaniesDBDAO().addCompany(new Company(
-                "company",
-                "company@com",
+                "Some Company",
+                "email@com",
                 "1234"));
 
         Art.companyArt();
@@ -85,13 +85,13 @@ public class CompanyTest {
     @Test
     @Order(3)
     public void addCoupon() {
-        System.out.println("TEST ADD COUPON");
+        System.out.println("TESTING ADD COUPON");
         try {
             Coupon couponToAdd = new Coupon(
                     company.getId(),
                     Category.ELECTRICITY,
                     "Electric Bike",
-                    "myDescription",
+                    "Discount on pink bikes",
                     Date.valueOf(LocalDate.now()),
                     Date.valueOf(LocalDate.now().plusDays(12)),
                     20,
@@ -99,19 +99,7 @@ public class CompanyTest {
                     "image");
 
             companyFacade.addCoupon(couponToAdd);
-        } catch (Exception e) {
-            Assertions.fail();
-            System.out.println(e.getMessage());
-        }
-        System.out.println();
-    }
-
-    @Test
-    @Order(5)
-    public void addCoupon2() {
-        System.out.println("TESTING ADD SECOND COUPON");
-        try {
-            Coupon couponToAdd = new Coupon(
+            couponToAdd = new Coupon(
                     company.getId(),
                     Category.VACATION,
                     "Hotel California",
@@ -123,12 +111,49 @@ public class CompanyTest {
                     "image");
 
             companyFacade.addCoupon(couponToAdd);
+            couponToAdd = new Coupon(
+                    company.getId(),
+                    Category.FOOD,
+                    "Meal discount",
+                    "15% off",
+                    Date.valueOf(LocalDate.now()),
+                    Date.valueOf(LocalDate.now().plusDays(12)),
+                    20,
+                    29.99,
+                    "image");
+
+            companyFacade.addCoupon(couponToAdd);
+            couponToAdd = new Coupon(
+                    company.getId(),
+                    Category.MUSEUM,
+                    "MOMA Museum",
+                    "Modern art museum",
+                    Date.valueOf(LocalDate.now()),
+                    Date.valueOf(LocalDate.now().plusDays(12)),
+                    20,
+                    49.99,
+                    "image");
+
+            companyFacade.addCoupon(couponToAdd);
+            couponToAdd = new Coupon(
+                    company.getId(),
+                    Category.VACATION,
+                    "Cruise sail",
+                    "Go on a cruise in beautiful Greece",
+                    Date.valueOf(LocalDate.now()),
+                    Date.valueOf(LocalDate.now().plusDays(12)),
+                    20,
+                    299.99,
+                    "image");
+
+            companyFacade.addCoupon(couponToAdd);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             Assertions.fail();
+            System.out.println(e.getMessage());
         }
         System.out.println();
     }
+
 
     @Test
     @Order(6)
@@ -188,7 +213,7 @@ public class CompanyTest {
     public void deleteCoupon() {
         System.out.println("TESTING DELETE COUPON");
         try {
-            companyFacade.deleteCoupon(2);
+            companyFacade.deleteCoupon(1);
         } catch (Exception e) {
             Assertions.fail();
             System.out.println(e.getMessage());
@@ -221,7 +246,7 @@ public class CompanyTest {
     @Order(12)
     public void getCompanyCouponsCategory() {
         System.out.println("TESTING GET COMPANY COUPONS BY CATEGORY");
-        TablePrinter.print(companyFacade.getCompanyCoupons(Category.ELECTRICITY));
+        TablePrinter.print(companyFacade.getCompanyCoupons(Category.VACATION));
         System.out.println();
     }
 
@@ -242,11 +267,6 @@ public class CompanyTest {
 
     @AfterAll
     static void afterAll() {
-        DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_COUPONS_TABLE);
-        DBrunQuery.runQuery(DBmanager.DROP_COUPONS_TABLE);
-        DBrunQuery.runQuery(DBmanager.DROP_COMPANIES_TABLE);
-        DBrunQuery.runQuery(DBmanager.DROP_CUSTOMERS_TABLE);
-        DBrunQuery.runQuery(DBmanager.DROP_CATEGORIES_TABLE);
         DBrunQuery.runQuery(DBmanager.DROP_SCHEMA);
     }
 }

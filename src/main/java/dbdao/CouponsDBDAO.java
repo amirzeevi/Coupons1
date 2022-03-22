@@ -24,7 +24,8 @@ public class CouponsDBDAO implements CouponsDAO {
         try {
             ResultSet resultSet = DBrunQuery.getResultSet(DBmanager.IS_COMPANY_COUPON_EXISTS, Map.of(
                     1, coupon.getCompanyID(), 2, coupon.getTitle()));
-            return resultSet.next();
+            resultSet.next();
+            return resultSet.getInt("counter") == 1;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -39,7 +40,8 @@ public class CouponsDBDAO implements CouponsDAO {
         try {
             ResultSet resultSet = DBrunQuery.getResultSet(
                     DBmanager.IS_CUSTOMER_COUPON_EXISTS, Map.of(1, costumerID, 2, couponID));
-            return resultSet.next();
+            resultSet.next();
+            return resultSet.getInt("counter") == 1;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -244,7 +246,8 @@ public class CouponsDBDAO implements CouponsDAO {
                     1, coupon.getId(),
                     2, coupon.getCompanyID(),
                     3, coupon.getTitle()));
-            return resultSet.next();
+            resultSet.next();
+            return resultSet.getInt("counter") == 1;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
