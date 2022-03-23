@@ -1,4 +1,5 @@
 import beans.*;
+import db.ConnectionPool;
 import db.DBmanager;
 import db.DBrunQuery;
 import dbdao.CategoriesDBDAO;

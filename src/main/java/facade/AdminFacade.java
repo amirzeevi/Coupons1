@@ -148,6 +148,7 @@ public class AdminFacade extends ClientFacade {
             throw new CouponsSystemException("Company not found");
         }
     }
+
     /**
      * This method will throw a {@link CouponsSystemException} exception if the customer id does not
      * exist in the database

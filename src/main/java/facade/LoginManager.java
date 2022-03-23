@@ -47,7 +47,11 @@ public class LoginManager {
      */
     public static LoginManager getInstance() {
         if (instance == null) {
-            instance = new LoginManager();
+            synchronized (LoginManager.class) {
+                if (instance == null) {
+                    instance = new LoginManager();
+                }
+            }
         }
         return instance;
     }
