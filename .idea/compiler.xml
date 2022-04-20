@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="coupon" />
+        <module name="CouponSystemPhase1" />
         <module name="sql" />
       </profile>
     </annotationProcessing>

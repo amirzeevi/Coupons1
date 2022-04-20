@@ -21,10 +21,8 @@ public class Company {
      */
 
     public Company(int id, String name, String email, String password, List<Coupon> coupons) {
+        this(name, email, password);
         this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
         this.coupons = coupons;
     }
 

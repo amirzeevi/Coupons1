@@ -19,13 +19,11 @@ public class Customer {
      * Constructs the costumers attributes for when retrieving from database.
      */
     public Customer(int id, String firstName, String lastName, String email, String password, List<Coupon> coupons) {
+        this(firstName, lastName, email, password);
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
         this.coupons = coupons;
     }
+
     /**
      * Required constructor for when initializing a new customer.
      */
