@@ -33,8 +33,8 @@ public class ConnectionPool {
     }
 
     /**
-     * Checks in a synchronized way if the connections Stack if full,
-     * and if so, meaning no connection is being used, will remove all connections from the Stack.
+     * Checks if the connections Stack if full.
+     * If it is, meaning no connection is currently being used, will remove all connections from the Stack.
      */
     public void closeAllConnection() throws InterruptedException {
         synchronized (connections) {
